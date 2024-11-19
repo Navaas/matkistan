@@ -1,13 +1,18 @@
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
+import recipeRouter from "./src/recipe/recipe-router.js";
+import userRouter from "./src/user/user-router.js";
 
-export const app = express();
+const app = express();
 
+// Middleware-konfiguration
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
+dotenv.config();
 
-// app.use("/api/posts", postsRouter);
+// Routing-konfiguration
+app.use("/", userRouter);
+app.use("/", recipeRouter);
 
-//error handler
-// app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-//   console.log(err);
-//   res.status(500).json("Ett oväntat fel har uppstått");
-// });
+export default app;

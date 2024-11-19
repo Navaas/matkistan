@@ -1,43 +1,10 @@
-import cors from "cors";
 import dotenv from "dotenv";
-import express from "express";
 import mongoose from "mongoose";
+import app from "./app.js";
 
-const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
-app.use(express.json());
 dotenv.config();
 
-// Model för ett recept
-const recipeSchema = new mongoose.Schema({
-  title: String,
-  ingredients: [String],
-  steps: [String],
-  difficulty: String,
-  cookingTime: Number,
-});
-
-const recipe = mongoose.model("recipes", recipeSchema);
-
-// GET-anrop för att hämta alla recept
-app.get("/recipes", async (req, res) => {
-  try {
-    const recipes = await recipe.find();
-
-    if (!recipes || recipes.length === 0) {
-      console.log("Inga recept hittades.");
-      return res.status(404).json({ message: "No recipes found" });
-    }
-
-    console.log("Recept från databasen:", JSON.stringify(recipes, null, 2));
-    res.json(recipes);
-  } catch (error) {
-    console.error("Error fetching recipes:", error);
-    res.status(500).json({ error: "Error fetching recipes" });
-  }
-});
-
-// Anslut till rätt databas
+// Anslut till MongoDB och starta servern
 async function main() {
   try {
     await mongoose.connect(process.env.DB_URI);
