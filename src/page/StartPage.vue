@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import Header from "../components/Header.vue";
 
 const isOpen = ref(false);
 
@@ -10,7 +11,8 @@ const toggleDiv = () => {
 </script>
 
 <template>
-  <div class="flex flex-col-reverse md:flex-row px-2 pt-2">
+  <Header />
+  <div class="flex flex-col-reverse md:flex-row px-2 pt-2 pt-14">
     <div
       class="flex flex-col px-2 pt-2 pb-4 justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6 bg-green-100"
     >
