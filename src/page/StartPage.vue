@@ -1,0 +1,80 @@
+<script setup>
+import { ref } from "vue";
+
+const isOpen = ref(false);
+
+const toggleDiv = () => {
+  isOpen.value = !isOpen.value;
+  console.log(isOpen.value);
+};
+</script>
+
+<template>
+  <div class="flex flex-col-reverse md:flex-row px-2 pt-2">
+    <div
+      class="flex flex-col px-2 pt-2 pb-4 justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6 bg-green-100"
+    >
+      <h1 class="text-2xl md:text-3xl">Din digitala receptbok</h1>
+      <p>
+        Upptäck matglädje och inspiration med Matkistan! Här kan du skapa ett
+        konto för att samla och spara dina favoritrecept på ett enkelt och
+        smidigt sätt. Oavsett om du letar efter nya idéer till vardagsmiddagen
+        eller inspiration till festmåltiden, hjälper Matkistan dig att göra
+        matlagningen både roligare och enklare. Börja din resa mot en värld av
+        smakupplevelser redan idag
+      </p>
+      <button
+        class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
+        @click="toggleDiv"
+      >
+        Skapa konto
+      </button>
+    </div>
+    <div class="w-full max-h-80">
+      <img
+        src="https://plus.unsplash.com/premium_photo-1673108852141-e8c3c22a4a22?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Random Image"
+        class="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+  <div v-if="isOpen" class="flex px-2 justify-center md:py-2">
+    <div class="flex justify-center items-center max-w-[700px] w-full py-2">
+      <form
+        class="flex flex-col bg-white px-2 py-4 border border-gray-200 rounded-md shadow-lg gap-2 max-w-[550px] w-full"
+      >
+        <p>Registrera användare</p>
+
+        <input
+          type="text"
+          placeholder="Förnamn"
+          class="w-full px-2 py-2 border border-gray-300 rounded-md"
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Användarnamn"
+          class="w-full px-2 py-2 border border-gray-300 rounded-md"
+          required
+        />
+
+        <input
+          type="password"
+          placeholder="Lösenord"
+          class="w-full px-2 py-2 border border-gray-300 rounded-md"
+          required
+        />
+
+        <button
+          type="submit"
+          class="max-w-52 bg-black text-white py-2 px-4 rounded-md hover:bg-slate-500"
+        >
+          Skicka
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>
