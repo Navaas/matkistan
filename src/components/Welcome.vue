@@ -29,6 +29,8 @@ onMounted(() => {
 
 <template>
   <h1 class="bg-black">Välkommen till Matkistan</h1>
+  <span class="material-symbols-outlined text-gray-500 text-2xl"> home </span>
+
   <div v-if="recipes.length > 0">
     <ul>
       <li v-for="recipe in recipes" :key="recipe._id">
