@@ -6,8 +6,10 @@ const recipeSchema = new mongoose.Schema({
   steps: [String],
   difficulty: String,
   cookingTime: Number,
+  imageUrl: String,
 });
 
-const Recipe = mongoose.model("recipes", recipeSchema);
+export { recipeSchema };
+export const Recipe = mongoose.model("Recipe", recipeSchema);
 
 export default Recipe;
