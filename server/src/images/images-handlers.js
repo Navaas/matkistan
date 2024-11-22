@@ -1,7 +1,6 @@
 import busboy from "busboy";
 import mongoose from "mongoose";
 import sharp from "sharp";
-import { recipeSchema } from "../recipe/recipe-model.js";
 import { getImageBucket } from "./images-model.js";
 
 // Hämta en bild från GridFS
@@ -65,27 +64,27 @@ const uploadImage = (req, res) => {
 };
 
 // Skapa ett nytt inlägg med bild
-const createRecipesWithImage = async (req, res) => {
-  try {
-    const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-      req.body;
+// const createRecipesWithImage = async (req, res) => {
+//   try {
+//     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
+//       req.body;
 
-    // Skapa en ny post i databasen
-    const newRecipe = new recipeSchema({
-      title,
-      ingredients,
-      steps,
-      difficulty,
-      cookingTime,
-      imageUrl, // Lägg till bildens URL eller ID
-    });
+//     // Skapa en ny post i databasen
+//     const newRecipe = new recipeSchema({
+//       title,
+//       ingredients,
+//       steps,
+//       difficulty,
+//       cookingTime,
+//       imageUrl, // Lägg till bildens URL eller ID
+//     });
 
-    await newRecipe.save();
-    res.status(201).json(newRecipe);
-  } catch (error) {
-    console.error("Error creating post:", error);
-    res.status(500).json({ message: "Failed to create post" });
-  }
-};
+//     await newRecipe.save();
+//     res.status(201).json(newRecipe);
+//   } catch (error) {
+//     console.error("Error creating post:", error);
+//     res.status(500).json({ message: "Failed to create post" });
+//   }
+// };
 
-export { createRecipesWithImage, getImage, uploadImage };
+export { getImage, uploadImage };
