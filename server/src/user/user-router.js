@@ -1,10 +1,9 @@
-// src/user/user-router.js
 import express from "express";
-import { getUsers } from "./user-handlers.js"; // Importera handler-funktionen
+import { getUsers, registerUser } from "./user-handlers.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-// Rutt för att hämta alla användare
-router.get("/users", getUsers);
+userRouter.get("/users", getUsers);
+userRouter.post("/register", registerUser);
 
-export default router;
+export default userRouter;

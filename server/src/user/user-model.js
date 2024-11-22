@@ -1,13 +1,13 @@
-// src/user/user-model.js
 import mongoose from "mongoose";
 
-// Definiera användarschemat
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
-  username: { type: String, required: true, unique: true },
+  username: { type: String, unique: true, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  recipesCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
+  likedRecipes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }],
 });
 
-// Skapa och exportera användarmodellen
-const User = mongoose.model("User", UserSchema);
-export default User;
+const UserModel = mongoose.model("User", userSchema);
+export default UserModel;

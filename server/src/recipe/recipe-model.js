@@ -7,9 +7,9 @@ const recipeSchema = new mongoose.Schema({
   difficulty: String,
   cookingTime: Number,
   imageUrl: [String],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
 export { recipeSchema };
-// export const Recipe = mongoose.model("Recipe", recipeSchema);
 export const RecipeModel = mongoose.model("Recipe", recipeSchema);
-// export default Recipe;
