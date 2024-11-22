@@ -3,10 +3,10 @@ import { RecipeModel } from "./recipe-model.js";
 
 const recipeRouter = express.Router();
 
-// Funktion för att hämta alla recept
+/* Get all recipes */
 export const getAllRecipes = async (req, res) => {
   try {
-    const recipes = await RecipeModel.find(); // Använd RecipeModel
+    const recipes = await RecipeModel.find();
 
     if (!recipes || recipes.length === 0) {
       console.log("Inga recept hittades.");
@@ -21,6 +21,7 @@ export const getAllRecipes = async (req, res) => {
   }
 };
 
+/* Create new recipes */
 export const createNewRecipe = async (recipeData) => {
   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
     recipeData;
@@ -38,12 +39,13 @@ export const createNewRecipe = async (recipeData) => {
   return newRecipe;
 };
 
+/* Create new recipes with image */
 export const createRecipesWithImage = async (req, res) => {
   try {
     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
       req.body;
     console.log("Inkommande data:", req.body);
-    // Skapa en ny post i databasen
+
     const newRecipe = new RecipeModel({
       title,
       ingredients,
@@ -61,11 +63,43 @@ export const createRecipesWithImage = async (req, res) => {
   }
 };
 
-export const deleteRecipe = async (req, res) => {
-  const { id } = req.params; // Hämtar id från URL:en
+/* Update recipes, found by Id */
+export const updateRecipe = async (req, res) => {
+  const { id } = req.params;
+  const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
+    req.body;
 
   try {
-    // Försöker hitta och ta bort receptet
+    const updatedRecipe = await RecipeModel.findByIdAndUpdate(
+      id,
+      {
+        title,
+        ingredients,
+        steps,
+        difficulty,
+        cookingTime,
+        imageUrl,
+      },
+      { new: true }
+    );
+
+    if (!updatedRecipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json(updatedRecipe);
+    console.log("Uppdaterat recept:", updatedRecipe);
+  } catch (error) {
+    console.error("Error updating recipe:", error);
+    res.status(500).json({ message: "Failed to update recipe" });
+  }
+};
+
+/* Delete recipe with ID */
+export const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  try {
     const recipe = await RecipeModel.findByIdAndDelete(id);
 
     if (!recipe) {
