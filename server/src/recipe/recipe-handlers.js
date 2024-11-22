@@ -21,29 +21,6 @@ export const getAllRecipes = async (req, res) => {
   }
 };
 
-// recipeRouter.post("/", async (req, res) => {
-//   console.log("POST /recipes hit with body:", req.body); // Loggar inkommande data
-//   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-//     req.body;
-
-//   try {
-//     const newRecipe = new Recipe({
-//       title,
-//       ingredients,
-//       steps,
-//       difficulty,
-//       cookingTime,
-//       imageUrl, // Här sparas bildens ID
-//     });
-
-//     await newRecipe.save();
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     console.error("Error creating recipe:", error);
-//     res.status(500).json({ message: "Failed to create recipe" });
-//   }
-// });
-
 export const createNewRecipe = async (recipeData) => {
   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
     recipeData;
@@ -57,21 +34,9 @@ export const createNewRecipe = async (recipeData) => {
     imageUrl,
   });
 
-  await newRecipe.save(); // Spara receptet
+  await newRecipe.save();
   return newRecipe;
 };
-
-// export const createRecipesWithImage = async (req, res) => {
-//   try {
-//     console.log("Inkommande data:", req.body);
-//     const recipeData = req.body;
-//     const newRecipe = await createNewRecipe(recipeData); // Använd createNewRecipe
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     console.error("Error creating recipe:", error);
-//     res.status(500).json({ message: "Failed to create recipe" });
-//   }
-// };
 
 export const createRecipesWithImage = async (req, res) => {
   try {
@@ -88,11 +53,29 @@ export const createRecipesWithImage = async (req, res) => {
       imageUrl, // Lägg till bildens URL eller ID
     });
 
-    await newRecipe.save(); // Spara receptet
-    res.status(201).json(newRecipe); // Skicka tillbaka det nyskapade receptet som svar
+    await newRecipe.save();
+    res.status(201).json(newRecipe);
   } catch (error) {
     console.error("Error creating post:", error);
     res.status(500).json({ message: "Failed to create post" });
+  }
+};
+
+export const deleteRecipe = async (req, res) => {
+  const { id } = req.params; // Hämtar id från URL:en
+
+  try {
+    // Försöker hitta och ta bort receptet
+    const recipe = await RecipeModel.findByIdAndDelete(id);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    res.status(200).json({ message: "Recipe deleted successfully", recipe });
+  } catch (error) {
+    console.error("Error deleting recipe:", error);
+    res.status(500).json({ message: "Failed to delete recipe" });
   }
 };
 
