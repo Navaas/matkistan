@@ -196,4 +196,75 @@ export const getUserRecipes = async (req, res) => {
   }
 };
 
+export const likeRecipe = async (req, res) => {
+  try {
+    // Hämta användarens ID från sessionen
+    const userId = req.session.userId;
+
+    // Hämta receptet som användaren vill "like"
+    const { recipeId } = req.body; // Förutsatt att receptets ID skickas i body
+
+    // Hitta användaren och receptet
+    const user = await UserModel.findById(userId);
+    const recipe = await RecipeModel.findById(recipeId);
+
+    if (!user || !recipe) {
+      return res
+        .status(404)
+        .json({ message: "Användare eller recept inte hittat" });
+    }
+
+    // Om användaren redan har gillat receptet, ta bort like
+    if (user.likedRecipes.includes(recipeId)) {
+      // Ta bort från användarens likedRecipes
+      user.likedRecipes = user.likedRecipes.filter(
+        (id) => id.toString() !== recipeId
+      );
+
+      // Ta bort användaren från receptets likedBy
+      recipe.likedBy = recipe.likedBy.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+
+      await user.save();
+      await recipe.save();
+
+      return res.status(200).json({ message: "Like removed" });
+    } else {
+      // Lägg till receptet i användarens likedRecipes
+      user.likedRecipes.push(recipeId);
+
+      // Lägg till användaren i receptets likedBy
+      recipe.likedBy.push(userId);
+
+      await user.save();
+      await recipe.save();
+
+      return res.status(200).json({ message: "Recipe liked" });
+    }
+  } catch (error) {
+    console.error("Fel vid hantering av like:", error);
+    res.status(500).json({ message: "Något gick fel" });
+  }
+};
+
+export const getLikedRecipes = async (req, res) => {
+  try {
+    const userId = req.session.userId; // Hämta användarens ID från sessionen
+
+    // Hitta användaren med deras likedRecipes
+    const user = await UserModel.findById(userId).populate("likedRecipes");
+
+    if (!user) {
+      return res.status(404).json({ message: "Användaren kunde inte hittas" });
+    }
+
+    // Skicka tillbaka alla gillade recept
+    res.status(200).json(user.likedRecipes);
+  } catch (error) {
+    console.error("Fel vid hämtning av gillade recept:", error);
+    res.status(500).json({ message: "Något gick fel" });
+  }
+};
+
 export default recipeRouter;
