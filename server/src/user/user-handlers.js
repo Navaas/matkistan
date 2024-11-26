@@ -148,3 +148,37 @@ export const logoutUser = async (req, res) => {
     return res.status(500).json({ error: "Problem att logga ut" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  try {
+    // Kontrollera om det finns en aktiv session
+    if (!req.session || !req.session.userId) {
+      return res
+        .status(401)
+        .json({ error: "Du måste vara inloggad för att ta bort ditt konto" });
+    }
+
+    const userId = req.session.userId;
+
+    // Försök att hitta och ta bort användaren
+    const deletedUser = await UserModel.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res
+        .status(404)
+        .json({
+          error: "Användaren kunde inte hittas eller har redan tagits bort",
+        });
+    }
+
+    console.log("Användare borttagen:", deletedUser);
+
+    // Rensa sessionen efter att kontot tagits bort
+    req.session = null;
+
+    return res.status(200).json({ message: "Ditt konto har tagits bort" });
+  } catch (error) {
+    console.error("Fel vid borttagning av användare:", error);
+    return res.status(500).json({ error: "Kunde inte ta bort kontot" });
+  }
+};
