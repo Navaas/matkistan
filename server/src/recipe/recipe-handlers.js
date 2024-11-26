@@ -1,4 +1,5 @@
 import express from "express";
+import UserModel from "../user/user-model.js";
 import { RecipeModel } from "./recipe-model.js";
 
 const recipeRouter = express.Router();
@@ -22,44 +23,105 @@ export const getAllRecipes = async (req, res) => {
 };
 
 /* Create new recipes */
-export const createNewRecipe = async (recipeData) => {
+// export const createNewRecipe = async (recipeData) => {
+//   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
+//     recipeData;
+
+//   const newRecipe = new RecipeModel({
+//     title,
+//     ingredients,
+//     steps,
+//     difficulty,
+//     cookingTime,
+//     imageUrl,
+//   });
+
+//   await newRecipe.save();
+//   return newRecipe;
+// };
+export const createNewRecipe = async (recipeData, userId) => {
   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
     recipeData;
 
-  const newRecipe = new RecipeModel({
-    title,
-    ingredients,
-    steps,
-    difficulty,
-    cookingTime,
-    imageUrl,
-  });
-
-  await newRecipe.save();
-  return newRecipe;
-};
-
-/* Create new recipes with image */
-export const createRecipesWithImage = async (req, res) => {
   try {
-    const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-      req.body;
-    console.log("Inkommande data:", req.body);
-
+    // Skapa ett nytt recept och koppla det till användaren
     const newRecipe = new RecipeModel({
       title,
       ingredients,
       steps,
       difficulty,
       cookingTime,
-      imageUrl, // Lägg till bildens URL eller ID
+      imageUrl,
+      createdBy: userId, // Koppla receptet till den inloggade användaren
     });
 
+    // Spara receptet i databasen
     await newRecipe.save();
+
+    // Lägg till receptet i användarens 'recipesCreated'-array
+    await UserModel.findByIdAndUpdate(userId, {
+      $push: { recipesCreated: newRecipe._id },
+    });
+
+    return newRecipe; // Returnera det skapade receptet
+  } catch (error) {
+    console.error("Error creating recipe:", error);
+    throw new Error("Kunde inte skapa receptet");
+  }
+};
+
+// /* Create new recipes with image */
+// export const createRecipesWithImage = async (req, res) => {
+//   try {
+//     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
+//       req.body;
+//     console.log("Inkommande data:", req.body);
+
+//     const newRecipe = new RecipeModel({
+//       title,
+//       ingredients,
+//       steps,
+//       difficulty,
+//       cookingTime,
+//       imageUrl, // Lägg till bildens URL eller ID
+//     });
+
+//     await newRecipe.save();
+//     res.status(201).json(newRecipe);
+//   } catch (error) {
+//     console.error("Error creating post:", error);
+//     res.status(500).json({ message: "Failed to create post" });
+//   }
+// };
+
+export const createRecipesWithImage = async (req, res) => {
+  try {
+    // Kontrollera om användaren är inloggad genom sessionen
+    if (!req.session || !req.session.userId) {
+      return res
+        .status(401)
+        .json({ message: "Du måste vara inloggad för att skapa ett recept" });
+    }
+
+    // Hämta användarens ID från sessionen
+    const userId = req.session.userId;
+
+    // Hämta receptdata från requestens body
+    const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
+      req.body;
+    console.log("Inkommande data:", req.body);
+
+    // Skapa ett nytt recept och koppla det till användaren
+    const newRecipe = await createNewRecipe(
+      { title, ingredients, steps, difficulty, cookingTime, imageUrl },
+      userId
+    );
+
+    // Skicka tillbaka det skapade receptet som svar
     res.status(201).json(newRecipe);
   } catch (error) {
-    console.error("Error creating post:", error);
-    res.status(500).json({ message: "Failed to create post" });
+    console.error("Fel vid skapande av recept:", error);
+    res.status(500).json({ message: "Kunde inte skapa receptet" });
   }
 };
 
@@ -110,6 +172,27 @@ export const deleteRecipe = async (req, res) => {
   } catch (error) {
     console.error("Error deleting recipe:", error);
     res.status(500).json({ message: "Failed to delete recipe" });
+  }
+};
+
+// Hämta användarens skapade recept
+export const getUserRecipes = async (req, res) => {
+  try {
+    // Hämta användarens ID från sessionen
+    const userId = req.session.userId;
+
+    // Hitta användaren i databasen och populera "recipesCreated"-fältet
+    const user = await UserModel.findById(userId).populate("recipesCreated");
+
+    if (!user) {
+      return res.status(404).json({ message: "Användaren kunde inte hittas" });
+    }
+
+    // Skicka tillbaka användarens skapade recept
+    res.status(200).json(user.recipesCreated);
+  } catch (error) {
+    console.error("Fel vid hämtning av recept:", error);
+    res.status(500).json({ message: "Något gick fel" });
   }
 };
 

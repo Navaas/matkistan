@@ -5,7 +5,7 @@ const recipeSchema = new mongoose.Schema({
   ingredients: [String],
   steps: [String],
   difficulty: String,
-  cookingTime: Number,
+  cookingTime: { type: String, required: true },
   imageUrl: [String],
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
