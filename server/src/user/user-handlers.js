@@ -155,11 +155,9 @@ export const updateUser = async (req, res) => {
 
   // Kontrollera om användaren är inloggad och har rätt session
   if (!req.session || !req.session.userId || req.session.userId !== userId) {
-    return res
-      .status(401)
-      .json({
-        error: "Du måste vara inloggad för att uppdatera dina uppgifter",
-      });
+    return res.status(401).json({
+      error: "Du måste vara inloggad för att uppdatera dina uppgifter",
+    });
   }
 
   try {
@@ -226,3 +224,16 @@ export const deleteUser = async (req, res) => {
     return res.status(500).json({ error: "Kunde inte ta bort kontot" });
   }
 };
+
+// Funktion för att hämta inloggad användare
+export async function getLoggedInUser(req, res) {
+  console.log("Session vid auth:", req.session); // Logga sessionen för att se om sessionen finns
+  if (!req.session?.userId) {
+    return res.status(401).json("Du är inte inloggad");
+  }
+
+  return res.status(200).json({
+    message: "Du är inloggad",
+    session: req.session,
+  });
+}

@@ -1,6 +1,8 @@
 import express from "express";
+import { isLoggedIn } from "../../middlewares.js";
 import {
   deleteUser,
+  getLoggedInUser,
   getUsers,
   loginUser,
   logoutUser,
@@ -16,5 +18,6 @@ userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.put("/:id", updateUser);
+userRouter.get("/auth", isLoggedIn, getLoggedInUser);
 
 export default userRouter;
