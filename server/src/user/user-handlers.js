@@ -149,6 +149,52 @@ export const logoutUser = async (req, res) => {
   }
 };
 
+export const updateUser = async (req, res) => {
+  const { username, email, firstname } = req.body;
+  const userId = req.params.id; // Hämta användarens id från URL-parametrarna
+
+  // Kontrollera om användaren är inloggad och har rätt session
+  if (!req.session || !req.session.userId || req.session.userId !== userId) {
+    return res
+      .status(401)
+      .json({
+        error: "Du måste vara inloggad för att uppdatera dina uppgifter",
+      });
+  }
+
+  try {
+    // Hämta den användare som ska uppdateras
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Användare inte hittad" });
+    }
+
+    // Uppdatera användarens uppgifter
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (firstname) user.firstname = firstname;
+
+    // Spara de uppdaterade uppgifterna
+    const updatedUser = await user.save();
+
+    console.log("Användare uppdaterad:", updatedUser);
+
+    return res.status(200).json({
+      message: "Dina uppgifter har uppdaterats",
+      user: {
+        id: updatedUser._id,
+        userName: updatedUser.username,
+        email: updatedUser.email,
+        firstname: updatedUser.firstname,
+      },
+    });
+  } catch (error) {
+    console.error("Fel vid uppdatering av användare:", error);
+    return res.status(500).json({ error: "Kunde inte uppdatera användaren" });
+  }
+};
+
 export const deleteUser = async (req, res) => {
   try {
     // Kontrollera om det finns en aktiv session
@@ -164,11 +210,9 @@ export const deleteUser = async (req, res) => {
     const deletedUser = await UserModel.findByIdAndDelete(userId);
 
     if (!deletedUser) {
-      return res
-        .status(404)
-        .json({
-          error: "Användaren kunde inte hittas eller har redan tagits bort",
-        });
+      return res.status(404).json({
+        error: "Användaren kunde inte hittas eller har redan tagits bort",
+      });
     }
 
     console.log("Användare borttagen:", deletedUser);

@@ -5,6 +5,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  updateUser,
 } from "./user-handlers.js";
 
 const userRouter = express.Router();
@@ -14,5 +15,6 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
 userRouter.delete("/:id", deleteUser);
+userRouter.put("/:id", updateUser);
 
 export default userRouter;
