@@ -1,3 +1,4 @@
+import cookieSession from "cookie-session";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -10,6 +11,14 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 dotenv.config();
+app.use(
+  cookieSession({
+    name: "login",
+    secret: process.env.COOKIE_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  })
+);
 
 app.use("/", userRouter);
 app.use("/", recipeRouter);

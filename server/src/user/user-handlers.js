@@ -86,7 +86,7 @@ export const loginUser = async (req, res) => {
   }
 
   try {
-    // Hämta användaren och inkludera lösenordet (dolt som standard)
+    // Hämta användaren och inkludera lösenordet
     const user = await UserModel.findOne({ username: username }).select(
       "+password"
     );
@@ -107,6 +107,14 @@ export const loginUser = async (req, res) => {
       username: user.username,
     });
 
+    // Spara användaruppgifter i sessionen
+    req.session = {
+      userId: user._id, // Användarens ID
+      username: user.username, // Användarens användarnamn
+    };
+
+    console.log("Session skapad:", req.session);
+
     // Returnera en lyckad inloggningsrespons
     return res.status(200).json({
       message: "Inloggning lyckades",
@@ -121,35 +129,22 @@ export const loginUser = async (req, res) => {
   }
 };
 
-// export const loginUser = async (req, res) => {
-//   const { email, password } = req.body;
+export const logoutUser = async (req, res) => {
+  try {
+    console.log("Session före utloggning:", req.session);
 
-//   // Kontrollera om både email och lösenord är med i förfrågan
-//   if (!email || !password) {
-//     return res.status(400).json("Missing email or password");
-//   }
+    if (!req.session || !req.session.userId) {
+      return res
+        .status(400)
+        .json({ error: "Ingen aktiv session att logga ut från" });
+    }
 
-//   try {
-//     // Hitta användaren i databasen baserat på email
-//     const user = await UserModel.findOne({ email });
+    req.session = null; // Rensa sessionen
 
-//     if (!user) {
-//       return res.status(404).json("User not found");
-//     }
-
-//     // Verifiera det angivna lösenordet med det hashade lösenordet i databasen
-//     const isPasswordValid = await argon2.verify(user.password, password);
-
-//     if (!isPasswordValid) {
-//       return res.status(401).json("Invalid password");
-//     }
-
-//     // Om lösenordet är korrekt, returnera användaren (utan lösenordet)
-//     const userWithoutPassword = await UserModel.findOne({ email }).select("-password");
-
-//     res.status(200).json(userWithoutPassword);  // Skicka användardatan utan lösenordet
-//   } catch (error) {
-//     console.error("Error logging in user:", error);
-//     res.status(500).json("Failed to log in");
-//   }
-// };
+    console.log("Användaren är utloggad");
+    return res.status(200).send("Du är nu utloggad");
+  } catch (error) {
+    console.error("Fel vid utloggning:", error);
+    return res.status(500).json({ error: "Problem att logga ut" });
+  }
+};
