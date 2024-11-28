@@ -1,4 +1,5 @@
 import express from "express";
+import { RecipeModel } from "../recipe/recipe-model.js";
 import { CategoryModel } from "./category-model.js";
 
 const categoryRouter = express.Router();
@@ -23,6 +24,28 @@ export const getCategories = async (req, res) => {
   } catch (error) {
     console.error("Fel vid hämtning av kategorier:", error);
     res.status(500).json({ error: "Kunde inte hämta kategorier" });
+  }
+};
+
+export const getRecipesByCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.categoryId; // Få categoryId från URL-parametern
+
+    // Hämta kategorin från databasen
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ message: "Kategori inte hittad" });
+    }
+
+    // Hämta alla recept som tillhör den kategorin
+    const recipes = await RecipeModel.find({ categories: categoryId }).populate(
+      "categories"
+    ); // Populera kategorinamn
+
+    res.status(200).json(recipes); // Returnera alla recept i den kategorin
+  } catch (error) {
+    console.error("Fel vid hämtning av recept för kategori:", error);
+    res.status(500).json({ error: "Kunde inte hämta recept" });
   }
 };
 
