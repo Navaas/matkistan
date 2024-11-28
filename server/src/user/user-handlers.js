@@ -1,5 +1,6 @@
 import argon2 from "argon2";
-import UserModel from "./user-model.js";
+import { z } from "zod";
+import { UserModel, userZodSchema } from "./user-model.js";
 
 // Funktion för att hämta alla användare
 export const getUsers = async (req, res) => {
@@ -19,25 +20,20 @@ export const getUsers = async (req, res) => {
   }
 };
 
-/* Register new user */
 export const registerUser = async (req, res) => {
   const { firstname, username, email, password } = req.body;
 
-  // Kontrollera om alla obligatoriska fält finns
-  if (!firstname || !username || !email || !password) {
-    return res
-      .status(400)
-      .json("Missing firstname, username, email, or password");
-  }
-
+  // Validera användardata med Zod
   try {
-    console.log("Received user data:", req.body);
-    console.log("Received user data:", req.body);
+    // Zod validering
+    const validatedData = userZodSchema.parse({
+      firstname,
+      username,
+      email,
+      password,
+    });
 
-    const emailRegex = /\S+@\S+\.\S+/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json("Invalid email format");
-    }
+    console.log("Received user data:", validatedData);
 
     // Kontrollera om användaren redan finns i databasen via e-post eller användarnamn
     const existingUserInDB = await UserModel.findOne({
@@ -72,11 +68,14 @@ export const registerUser = async (req, res) => {
 
     res.status(201).send(user);
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      // Hantera Zod valideringsfel
+      return res.status(400).json({ message: error.errors });
+    }
     console.error("Error creating user:", error);
     res.status(500).json("Failed to register user");
   }
 };
-
 export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
@@ -161,6 +160,15 @@ export const updateUser = async (req, res) => {
   }
 
   try {
+    const validationResult = userZodSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+      // Om valideringen misslyckas, returnera felmeddelanden
+      return res.status(400).json({
+        error: "Ogiltig data",
+        issues: validationResult.error.errors, // Få specifika felmeddelanden från Zod
+      });
+    }
     // Hämta den användare som ska uppdateras
     const user = await UserModel.findById(userId);
 
