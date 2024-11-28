@@ -12,10 +12,10 @@ import {
 
 const recipeRouter = express.Router();
 
-recipeRouter.get("/recipes", getAllRecipes);
-recipeRouter.post("/recipes", isLoggedIn, createRecipesWithImage);
-recipeRouter.put("/recipes/:id", updateRecipe);
-recipeRouter.delete("/recipes/:id", deleteRecipe);
+recipeRouter.get("/getAllRecipes", getAllRecipes);
+recipeRouter.post("/createRecipe", isLoggedIn, createRecipesWithImage);
+recipeRouter.put("/updateRecipe/:id", isLoggedIn, updateRecipe);
+recipeRouter.delete("/recipes/:id", isLoggedIn, deleteRecipe);
 recipeRouter.get("/my-recipes", isLoggedIn, getUserRecipes);
 recipeRouter.post("/like", isLoggedIn, likeRecipe);
 recipeRouter.get("/my-favourite", isLoggedIn, getLikedRecipes);

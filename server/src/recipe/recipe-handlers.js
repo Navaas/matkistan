@@ -1,6 +1,7 @@
 import express from "express";
+import { z } from "zod";
 import UserModel from "../user/user-model.js";
-import { RecipeModel } from "./recipe-model.js";
+import { RecipeModel, recipeZodSchema } from "./recipe-model.js";
 
 const recipeRouter = express.Router();
 
@@ -22,30 +23,15 @@ export const getAllRecipes = async (req, res) => {
   }
 };
 
-/* Create new recipes */
-// export const createNewRecipe = async (recipeData) => {
-//   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-//     recipeData;
-
-//   const newRecipe = new RecipeModel({
-//     title,
-//     ingredients,
-//     steps,
-//     difficulty,
-//     cookingTime,
-//     imageUrl,
-//   });
-
-//   await newRecipe.save();
-//   return newRecipe;
-// };
 export const createNewRecipe = async (recipeData, userId) => {
   const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
     recipeData;
 
   try {
+    const validatedRecipe = recipeZodSchema.parse(recipeData);
     // Skapa ett nytt recept och koppla det till användaren
     const newRecipe = new RecipeModel({
+      ...validatedRecipe,
       title,
       ingredients,
       steps,
@@ -65,34 +51,16 @@ export const createNewRecipe = async (recipeData, userId) => {
 
     return newRecipe; // Returnera det skapade receptet
   } catch (error) {
-    console.error("Error creating recipe:", error);
+    if (error instanceof z.ZodError) {
+      console.error("Valideringsfel:", error.error);
+      throw new Error(
+        "Valideringsfel: Kontrollera att alla fält är korrekt ifyllda"
+      );
+    }
+    console.error("Error creating post:", error);
     throw new Error("Kunde inte skapa receptet");
   }
 };
-
-// /* Create new recipes with image */
-// export const createRecipesWithImage = async (req, res) => {
-//   try {
-//     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-//       req.body;
-//     console.log("Inkommande data:", req.body);
-
-//     const newRecipe = new RecipeModel({
-//       title,
-//       ingredients,
-//       steps,
-//       difficulty,
-//       cookingTime,
-//       imageUrl, // Lägg till bildens URL eller ID
-//     });
-
-//     await newRecipe.save();
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     console.error("Error creating post:", error);
-//     res.status(500).json({ message: "Failed to create post" });
-//   }
-// };
 
 export const createRecipesWithImage = async (req, res) => {
   try {
@@ -109,7 +77,31 @@ export const createRecipesWithImage = async (req, res) => {
     // Hämta receptdata från requestens body
     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
       req.body;
+
     console.log("Inkommande data:", req.body);
+
+    // Validera receptdata med Zod
+    try {
+      recipeZodSchema.parse({
+        title,
+        ingredients,
+        steps,
+        difficulty,
+        cookingTime,
+        imageUrl,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.error("Valideringsfel:", error.errors);
+        return res.status(400).json({
+          message:
+            "Valideringsfel: Kontrollera att alla fält är korrekt ifyllda",
+          errors: error.errors,
+        });
+      }
+
+      throw error; // Om det är ett annat typ av fel
+    }
 
     // Skapa ett nytt recept och koppla det till användaren
     const newRecipe = await createNewRecipe(
@@ -132,6 +124,27 @@ export const updateRecipe = async (req, res) => {
     req.body;
 
   try {
+    if (!req.session || !req.session.userId) {
+      return res
+        .status(401)
+        .json({ message: "Du måste vara inloggad för att skapa ett recept" });
+    }
+
+    // Hämta användarens ID från sessionen
+    const userId = req.session.userId;
+
+    const recipe = await RecipeModel.findById(id);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Receptet kunde inte hittas" });
+    }
+
+    if (String(recipe.createdBy) !== String(userId)) {
+      return res
+        .status(403)
+        .json({ message: "Du har inte behörighet att uppdatera detta recept" });
+    }
+
     const updatedRecipe = await RecipeModel.findByIdAndUpdate(
       id,
       {
