@@ -2,11 +2,14 @@ import cookieSession from "cookie-session";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { createCategories } from "./src/category/category-handlers.js";
+import categoryRouter from "./src/category/category-router.js";
 import imagesRouter from "./src/images/images-router.js";
 import recipeRouter from "./src/recipe/recipe-router.js";
 import userRouter from "./src/user/user-router.js";
 
 const app = express();
+createCategories();
 
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
@@ -24,5 +27,6 @@ app.use(
 app.use("/", userRouter);
 app.use("/", recipeRouter);
 app.use("/images", imagesRouter);
+app.use("/categories", categoryRouter);
 
 export default app;

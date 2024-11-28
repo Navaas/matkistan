@@ -10,6 +10,7 @@ const recipeZodSchema = z.object({
   imageUrl: z.array(z.string().url("Kräver giltig url")).optional(),
   createdBy: z.string().optional(),
   likedBy: z.array(z.string()).optional(),
+  categories: z.array(z.string()).optional(),
 });
 
 const recipeSchema = new mongoose.Schema({
@@ -21,6 +22,7 @@ const recipeSchema = new mongoose.Schema({
   imageUrl: [String],
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   likedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  categories: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
 });
 
 export { recipeSchema, recipeZodSchema };

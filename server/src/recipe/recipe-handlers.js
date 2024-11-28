@@ -1,8 +1,8 @@
 import express from "express";
 import { z } from "zod";
+import { CategoryModel } from "../category/category-model.js";
 import UserModel from "../user/user-model.js";
 import { RecipeModel, recipeZodSchema } from "./recipe-model.js";
-
 const recipeRouter = express.Router();
 
 /* Get all recipes */
@@ -29,6 +29,7 @@ export const createNewRecipe = async (recipeData, userId) => {
 
   try {
     const validatedRecipe = recipeZodSchema.parse(recipeData);
+
     // Skapa ett nytt recept och koppla det till användaren
     const newRecipe = new RecipeModel({
       ...validatedRecipe,
@@ -38,7 +39,6 @@ export const createNewRecipe = async (recipeData, userId) => {
       difficulty,
       cookingTime,
       imageUrl,
-      createdBy: userId, // Koppla receptet till den inloggade användaren
     });
 
     // Spara receptet i databasen
@@ -62,6 +62,87 @@ export const createNewRecipe = async (recipeData, userId) => {
   }
 };
 
+// export const createRecipesWithImage = async (req, res) => {
+//   try {
+//     // Kontrollera om användaren är inloggad genom sessionen
+//     if (!req.session || !req.session.userId) {
+//       return res
+//         .status(401)
+//         .json({ message: "Du måste vara inloggad för att skapa ett recept" });
+//     }
+
+//     // Hämta användarens ID från sessionen
+//     const userId = req.session.userId;
+
+//     // Hämta receptdata från requestens body
+//     const {
+//       title,
+//       ingredients,
+//       steps,
+//       difficulty,
+//       cookingTime,
+//       imageUrl,
+//       categories,
+//     } = req.body;
+
+//     console.log("Inkommande data:", req.body);
+
+//     // Validera receptdata med Zod
+//     try {
+//       recipeZodSchema.parse({
+//         title,
+//         ingredients,
+//         steps,
+//         difficulty,
+//         cookingTime,
+//         imageUrl,
+//       });
+//     } catch (error) {
+//       if (error instanceof z.ZodError) {
+//         console.error("Valideringsfel:", error.errors);
+//         return res.status(400).json({
+//           message:
+//             "Valideringsfel: Kontrollera att alla fält är korrekt ifyllda",
+//           errors: error.errors,
+//         });
+//       }
+
+//       throw error; // Om det är ett annat typ av fel
+//     }
+
+//     if (categories && categories.length > 0) {
+//       const existingCategories = await CategoryModel.find({
+//         name: { $in: categories },
+//       });
+
+//       if (existingCategories.length !== categories.length) {
+//         return res.status(400).json({
+//           message: "En eller flera kategorier är ogiltiga eller saknas",
+//         });
+//       }
+//     }
+//     // Skapa ett nytt recept och koppla det till användaren
+//     const newRecipe = await createNewRecipe(
+//       { title, ingredients, steps, difficulty, cookingTime, imageUrl },
+//       userId
+//     );
+
+//     newRecipe.categories = existingCategories.map((category) => category._id);
+
+//     await newRecipe.save();
+
+//     // Lägg till receptet i användarens `recipesCreated`-array
+//     await UserModel.findByIdAndUpdate(userId, {
+//       $push: { recipesCreated: newRecipe._id },
+//     });
+//     // Skicka tillbaka det skapade receptet som svar
+//     res.status(201).json(newRecipe);
+//   } catch (error) {
+//     console.error("Fel vid skapande av recept:", error);
+//     res.status(500).json({ message: "Kunde inte skapa receptet" });
+//   }
+// };
+
 export const createRecipesWithImage = async (req, res) => {
   try {
     // Kontrollera om användaren är inloggad genom sessionen
@@ -75,8 +156,15 @@ export const createRecipesWithImage = async (req, res) => {
     const userId = req.session.userId;
 
     // Hämta receptdata från requestens body
-    const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-      req.body;
+    const {
+      title,
+      ingredients,
+      steps,
+      difficulty,
+      cookingTime,
+      imageUrl,
+      categories,
+    } = req.body;
 
     console.log("Inkommande data:", req.body);
 
@@ -103,14 +191,41 @@ export const createRecipesWithImage = async (req, res) => {
       throw error; // Om det är ett annat typ av fel
     }
 
-    // Skapa ett nytt recept och koppla det till användaren
-    const newRecipe = await createNewRecipe(
-      { title, ingredients, steps, difficulty, cookingTime, imageUrl },
-      userId
-    );
+    // Kontrollera att alla kategorier finns i databasen
+    if (categories && categories.length > 0) {
+      // Hämta alla kategorier från databasen
+      const existingCategories = await CategoryModel.find({
+        name: { $in: categories },
+      });
 
-    // Skicka tillbaka det skapade receptet som svar
-    res.status(201).json(newRecipe);
+      // Om vi inte hittar alla kategorier, returnera ett fel
+      if (existingCategories.length !== categories.length) {
+        return res.status(400).json({
+          message: "En eller flera kategorier är ogiltiga eller saknas",
+        });
+      }
+
+      // Skapa ett nytt recept och koppla det till användaren
+      const newRecipe = await createNewRecipe(
+        { title, ingredients, steps, difficulty, cookingTime, imageUrl },
+        userId
+      );
+
+      // Koppla kategorierna till receptet genom att använda deras ObjectId:s
+      newRecipe.categories = existingCategories.map((category) => category._id);
+
+      await newRecipe.save();
+
+      // Lägg till receptet i användarens `recipesCreated`-array
+      await UserModel.findByIdAndUpdate(userId, {
+        $push: { recipesCreated: newRecipe._id },
+      });
+
+      // Skicka tillbaka det skapade receptet som svar
+      res.status(201).json(newRecipe);
+    } else {
+      return res.status(400).json({ message: "Kategorier är obligatoriska" });
+    }
   } catch (error) {
     console.error("Fel vid skapande av recept:", error);
     res.status(500).json({ message: "Kunde inte skapa receptet" });
