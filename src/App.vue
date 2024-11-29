@@ -1,10 +1,11 @@
 <script setup>
+import Welcome from "./components/Welcome.vue";
 import StartPage from "./page/StartPage.vue";
 </script>
 
 <template>
-  <!-- <Welcome /> -->
   <StartPage />
+  <Welcome />
 </template>
 
 <style></style>

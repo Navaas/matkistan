@@ -9,7 +9,7 @@ const error = ref(null);
 
 const fetchRecipes = async () => {
   try {
-    const response = await fetch("http://localhost:3000/recipes");
+    const response = await fetch("http://localhost:3000/getAllRecipes");
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     const data = await response.json();
     recipes.value = data;
@@ -28,9 +28,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1 class="bg-black">Välkommen till Matkistan</h1>
-  <span class="material-symbols-outlined text-gray-500 text-2xl"> home </span>
-
   <div v-if="recipes.length > 0">
     <ul>
       <li v-for="recipe in recipes" :key="recipe._id">

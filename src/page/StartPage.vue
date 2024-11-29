@@ -26,12 +26,19 @@ const toggleDiv = () => {
         matlagningen både roligare och enklare. Börja din resa mot en värld av
         smakupplevelser redan idag
       </p>
-      <button
-        class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
-        @click="toggleDiv"
-      >
-        Skapa konto
-      </button>
+      <div class="flex gap-4">
+        <button
+          class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
+          @click="toggleDiv"
+        >
+          Skapa konto
+        </button>
+        <button
+          class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
+        >
+          Logga in
+        </button>
+      </div>
     </div>
     <div class="w-full max-h-80">
       <img
