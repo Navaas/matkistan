@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { z } from "zod";
 
 const userZodSchema = z.object({
-  firstname: z.string().min(1, "Förnamn är obligatoriskt"),
+  firstname: z.string().min(2, "Förnamn är obligatoriskt"),
   username: z
     .string()
     .min(1, "Användarnamn är obligatoriskt")

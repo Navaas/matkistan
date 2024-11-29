@@ -76,6 +76,7 @@ export const registerUser = async (req, res) => {
     res.status(500).json("Failed to register user");
   }
 };
+
 export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
