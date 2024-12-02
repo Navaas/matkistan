@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Header from "../components/Header.vue";
 
 const message = ref("");
 const messageType = ref("");
@@ -64,6 +65,7 @@ const logout = async () => {
 </script>
 
 <template>
+  <Header />
   <div>
     <h1>UserPage</h1>
     <h2 v-if="user">Välkommen, {{ user.username }}!</h2>
