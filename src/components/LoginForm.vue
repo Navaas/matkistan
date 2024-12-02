@@ -52,7 +52,9 @@ const loginUser = async () => {
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
-      await router.push("/user");
+      router.push("/user", { state: { user: responseData.user } });
+
+      console.log("User:", responseData.user);
     } else {
       const errorText = await response.text();
       console.error("Inloggning misslyckades:", errorText);

@@ -218,7 +218,7 @@ export const createRecipesWithImage = async (req, res) => {
 
       // Lägg till receptet i användarens `recipesCreated`-array
       await UserModel.findByIdAndUpdate(userId, {
-        $push: { recipesCreated: newRecipe._id },
+        $addToSet: { recipesCreated: newRecipe._id },
       });
 
       // Skicka tillbaka det skapade receptet som svar

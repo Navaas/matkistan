@@ -239,14 +239,49 @@ export const deleteUser = async (req, res) => {
 };
 
 // Funktion för att hämta inloggad användare
+// export async function getLoggedInUser(req, res) {
+//   console.log("Session vid auth:", req.session); // Logga sessionen för att se om sessionen finns
+//   if (!req.session?.userId) {
+//     return res.status(401).json("Du är inte inloggad");
+//   }
+
+//   return res.status(200).json({
+//     message: "Du är inloggad",
+//     session: req.session,
+//   });
+// }
+// Backend: Funktion för att hämta användardata från session
 export async function getLoggedInUser(req, res) {
   console.log("Session vid auth:", req.session); // Logga sessionen för att se om sessionen finns
+
   if (!req.session?.userId) {
     return res.status(401).json("Du är inte inloggad");
   }
 
-  return res.status(200).json({
-    message: "Du är inloggad",
-    session: req.session,
-  });
+  // Hämta användardata baserat på sessionens userId
+  try {
+    const user = await UserModel.findById(req.session.userId)
+      .populate("recipesCreated") // Hämta alla skapade recept
+      .populate("likedRecipes") // Hämta alla gillade recept
+      .exec();
+
+    if (!user) {
+      return res.status(404).json("Användaren finns inte");
+    }
+
+    // Returnera användardata
+    return res.status(200).json({
+      message: "Du är inloggad",
+      user: {
+        id: user._id,
+        username: user.username,
+        recipesCreated: user.recipesCreated, // Skapade recept
+        likedRecipes: user.likedRecipes, // Gillade recept
+      },
+    });
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+    return res.status(500).json("Kunde inte hämta användardata");
+  }
+  getLoggedInUser();
 }
