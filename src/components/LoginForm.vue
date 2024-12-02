@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { z } from "zod";
 
 const loginZodSchema = z.object({
   username: z.string().min(3, "Användarnamnet måste vara minst 3 tecken långt"),
   password: z.string().min(8, "Lösenordet måste vara minst 8 tecken långt"),
 });
+
+const router = useRouter();
 
 const username = ref("");
 const password = ref("");
@@ -48,6 +51,7 @@ const loginUser = async () => {
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
+      await router.push("/login");
     } else {
       const errorText = await response.text();
       console.error("Inloggning misslyckades:", errorText);

@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import Header from "../components/Header.vue";
 import UserForm from "../components/UserForm.vue";
+import Welcome from "../components/Welcome.vue";
 
 const isOpen = ref(false);
 
@@ -33,11 +34,17 @@ const toggleDiv = () => {
         >
           Skapa konto
         </button>
-        <button
-          class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
+        <router-link
+          to="/login"
+          class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500 text-center inline-block"
         >
           Logga in
-        </button>
+        </router-link>
+        <!-- <button
+            class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
+          >
+            Logga in
+          </button> -->
       </div>
     </div>
     <div class="w-full max-h-80">
@@ -53,6 +60,7 @@ const toggleDiv = () => {
       <UserForm />
     </div>
   </div>
+  <Welcome />
 </template>
 
 <style scoped></style>
