@@ -1,10 +1,33 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
 
 const isOpen = ref(false);
+const isLoggedIn = ref(false);
+
+const getLoggedInUser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/auth", {
+      method: "GET",
+      credentials: "include", // Viktigt för att skicka cookies
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      isLoggedIn.value = !!data.user; // Om användaren finns, sätt isLoggedIn till true
+    } else {
+      isLoggedIn.value = false; // Om svaret är negativt, användaren är inte inloggad
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+    isLoggedIn.value = false; // Vid fel, anta att användaren inte är inloggad
+  }
+};
+
+// Kör inloggningskontrollen när komponenten laddas
+onMounted(getLoggedInUser);
 
 const toggleDiv = () => {
   isOpen.value = !isOpen.value;
@@ -27,7 +50,7 @@ const toggleDiv = () => {
         matlagningen både roligare och enklare. Börja din resa mot en värld av
         smakupplevelser redan idag
       </p>
-      <div class="flex gap-4">
+      <div v-if="!isLoggedIn" class="flex gap-4">
         <button
           class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
           @click="toggleDiv"

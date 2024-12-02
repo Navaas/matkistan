@@ -52,7 +52,7 @@ const loginUser = async () => {
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
-      router.push("/user", { state: { user: responseData.user } });
+      router.push("/profil", { state: { user: responseData.user } });
 
       console.log("User:", responseData.user);
     } else {

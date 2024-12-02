@@ -8,7 +8,7 @@ import UserPage from "../page/UserPage.vue";
 const routes = [
   { path: "/", name: "start", component: StartPage },
   { path: "/login", name: "login", component: LoginPage },
-  { path: "/user", name: "user", component: UserPage },
+  { path: "/profil", name: "profil", component: UserPage },
 ];
 
 const router = createRouter({
