@@ -139,6 +139,10 @@ export const logoutUser = async (req, res) => {
         .json({ error: "Ingen aktiv session att logga ut från" });
     }
 
+    const userId = req.session.userId;
+    const username = req.session.username;
+    console.log(`Användare loggas ut: ID=${userId}, Username=${username}`);
+
     req.session = null; // Rensa sessionen
 
     console.log("Användaren är utloggad");

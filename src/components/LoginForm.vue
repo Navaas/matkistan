@@ -39,6 +39,7 @@ const loginUser = async () => {
     // Skicka inloggningsdata till backend
     const response = await fetch("http://localhost:3000/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -51,7 +52,7 @@ const loginUser = async () => {
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
-      await router.push("/login");
+      await router.push("/user");
     } else {
       const errorText = await response.text();
       console.error("Inloggning misslyckades:", errorText);
@@ -105,7 +106,7 @@ const loginUser = async () => {
       type="submit"
       class="max-w-52 bg-black text-white py-2 px-4 rounded-md hover:bg-slate-500"
     >
-      Skicka
+      Logga in
     </button>
   </form>
 </template>

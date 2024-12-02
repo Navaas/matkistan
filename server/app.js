@@ -11,7 +11,7 @@ import userRouter from "./src/user/user-router.js";
 const app = express();
 createCategories();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 dotenv.config();
 app.use(
@@ -21,6 +21,7 @@ app.use(
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
     secure: false,
+    sameSite: "lax",
   })
 );
 
