@@ -1,7 +1,11 @@
 module.exports = {
-  content: ["./src/**/*.{html,js,vue}"], // Sök efter Tailwind-klasser här
+  content: ["./src/**/*.{html,js,vue}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        yuji: ['"Yuji Mai"', "serif"],
+      },
+    },
   },
   plugins: [],
 };

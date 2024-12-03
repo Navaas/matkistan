@@ -32,6 +32,9 @@ onMounted(() => {
     <ul>
       <li v-for="recipe in recipes" :key="recipe._id">
         <span>{{ recipe.title }}</span>
+        <div v-for="image in recipe.imageUrl">
+          <img :src="image" alt="Bild på recept" />
+        </div>
         <p>Svårighetsgrad: {{ recipe.difficulty }}</p>
         <p>Tillagningstid: {{ recipe.cookingTime }} min</p>
 

@@ -48,7 +48,10 @@ onMounted(getLoggedInUser);
           <span class="material-icons"> home </span>
         </router-link>
         <span class="material-icons"> menu_book </span>
-        <span class="material-icons"> add </span>
+
+        <router-link to="/createRecipe">
+          <span class="material-icons"> add </span>
+        </router-link>
         <span class="material-icons"> favorite </span>
         <router-link to="/profil">
           <span class="material-icons"> person </span>
@@ -59,6 +62,7 @@ onMounted(getLoggedInUser);
 
   <!-- Header för mobile -->
   <div
+    v-if="!isLoggedIn"
     class="flex justify-between fixed bottom-0 left-0 w-full bg-black text-white py-4 px-2 md:hidden"
   >
     <div>
@@ -76,9 +80,13 @@ onMounted(getLoggedInUser);
   >
     <span class="material-icons"> home </span>
     <span class="material-icons"> menu_book </span>
-    <span class="material-icons"> add </span>
+    <router-link to="/createRecipe">
+      <span class="material-icons"> add </span>
+    </router-link>
     <span class="material-icons"> favorite </span>
-    <span class="material-icons"> person </span>
+    <router-link to="/profil">
+      <span class="material-icons"> person </span>
+    </router-link>
   </div>
 </template>
 

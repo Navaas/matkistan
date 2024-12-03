@@ -3,31 +3,34 @@ import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
+import { getLoggedInUser } from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
 const isLoggedIn = ref(false);
 
-const getLoggedInUser = async () => {
-  try {
-    const response = await fetch("http://localhost:3000/auth", {
-      method: "GET",
-      credentials: "include", // Viktigt för att skicka cookies
-    });
+// const getLoggedInUser = async () => {
+//   try {
+//     const response = await fetch("http://localhost:3000/auth", {
+//       method: "GET",
+//       credentials: "include", // Viktigt för att skicka cookies
+//     });
 
-    if (response.ok) {
-      const data = await response.json();
-      isLoggedIn.value = !!data.user; // Om användaren finns, sätt isLoggedIn till true
-    } else {
-      isLoggedIn.value = false; // Om svaret är negativt, användaren är inte inloggad
-    }
-  } catch (error) {
-    console.error("Fel vid hämtning av användardata:", error);
-    isLoggedIn.value = false; // Vid fel, anta att användaren inte är inloggad
-  }
-};
+//     if (response.ok) {
+//       const data = await response.json();
+//       isLoggedIn.value = !!data.user; // Om användaren finns, sätt isLoggedIn till true
+//     } else {
+//       isLoggedIn.value = false; // Om svaret är negativt, användaren är inte inloggad
+//     }
+//   } catch (error) {
+//     console.error("Fel vid hämtning av användardata:", error);
+//     isLoggedIn.value = false; // Vid fel, anta att användaren inte är inloggad
+//   }
+// };
 
-// Kör inloggningskontrollen när komponenten laddas
-onMounted(getLoggedInUser);
+// // Kör inloggningskontrollen när komponenten laddas
+onMounted(async () => {
+  isLoggedIn.value = await getLoggedInUser();
+});
 
 const toggleDiv = () => {
   isOpen.value = !isOpen.value;
@@ -41,7 +44,7 @@ const toggleDiv = () => {
     <div
       class="flex flex-col px-2 pt-2 pb-4 justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6 bg-green-100"
     >
-      <h1 class="text-2xl md:text-3xl">Din digitala receptbok</h1>
+      <h1 class="font-yuji text-2xl md:text-3xl">Din digitala receptbok</h1>
       <p>
         Upptäck matglädje och inspiration med Matkistan! Här kan du skapa ett
         konto för att samla och spara dina favoritrecept på ett enkelt och
@@ -86,4 +89,8 @@ const toggleDiv = () => {
   <Welcome />
 </template>
 
-<style scoped></style>
+<style scoped>
+.test-font {
+  font-family: "Yuji Mai", serif;
+}
+</style>

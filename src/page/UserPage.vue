@@ -66,7 +66,7 @@ const logout = async () => {
 
 <template>
   <Header />
-  <div>
+  <div class="pt-14">
     <h1>UserPage</h1>
     <h2 v-if="user">Välkommen, {{ user.username }}!</h2>
     <p v-else>Du är inte inloggad.</p>
