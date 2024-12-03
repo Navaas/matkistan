@@ -59,8 +59,11 @@ onMounted(getLoggedInUser);
 
   <!-- Header för mobile -->
   <div
-    class="fixed bottom-0 left-0 w-full bg-black text-white py-4 px-2 md:hidden"
+    class="flex justify-between fixed bottom-0 left-0 w-full bg-black text-white py-4 px-2 md:hidden"
   >
+    <div>
+      <span>Icon</span>
+    </div>
     <router-link to="/login">
       <span class="material-symbols-outlined"> login </span>
     </router-link>
