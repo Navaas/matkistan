@@ -44,7 +44,7 @@ const toggleDiv = () => {
     <div
       class="flex flex-col px-2 pt-2 pb-4 justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6 bg-green-100"
     >
-      <h1 class="font-yuji text-2xl md:text-3xl">Din digitala receptbok</h1>
+      <h1 class="font-inter text-2xl md:text-3xl">Din digitala receptbok</h1>
       <p>
         Upptäck matglädje och inspiration med Matkistan! Här kan du skapa ett
         konto för att samla och spara dina favoritrecept på ett enkelt och
@@ -89,8 +89,4 @@ const toggleDiv = () => {
   <Welcome />
 </template>
 
-<style scoped>
-.test-font {
-  font-family: "Yuji Mai", serif;
-}
-</style>
+<style scoped></style>
