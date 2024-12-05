@@ -1,20 +1,20 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { getLoggedInUser } from "../utils/checkLoginHandler";
+// import { onMounted, ref } from "vue";
+// import { getLoggedInUser } from "../utils/checkLoginHandler";
 
-const isLoggedIn = ref(false);
+// const isLoggedIn = ref(false);
 
-onMounted(async () => {
-  isLoggedIn.value = await getLoggedInUser();
-});
+// onMounted(async () => {
+//   isLoggedIn.value = await getLoggedInUser();
+// });
 </script>
 
 <template>
-  <div v-if="isLoggedIn">
+  <div>
     <!-- Om användaren är inloggad -->
     <router-link to="/createRecipe">Skapa recept</router-link>
   </div>
-  <div v-else>
+  <div>
     <!-- Om användaren inte är inloggad -->
     <router-link to="/login">Login</router-link>
   </div>
@@ -29,7 +29,6 @@ onMounted(async () => {
     </router-link>
   </div>
   <div
-    v-if="isLoggedIn"
     class="flex justify-between px-2 py-2 bg-black text-white cursor-pointer"
   >
     <router-link to="/">
