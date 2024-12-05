@@ -108,12 +108,10 @@ export const loginUser = async (req, res) => {
     });
 
     // Spara användaruppgifter i sessionen
-    // req.session = {
-    //   userId: user._id, // Användarens ID
-    //   username: user.username, // Användarens användarnamn
-    // };
-    req.session.userId = user._id; // Användarens ID
-    req.session.username = user.username; // Användarens användarnamn
+    req.session = {
+      userId: user._id, // Användarens ID
+      username: user.username, // Användarens användarnamn
+    };
 
     console.log("Session skapad:", req.session);
 
@@ -285,5 +283,5 @@ export async function getLoggedInUser(req, res) {
     console.error("Fel vid hämtning av användardata:", error);
     return res.status(500).json("Kunde inte hämta användardata");
   }
-  // getLoggedInUser();
+  getLoggedInUser();
 }

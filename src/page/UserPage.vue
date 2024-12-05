@@ -1,8 +1,7 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
-import { getLoggedInUser } from "../utils/checkLoginHandler";
 
 const message = ref("");
 const messageType = ref("");
@@ -10,14 +9,32 @@ const messageType = ref("");
 const router = useRouter();
 
 const user = ref(null);
-const isLoggedIn = ref(false);
 
-onMounted(async () => {
-  const loggedInUser = await getLoggedInUser();
-  console.log("LoggedInUser:", loggedInUser);
-  user.value = loggedInUser.user;
-  isLoggedIn.value = !!user.value;
-});
+const getLoggedInUser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/auth", {
+      method: "GET",
+      credentials: "include", // Viktigt för att skicka med sessionen via cookies
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      user.value = data.user; // Sätt användardata i 'user'
+      console.log("Inloggad användare:", data.user); // Logga användaren för att bekräfta
+    } else {
+      console.error(
+        "Användaren är inte inloggad eller något gick fel:",
+        await response.text()
+      );
+      user.value = null; // Om användaren inte är inloggad, sätt 'user' till null
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+  }
+};
+
+// Kalla på funktionen när komponenten laddas
+getLoggedInUser();
 
 const logout = async () => {
   try {
@@ -30,9 +47,10 @@ const logout = async () => {
     });
     if (response.ok) {
       console.log("Utloggning lyckades");
+      // Om utloggningen lyckades, visa meddelande och omdirigera användaren
       message.value = "Du är nu utloggad!";
       messageType.value = "success";
-      router.push("/");
+      router.push("/"); // Navigera till startsidan eller annan sida
     } else {
       const errorData = await response.json();
       message.value = errorData.error || "Problem med utloggning";

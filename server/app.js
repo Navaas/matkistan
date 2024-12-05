@@ -14,33 +14,14 @@ createCategories();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 dotenv.config();
-// app.use(
-//   cookieSession({
-//     name: "login",
-//     secret: process.env.COOKIE_SECRET,
-//     maxAge: 1000 * 60 * 60 * 24 * 7,
-//     httpOnly: true,
-//     resave: false,
-//     secure: false,
-//     sameSite: "lax",
-//     cookie: {
-//       httpOnly: true, // Skydda cookies från att nås via JS
-//       secure: false, // Sätt till true om du använder HTTPS
-//     },
-//   })
-// );
 app.use(
   cookieSession({
     name: "login",
-    secret: process.env.COOKIE_SECRET, // Din hemliga nyckel
-    maxAge: 1000 * 60 * 60 * 24 * 7, // Cookie varaktighet (1 vecka)
-    httpOnly: true, // Skydda cookies från att nås via JS
-    secure: true, // Sätt till true om du kör HTTPS
-    sameSite: "lax", // Tillåt cookies att användas i cross-site request
-    cookie: {
-      httpOnly: true, // Skydda cookies från att nås via JS
-      secure: process.env.NODE_ENV === "production", // Sätt till true om HTTPS
-    },
+    secret: process.env.COOKIE_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
   })
 );
 

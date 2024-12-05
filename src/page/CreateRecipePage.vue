@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 
 const isLoggedIn = ref(false);
@@ -25,6 +25,7 @@ const getLoggedInUser = async () => {
   }
 };
 
+// Kör funktionen när komponenten har laddats
 onMounted(getLoggedInUser);
 
 const recipeForm = ref({
@@ -52,6 +53,7 @@ const fetchCategories = async () => {
   }
 };
 
+// Kör vid komponentens montering
 fetchCategories();
 
 const onFileChange = (event) => {

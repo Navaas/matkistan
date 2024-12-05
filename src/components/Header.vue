@@ -1,45 +1,36 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { getLoggedInUser } from "../utils/checkLoginHandler";
 
 const isLoggedIn = ref(false);
 
-onMounted(async () => {
-  isLoggedIn.value = await getLoggedInUser();
-});
+const getLoggedInUser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/auth", {
+      method: "GET",
+      credentials: "include", // Viktigt för att skicka med sessionen via cookies
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.user) {
+        isLoggedIn.value = true; // Om användaren är inloggad, sätt `isLoggedIn` till true
+      }
+    } else {
+      isLoggedIn.value = false; // Om svar från servern inte är OK, sätt `isLoggedIn` till false
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+    isLoggedIn.value = false;
+  }
+};
+
+// Kör funktionen när komponenten har laddats
+onMounted(getLoggedInUser);
 </script>
 
 <template>
-  <div>
-    <!-- Om användaren är inloggad -->
-    <router-link to="/createRecipe">Skapa recept</router-link>
-  </div>
-  <div>
-    <!-- Om användaren inte är inloggad -->
-    <router-link to="/login">Login</router-link>
-  </div>
-  <div
-    class="flex justify-between px-2 py-2 bg-black text-white cursor-pointer"
-  >
-    <router-link to="/">
-      <span>Startsida</span>
-    </router-link>
-    <router-link to="/login">
-      <span class="material-symbols-outlined"> login </span>
-    </router-link>
-  </div>
-  <div
-    class="flex justify-between px-2 py-2 bg-black text-white cursor-pointer"
-  >
-    <router-link to="/">
-      <span>Startsida</span>
-    </router-link>
-    <router-link to="/login">
-      <span class="material-symbols-outlined"> login </span>
-    </router-link>
-  </div>
   <!-- Header för desktop -->
-  <!-- <div class="hidden md:block">
+  <div class="hidden md:block">
     <div
       class="flex justify-between px-2 py-2 bg-black text-white cursor-pointer fixed top-0 left-0 w-full"
     >
@@ -67,10 +58,10 @@ onMounted(async () => {
         </router-link>
       </div>
     </div>
-  </div> 
+  </div>
 
   <!-- Header för mobile -->
-  <!-- <div
+  <div
     v-if="!isLoggedIn"
     class="flex justify-between fixed bottom-0 left-0 w-full bg-black text-white py-4 px-2 md:hidden"
   >
@@ -80,10 +71,10 @@ onMounted(async () => {
     <router-link to="/login">
       <span class="material-symbols-outlined"> login </span>
     </router-link>
-  </div> -->
+  </div>
 
   <!-- Header för mobile inloggad -->
-  <!-- <div
+  <div
     v-if="isLoggedIn"
     class="flex justify-around fixed bottom-0 left-0 w-full bg-black text-white py-4 px-2 md:hidden"
   >
@@ -96,7 +87,7 @@ onMounted(async () => {
     <router-link to="/profil">
       <span class="material-icons"> person </span>
     </router-link>
-  </div> -->
+  </div>
 </template>
 
 <style scoped></style>

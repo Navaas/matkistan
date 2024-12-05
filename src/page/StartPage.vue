@@ -8,6 +8,26 @@ import { getLoggedInUser } from "../utils/checkLoginHandler";
 const isOpen = ref(false);
 const isLoggedIn = ref(false);
 
+// const getLoggedInUser = async () => {
+//   try {
+//     const response = await fetch("http://localhost:3000/auth", {
+//       method: "GET",
+//       credentials: "include", // Viktigt för att skicka cookies
+//     });
+
+//     if (response.ok) {
+//       const data = await response.json();
+//       isLoggedIn.value = !!data.user; // Om användaren finns, sätt isLoggedIn till true
+//     } else {
+//       isLoggedIn.value = false; // Om svaret är negativt, användaren är inte inloggad
+//     }
+//   } catch (error) {
+//     console.error("Fel vid hämtning av användardata:", error);
+//     isLoggedIn.value = false; // Vid fel, anta att användaren inte är inloggad
+//   }
+// };
+
+// // Kör inloggningskontrollen när komponenten laddas
 onMounted(async () => {
   isLoggedIn.value = await getLoggedInUser();
 });
