@@ -2,31 +2,30 @@
 import { ref } from "vue";
 import Header from "../components/Header.vue";
 
-// const isLoggedIn = ref(false);
+const isLoggedIn = ref(false);
 
-// const getLoggedInUser = async () => {
-//   try {
-//     const response = await fetch("http://localhost:3000/auth", {
-//       method: "GET",
-//       credentials: "include",
-//     });
+const getLoggedInUser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/auth", {
+      method: "GET",
+      credentials: "include",
+    });
 
-//     if (response.ok) {
-//       const data = await response.json();
-//       if (data.user) {
-//         isLoggedIn.value = true;
-//       }
-//     } else {
-//       isLoggedIn.value = false;
-//     }
-//   } catch (error) {
-//     console.error("Fel vid hämtning av användardata:", error);
-//     isLoggedIn.value = false;
-//   }
-// };
+    if (response.ok) {
+      const data = await response.json();
+      if (data.user) {
+        isLoggedIn.value = true;
+      }
+    } else {
+      isLoggedIn.value = false;
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+    isLoggedIn.value = false;
+  }
+};
 
-// // Kör funktionen när komponenten har laddats
-// onMounted(getLoggedInUser);
+onMounted(getLoggedInUser);
 
 const recipeForm = ref({
   title: "",
@@ -53,7 +52,6 @@ const fetchCategories = async () => {
   }
 };
 
-// Kör vid komponentens montering
 fetchCategories();
 
 const onFileChange = (event) => {

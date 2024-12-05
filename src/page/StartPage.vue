@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
-// import { getLoggedInUser } from "../utils/checkLoginHandler";
+import { getLoggedInUser } from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
-// const isLoggedIn = ref(false);
+const isLoggedIn = ref(false);
 
-// onMounted(async () => {
-//   isLoggedIn.value = await getLoggedInUser();
-// });
+onMounted(async () => {
+  isLoggedIn.value = await getLoggedInUser();
+});
 
 const toggleDiv = () => {
   isOpen.value = !isOpen.value;

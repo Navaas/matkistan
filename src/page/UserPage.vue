@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
-// import { getLoggedInUser } from "../utils/checkLoginHandler";
+import { getLoggedInUser } from "../utils/checkLoginHandler";
 
 const message = ref("");
 const messageType = ref("");
@@ -10,13 +10,14 @@ const messageType = ref("");
 const router = useRouter();
 
 const user = ref(null);
-// const isLoggedIn = ref(false);
+const isLoggedIn = ref(false);
 
-// onMounted(async () => {
-//   const loggedInUser = await getLoggedInUser();
-//   user.value = loggedInUser;
-//   isLoggedIn.value = !!user.value;
-// });
+onMounted(async () => {
+  const loggedInUser = await getLoggedInUser();
+  console.log("LoggedInUser:", loggedInUser);
+  user.value = loggedInUser.user;
+  isLoggedIn.value = !!user.value;
+});
 
 const logout = async () => {
   try {
@@ -29,10 +30,9 @@ const logout = async () => {
     });
     if (response.ok) {
       console.log("Utloggning lyckades");
-      // Om utloggningen lyckades, visa meddelande och omdirigera användaren
       message.value = "Du är nu utloggad!";
       messageType.value = "success";
-      router.push("/"); // Navigera till startsidan eller annan sida
+      router.push("/");
     } else {
       const errorData = await response.json();
       message.value = errorData.error || "Problem med utloggning";
