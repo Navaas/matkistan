@@ -52,6 +52,10 @@ const loginUser = async () => {
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
+      localStorage.setItem("isLoggedIn", "true");
+
+      // Om du vill också spara användardata i localStorage (valfritt)
+      localStorage.setItem("user", JSON.stringify(responseData.user));
       router.push("/profil", { state: { user: responseData.user } });
 
       console.log("User:", responseData.user);

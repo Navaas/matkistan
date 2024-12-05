@@ -19,3 +19,16 @@ export const getLoggedInUser = async () => {
   }
   return isLoggedIn;
 };
+
+// Funktion för att kolla om användaren är inloggad
+export const checkLoginStatus = () => {
+  const cachedIsLoggedIn = localStorage.getItem("isLoggedIn");
+  return cachedIsLoggedIn === "true";
+};
+
+// Funktion för att logga ut användaren
+export const logoutUser = () => {
+  // Ta bort användarens inloggningsstatus från localStorage
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("user");
+};

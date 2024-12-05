@@ -1,41 +1,27 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
-import { getLoggedInUser } from "../utils/checkLoginHandler";
+import { checkLoginStatus } from "../utils/checkLoginHandler"; // Importera funktionerna
 
 const isOpen = ref(false);
+
+// Reaktiv variabel för att hålla koll på om användaren är inloggad
 const isLoggedIn = ref(false);
+const router = useRouter(); // För att navigera vid utloggning
 
-// const getLoggedInUser = async () => {
-//   try {
-//     const response = await fetch("http://localhost:3000/auth", {
-//       method: "GET",
-//       credentials: "include", // Viktigt för att skicka cookies
-//     });
-
-//     if (response.ok) {
-//       const data = await response.json();
-//       isLoggedIn.value = !!data.user; // Om användaren finns, sätt isLoggedIn till true
-//     } else {
-//       isLoggedIn.value = false; // Om svaret är negativt, användaren är inte inloggad
-//     }
-//   } catch (error) {
-//     console.error("Fel vid hämtning av användardata:", error);
-//     isLoggedIn.value = false; // Vid fel, anta att användaren inte är inloggad
-//   }
-// };
-
-// // Kör inloggningskontrollen när komponenten laddas
-onMounted(async () => {
-  isLoggedIn.value = await getLoggedInUser();
-});
+// Funktion för att kontrollera inloggningsstatus
+const checkLogin = () => {
+  isLoggedIn.value = checkLoginStatus(); // Använd funktion från auth.js
+};
 
 const toggleDiv = () => {
   isOpen.value = !isOpen.value;
   console.log(isOpen.value);
 };
+onMounted(checkLogin);
 </script>
 
 <template>

@@ -50,6 +50,8 @@ const logout = async () => {
       // Om utloggningen lyckades, visa meddelande och omdirigera användaren
       message.value = "Du är nu utloggad!";
       messageType.value = "success";
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("user");
       router.push("/"); // Navigera till startsidan eller annan sida
     } else {
       const errorData = await response.json();
