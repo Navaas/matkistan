@@ -33,7 +33,9 @@ onMounted(checkLogin);
     <router-link to="/createRecipe">
       <span class="material-icons"> add </span>
     </router-link>
-    <span class="material-icons"> favorite </span>
+    <router-link to="/likedRecipes">
+      <span class="material-icons"> favorite </span>
+    </router-link>
     <router-link to="/profil">
       <span class="material-icons"> person </span>
     </router-link>
@@ -61,7 +63,9 @@ onMounted(checkLogin);
       <router-link to="/createRecipe">
         <span class="material-icons">add</span>
       </router-link>
-      <span class="material-icons">favorite</span>
+      <router-link to="/likedRecipes">
+        <span class="material-icons">favorite</span>
+      </router-link>
       <router-link to="/profil">
         <span class="material-icons">person</span>
       </router-link>
