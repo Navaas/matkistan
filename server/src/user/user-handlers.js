@@ -153,8 +153,62 @@ export const logoutUser = async (req, res) => {
   }
 };
 
+// export const updateUser = async (req, res) => {
+//   const { username, email, firstname, password } = req.body;
+//   const userId = req.params.id; // Hämta användarens id från URL-parametrarna
+
+//   // Kontrollera om användaren är inloggad och har rätt session
+//   if (!req.session || !req.session.userId || req.session.userId !== userId) {
+//     return res.status(401).json({
+//       error: "Du måste vara inloggad för att uppdatera dina uppgifter",
+//     });
+//   }
+
+//   try {
+//     const validationResult = userZodSchema.safeParse(req.body);
+
+//     if (!validationResult.success) {
+//       // Om valideringen misslyckas, returnera felmeddelanden
+//       return res.status(400).json({
+//         error: "Ogiltig data",
+//         issues: validationResult.error.errors, // Få specifika felmeddelanden från Zod
+//       });
+//     }
+//     // Hämta den användare som ska uppdateras
+//     const user = await UserModel.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ error: "Användare inte hittad" });
+//     }
+
+//     // Uppdatera användarens uppgifter
+//     if (username) user.username = username;
+//     if (email) user.email = email;
+//     if (firstname) user.firstname = firstname;
+
+//     // Spara de uppdaterade uppgifterna
+//     const updatedUser = await user.save();
+
+//     console.log("Användare uppdaterad:", updatedUser);
+
+//     return res.status(200).json({
+//       message: "Dina uppgifter har uppdaterats",
+//       user: {
+//         id: updatedUser._id,
+//         userName: updatedUser.username,
+//         email: updatedUser.email,
+//         firstname: updatedUser.firstname,
+//         password: updatedUser.password,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Fel vid uppdatering av användare:", error);
+//     return res.status(500).json({ error: "Kunde inte uppdatera användaren" });
+//   }
+// };
+
 export const updateUser = async (req, res) => {
-  const { username, email, firstname } = req.body;
+  const { username, email, firstname, password } = req.body;
   const userId = req.params.id; // Hämta användarens id från URL-parametrarna
 
   // Kontrollera om användaren är inloggad och har rätt session
@@ -174,6 +228,7 @@ export const updateUser = async (req, res) => {
         issues: validationResult.error.errors, // Få specifika felmeddelanden från Zod
       });
     }
+
     // Hämta den användare som ska uppdateras
     const user = await UserModel.findById(userId);
 
@@ -185,6 +240,19 @@ export const updateUser = async (req, res) => {
     if (username) user.username = username;
     if (email) user.email = email;
     if (firstname) user.firstname = firstname;
+
+    // Om ett nytt lösenord skickas med, hasha det och uppdatera användaren
+    if (password) {
+      // Validera att lösenordet är minst 8 tecken långt
+      if (password.length < 8) {
+        return res.status(400).json({
+          error: "Lösenordet måste vara minst 8 tecken långt",
+        });
+      }
+      // Hasha lösenordet med argon2
+      const hashedPassword = await argon2.hash(password);
+      user.password = hashedPassword;
+    }
 
     // Spara de uppdaterade uppgifterna
     const updatedUser = await user.save();
@@ -198,6 +266,7 @@ export const updateUser = async (req, res) => {
         userName: updatedUser.username,
         email: updatedUser.email,
         firstname: updatedUser.firstname,
+        password: updatedUser.password, // Lösenordet bör aldrig skickas i svaret som klartext
       },
     });
   } catch (error) {

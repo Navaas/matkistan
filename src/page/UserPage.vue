@@ -2,12 +2,18 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
+import UpdateUser from "../components/UpdateUser.vue";
 import { fetchUserData, user } from "../utils/checkLoginHandler";
 
+const isOpen = ref(false);
 const message = ref("");
 const messageType = ref("");
-
 const router = useRouter();
+
+const toggleDiv = () => {
+  isOpen.value = !isOpen.value;
+  console.log(isOpen.value);
+};
 
 fetchUserData();
 onMounted(() => {
@@ -46,45 +52,68 @@ const logout = async () => {
 
 <template>
   <Header />
-  <div v-if="user" class="md:pt-14">
-    <span class="text-3xl">Välkommen, {{ user.username }}!</span>
-    <p>Förnamn: {{ user.firstname }}</p>
-    <p><strong>Användarnamn:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <!-- <div v-if="user"> -->
-
-    <div v-if="user">
-      <h3>Skapade recept:</h3>
-      <ul>
-        <li v-for="recipe in user.recipesCreated" :key="recipe._id">
-          <span>{{ recipe.title }}</span>
-        </li>
-      </ul>
-
-      <h3>Gillade recept:</h3>
-      <ul>
-        <li v-for="recipe in user.likedRecipes" :key="recipe._id">
-          <span>{{ recipe.title }}</span>
-        </li>
-      </ul>
+  <div v-if="user" class="p-4 md:pt-14 bg-green-100 w-full">
+    <div class="flex flex-col">
+      <span class="text-3xl pb-6">Välkommen, {{ user.username }}!</span>
+      <div class="flex gap-1">
+        <p class="font-bold">Förnamn:</p>
+        <span>{{ user.firstname }}</span>
+      </div>
+      <div class="flex gap-1">
+        <p class="font-bold">Användarnamn:</p>
+        <span>{{ user.username }}</span>
+      </div>
+      <div class="flex gap-1">
+        <p class="font-bold">Email:</p>
+        <span>{{ user.email }}</span>
+      </div>
+      <div class="flex gap-2 mt-4">
+        <button
+          @click="logout"
+          class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+        >
+          Logga ut
+        </button>
+        <button
+          @click="toggleDiv"
+          class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+        >
+          Uppdatera
+        </button>
+      </div>
+      <div v-if="isOpen" class="flex">
+        <div class="flex max-w-[700px] w-full py-2">
+          <span>Uppdatera här</span>
+          <UpdateUser />
+        </div>
+      </div>
     </div>
-
-    <button
-      @click="logout"
-      class="bg-black px-4 py-2 rounded-xl text-white cursor-pointer hover:bg-slate-500"
-    >
-      Logga ut
-    </button>
-
-    <span
-      v-if="message"
-      :class="messageType === 'Success' ? 'text-green-500' : 'text-red-500'"
-    >
-      {{ message }}
-    </span>
-    <!-- </div> -->
-    <p v-else>Du är inte inloggad.</p>
   </div>
+
+  <!-- <div v-if="user">
+    <h3>Skapade recept:</h3>
+    <ul>
+      <li v-for="recipe in user.recipesCreated" :key="recipe._id">
+        <span>{{ recipe.title }}</span>
+      </li>
+    </ul>
+
+    <h3>Gillade recept:</h3>
+    <ul>
+      <li v-for="recipe in user.likedRecipes" :key="recipe._id">
+        <span>{{ recipe.title }}</span>
+      </li>
+    </ul>
+  </div> -->
+
+  <span
+    v-if="message"
+    :class="messageType === 'Success' ? 'text-green-500' : 'text-red-500'"
+  >
+    {{ message }}
+  </span>
+  <!-- </div> -->
+  <p v-else>Du är inte inloggad.</p>
 </template>
 
 <style></style>

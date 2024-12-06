@@ -8,7 +8,10 @@ const userZodSchema = z.object({
     .min(1, "Användarnamn är obligatoriskt")
     .max(30, "Användarnamnet får inte vara längre än 30 tecken"),
   email: z.string().email("Ogiltig e-postadress"),
-  password: z.string().min(8, "Lösenordet måste vara minst 8 tecken"),
+  password: z
+    .string()
+    .min(8, "Lösenordet måste vara minst 8 tecken")
+    .optional(),
   recipesCreated: z.array(z.string().uuid("Ogiltigt ID")).optional(), // Om det är en lista med ObjectId:s som kan vara tom
   likedRecipes: z.array(z.string().uuid("Ogiltigt ID")).optional(), // Om det är en lista med ObjectId:s som kan vara tom
 });
