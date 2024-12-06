@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { checkLoginStatus, logoutUser } from "../utils/checkLoginHandler";
+import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const isLoggedIn = ref(false);
 const router = useRouter();
@@ -10,11 +10,11 @@ const checkLogin = () => {
   isLoggedIn.value = checkLoginStatus();
 };
 
-const logout = () => {
-  logoutUser();
-  isLoggedIn.value = false;
-  router.push("/");
-};
+// const logout = () => {
+//   logoutUser();
+//   isLoggedIn.value = false;
+//   router.push("/");
+// };
 
 onMounted(checkLogin);
 </script>
