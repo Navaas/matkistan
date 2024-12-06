@@ -5,7 +5,7 @@ import LikedRecipes from "../page/LikedRecipes.vue";
 import LoginPage from "../page/LoginPage.vue";
 import StartPage from "../page/StartPage.vue";
 import UserPage from "../page/UserPage.vue";
-import UsersCreatedRecipes from "../page/UsersCreatedRecipes.vue";
+import UsersCreatedRecipes from "../page/UsersCreatedRecipesPage.vue";
 
 // Lägg till fler sidor här som ska kunna navigeras till
 const routes = [
