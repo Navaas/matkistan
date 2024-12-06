@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 
 const isLoggedIn = ref(false);
+const successMessage = ref("");
 
 const getLoggedInUser = async () => {
   try {
@@ -39,6 +40,18 @@ const recipeForm = ref({
 });
 
 const categories = ref([]);
+
+const resetForm = () => {
+  recipeForm.value = {
+    title: "",
+    ingredients: [""],
+    steps: [""],
+    difficulty: "",
+    cookingTime: "",
+    categories: [],
+    imageFile: null,
+  };
+};
 
 const fetchCategories = async () => {
   try {
@@ -118,6 +131,8 @@ const submitRecipe = async () => {
 
     const data = await response.json();
     console.log("Recept skapat:", data);
+    successMessage.value = "Receptet skapades framgångsrikt!";
+    resetForm();
   } catch (error) {
     console.error("Fel vid skapande av recept:", error.message);
   }
@@ -125,6 +140,9 @@ const submitRecipe = async () => {
 </script>
 
 <template>
+  <div v-if="successMessage" class="mt-4 text-green-500">
+    <p>{{ successMessage }}</p>
+  </div>
   <Header />
   <form
     v-if="isLoggedIn"
