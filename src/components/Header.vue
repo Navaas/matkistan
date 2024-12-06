@@ -29,7 +29,9 @@ onMounted(checkLogin);
     <router-link to="/">
       <span class="material-icons"> home </span>
     </router-link>
-    <span class="material-icons"> menu_book </span>
+    <router-link to="/userCreatedRecipes">
+      <span class="material-icons">menu_book</span>
+    </router-link>
     <router-link to="/createRecipe">
       <span class="material-icons"> add </span>
     </router-link>
@@ -59,7 +61,10 @@ onMounted(checkLogin);
       <router-link to="/">
         <span class="material-icons">home</span>
       </router-link>
-      <span class="material-icons">menu_book</span>
+      <router-link to="/userCreatedRecipes">
+        <span class="material-icons">menu_book</span>
+      </router-link>
+
       <router-link to="/createRecipe">
         <span class="material-icons">add</span>
       </router-link>

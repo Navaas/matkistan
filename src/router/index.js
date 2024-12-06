@@ -5,6 +5,7 @@ import LikedRecipes from "../page/LikedRecipes.vue";
 import LoginPage from "../page/LoginPage.vue";
 import StartPage from "../page/StartPage.vue";
 import UserPage from "../page/UserPage.vue";
+import UsersCreatedRecipes from "../page/UsersCreatedRecipes.vue";
 
 // Lägg till fler sidor här som ska kunna navigeras till
 const routes = [
@@ -13,6 +14,11 @@ const routes = [
   { path: "/profil", name: "profil", component: UserPage },
   { path: "/createRecipe", name: "createRecipe", component: CreateRecipe },
   { path: "/likedRecipes", name: "likedRecipes", component: LikedRecipes },
+  {
+    path: "/userCreatedRecipes",
+    name: "userCreatedRecipes",
+    component: UsersCreatedRecipes,
+  },
 ];
 
 const router = createRouter({
