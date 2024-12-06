@@ -274,7 +274,9 @@ export async function getLoggedInUser(req, res) {
       message: "Du är inloggad",
       user: {
         id: user._id,
+        firstname: user.firstname,
         username: user.username,
+        email: user.email,
         recipesCreated: user.recipesCreated, // Skapade recept
         likedRecipes: user.likedRecipes, // Gillade recept
       },

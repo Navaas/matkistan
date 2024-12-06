@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 import { fetchUserData, user } from "../utils/checkLoginHandler";
@@ -10,6 +10,9 @@ const messageType = ref("");
 const router = useRouter();
 
 fetchUserData();
+onMounted(() => {
+  fetchUserData();
+});
 
 const logout = async () => {
   try {
@@ -43,10 +46,12 @@ const logout = async () => {
 
 <template>
   <Header />
-  <div class="md:pt-14">
-    <h1>UserPage</h1>
-    <h2 v-if="user">Välkommen, {{ user.username }}!</h2>
-    <p v-else>Du är inte inloggad.</p>
+  <div v-if="user" class="md:pt-14">
+    <span class="text-3xl">Välkommen, {{ user.username }}!</span>
+    <p>Förnamn: {{ user.firstname }}</p>
+    <p><strong>Användarnamn:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <!-- <div v-if="user"> -->
 
     <div v-if="user">
       <h3>Skapade recept:</h3>
@@ -77,6 +82,8 @@ const logout = async () => {
     >
       {{ message }}
     </span>
+    <!-- </div> -->
+    <p v-else>Du är inte inloggad.</p>
   </div>
 </template>
 
