@@ -112,8 +112,6 @@ const logout = async () => {
   >
     {{ message }}
   </span>
-  <!-- </div> -->
-  <p v-else>Du är inte inloggad.</p>
 </template>
 
 <style></style>

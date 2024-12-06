@@ -395,4 +395,29 @@ export const getLikedRecipes = async (req, res) => {
   }
 };
 
+export const getSingelRecipe = async (req, res) => {
+  const { id } = req.params; // Hämta receptets ID från URL-parameterna
+
+  try {
+    // Försök att hitta receptet med det angivna ID:t
+
+    const recipe = await RecipeModel.findById(id).populate(
+      "categories",
+      "name"
+    );
+
+    if (!recipe) {
+      // Om inget recept hittades med detta ID, returnera ett 404-svar
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    // Om receptet hittades, skicka tillbaka det som svar
+    res.status(200).json(recipe);
+  } catch (error) {
+    console.error("Error fetching recipe by ID:", error);
+    // Om det sker ett fel vid hämtning, returnera ett 500-svar
+    res.status(500).json({ message: "Failed to fetch recipe" });
+  }
+};
+
 export default recipeRouter;
