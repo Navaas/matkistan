@@ -28,7 +28,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 md:pt-24">
+  <div class="p-4 pb-16 md:pt-24">
     <div v-if="loading" class="flex justify-center h-64">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"

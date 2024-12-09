@@ -142,7 +142,7 @@ const submitRecipe = async () => {
     <p>{{ successMessage }}</p>
   </div>
   <Header />
-  <div class="flex justify-center p-4 md:py-24">
+  <div class="flex justify-center p-4 pb-16 md:py-24">
     <form
       v-if="isLoggedIn"
       @submit.prevent="submitRecipe"

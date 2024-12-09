@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
   <Header />
-  <div class="p-4 md:pt-24">
+  <div class="p-4 pb-16 md:pt-24">
     <div class="flex justify-center py-4 md:pb-12">
       <h1 class="text-3xl mb-2">Dina recept</h1>
     </div>
