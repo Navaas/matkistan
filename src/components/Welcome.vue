@@ -28,15 +28,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="recipes.length > 0">
-    <div>
+  <div class="p-4 md:pt-24">
+    <div v-if="loading" class="flex justify-center h-64">
+      <div
+        class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
+      ></div>
+    </div>
+    <div v-else-if="recipes.length > 0">
       <div
         class="flex flex-col gap-4 w-full md:flex-row md:items-center md:justify-center md:flex-wrap"
       >
         <div
           v-for="recipe in recipes"
           :key="recipe._id"
-          class="bg-green-100 w-full p-4 md:w-80"
+          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
@@ -50,38 +55,25 @@ onMounted(() => {
               />
             </div>
 
-            <span>{{ recipe.title }}</span>
-            <p>Svårighetsgrad: {{ recipe.difficulty }}</p>
-            <p>Tillagningstid: {{ recipe.cookingTime }} min</p>
+            <div>
+              <p class="font-bold">{{ recipe.title }}</p>
+            </div>
+            <hr class="pb-2 border-t border-gray-300" />
+            <div class="flex gap-1">
+              <p class="font-bold">Svårighetsgrad:</p>
+              <span>{{ recipe.difficulty }}</span>
+            </div>
+            <div class="flex gap-1">
+              <p class="font-bold">Tillagningstid:</p>
+              <span> {{ recipe.cookingTime }}</span>
+            </div>
           </router-link>
         </div>
       </div>
-      <!-- <div v-for="recipe in recipes" :key="recipe._id">
-        <span>{{ recipe.title }}</span>
-        <div v-for="image in recipe.imageUrl">
-          <img :src="image" alt="Bild på recept" />
-        </div>
-        <p>Svårighetsgrad: {{ recipe.difficulty }}</p>
-        <p>Tillagningstid: {{ recipe.cookingTime }} min</p>
-
-        <p>Ingredienser:</p>
-        <ul>
-          <li v-for="ingredient in recipe.ingredients" :key="ingredient">
-            {{ ingredient }}
-          </li>
-        </ul>
-
-        <p>Step</p>
-        <ol>
-          <li v-for="step in recipe.steps" :key="step">
-            {{ step }}
-          </li>
-        </ol>
-      </div> -->
     </div>
-  </div>
-  <div v-else>
-    <p>Inga recept hittades</p>
+    <p v-else="!recipes" class="flex justify-center">
+      Du har inte gillat några recept ännu.
+    </p>
   </div>
 </template>
 
