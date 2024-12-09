@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 
 const isLoggedIn = ref(false);
-const successMessage = ref("");
+const successMessage = ref("Receptet skapades framgångsrikt!");
+const router = useRouter();
 
 const getLoggedInUser = async () => {
   try {
@@ -50,6 +52,8 @@ const resetForm = () => {
     categories: [],
     imageFile: null,
   };
+
+  router.push("/userCreatedRecipes");
 };
 
 const fetchCategories = async () => {
@@ -72,10 +76,18 @@ const onFileChange = (event) => {
 };
 
 const addIngredient = () => {
+  recipeForm.value.ingredients = recipeForm.value.ingredients.filter(
+    (ingredient) => ingredient.trim() !== ""
+  );
+
   recipeForm.value.ingredients.push("");
 };
 
 const addStep = () => {
+  recipeForm.value.steps = recipeForm.value.steps.filter(
+    (step) => step.trim() !== ""
+  );
+
   recipeForm.value.steps.push("");
 };
 
@@ -86,6 +98,13 @@ const submitRecipe = async () => {
   }
 
   console.log("Inkommande data:", recipeForm.value);
+
+  recipeForm.value.ingredients = recipeForm.value.ingredients.filter(
+    (ingredient) => ingredient.trim() !== ""
+  );
+  recipeForm.value.steps = recipeForm.value.steps.filter(
+    (step) => step.trim() !== ""
+  );
 
   let pictureURL = "";
   if (recipeForm.value.imageFile) {

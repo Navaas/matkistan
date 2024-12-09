@@ -8,7 +8,8 @@ const loading = ref(true);
 
 const fetchCreatedRecipes = () => {
   if (user.value && user.value.recipesCreated) {
-    createdRecipes.value = user.value.recipesCreated;
+    // createdRecipes.value = user.value.recipesCreated;
+    createdRecipes.value = [...user.value.recipesCreated].reverse();
   } else {
     createdRecipes.value = [];
   }

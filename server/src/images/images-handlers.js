@@ -45,8 +45,8 @@ const uploadImage = (req, res) => {
     });
 
     const transformer = sharp().resize({
-      width: 100,
-      height: 100,
+      width: 1300,
+      height: 1000,
       fit: "cover",
     });
 
@@ -62,29 +62,5 @@ const uploadImage = (req, res) => {
     res.status(500).json({ message: "Failed to upload image" });
   });
 };
-
-// Skapa ett nytt inlägg med bild
-// const createRecipesWithImage = async (req, res) => {
-//   try {
-//     const { title, ingredients, steps, difficulty, cookingTime, imageUrl } =
-//       req.body;
-
-//     // Skapa en ny post i databasen
-//     const newRecipe = new recipeSchema({
-//       title,
-//       ingredients,
-//       steps,
-//       difficulty,
-//       cookingTime,
-//       imageUrl, // Lägg till bildens URL eller ID
-//     });
-
-//     await newRecipe.save();
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     console.error("Error creating post:", error);
-//     res.status(500).json({ message: "Failed to create post" });
-//   }
-// };
 
 export { getImage, uploadImage };

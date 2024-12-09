@@ -12,7 +12,8 @@ const fetchRecipes = async () => {
     const response = await fetch("http://localhost:3000/getAllRecipes");
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     const data = await response.json();
-    recipes.value = data;
+    // recipes.value = data;
+    recipes.value = data.reverse();
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -72,7 +73,7 @@ onMounted(() => {
       </div>
     </div>
     <p v-else="!recipes" class="flex justify-center">
-      Du har inte gillat några recept ännu.
+      Det finns inga recept än.
     </p>
   </div>
 </template>
