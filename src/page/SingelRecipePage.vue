@@ -40,7 +40,7 @@ onMounted(fetchRecipe);
       <div v-for="image in recipe.imageUrl" class="pb-4 flex justify-center">
         <img
           :src="image"
-          alt="Bild på recept"
+          :alt="`Bild på ${recipe.title}`"
           class="w-full md:w-3/4 lg:w-1/2 h-auto rounded-md mx-auto"
         />
       </div>

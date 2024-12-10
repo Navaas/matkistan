@@ -49,7 +49,7 @@ onMounted(() => {
             <div v-for="image in recipe.imageUrl" class="pb-4">
               <img
                 :src="image"
-                alt="Bild på recept"
+                :alt="`Bild på ${recipe.title}`"
                 class="w-full md:w-[500px] lg:w-[700px] h-auto rounded-sm"
               />
             </div>

@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import LikeButton from "./LikeButton.vue";
 
 const recipes = ref([]);
 const loading = ref(true);
@@ -44,6 +45,7 @@ onMounted(() => {
           :key="recipe._id"
           class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
+          <LikeButton />
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
@@ -51,7 +53,7 @@ onMounted(() => {
             <div v-for="image in recipe.imageUrl" class="pb-4">
               <img
                 :src="image"
-                alt="Bild på recept"
+                :alt="`Bild på ${recipe.title}`"
                 class="w-full md:w-[500px] lg:w-[700px] h-auto rounded-sm"
               />
             </div>
