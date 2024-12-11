@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
+import SearchRecipes from "../components/SearchRecipes.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
 import { checkLoginStatus } from "../utils/checkLoginHandler"; // Importera funktionerna
@@ -72,6 +73,7 @@ onMounted(checkLogin);
       <UserForm />
     </div>
   </div>
+  <SearchRecipes />
   <Welcome />
 </template>
 

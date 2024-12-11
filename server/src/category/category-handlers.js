@@ -29,25 +29,41 @@ export const getCategories = async (req, res) => {
 
 export const getRecipesByCategory = async (req, res) => {
   try {
-    const categoryId = req.params.categoryId; // Få categoryId från URL-parametern
+    const categoryId = req.params.categoryId;
 
-    // Hämta kategorin från databasen
     const category = await CategoryModel.findById(categoryId);
     if (!category) {
       return res.status(404).json({ message: "Kategori inte hittad" });
     }
 
-    // Hämta alla recept som tillhör den kategorin
     const recipes = await RecipeModel.find({ categories: categoryId }).populate(
       "categories"
-    ); // Populera kategorinamn
+    );
 
-    res.status(200).json(recipes); // Returnera alla recept i den kategorin
+    res.status(200).json(recipes);
   } catch (error) {
     console.error("Fel vid hämtning av recept för kategori:", error);
     res.status(500).json({ error: "Kunde inte hämta recept" });
   }
 };
 
-// Exportera categoryRouter här
-export default categoryRouter; // Detta ska vara categoryRouter, inte recipeRouter
+export const searchRecipesByTitle = async (req, res) => {
+  try {
+    const searchQuery = req.query.title; // Hämta söktexten från query-parametern
+
+    if (!searchQuery) {
+      return res.status(400).json({ message: "Ingen söktext angiven" });
+    }
+
+    const recipes = await RecipeModel.find({
+      title: { $regex: searchQuery, $options: "i" }, // "i" gör sökningen case-insensitive
+    }).populate("categories");
+
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.error("Fel vid sökning av recept:", error);
+    res.status(500).json({ error: "Kunde inte söka recept" });
+  }
+};
+
+export default categoryRouter;
