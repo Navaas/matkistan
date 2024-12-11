@@ -16,7 +16,7 @@ userRouter.get("/users", getUsers);
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
-userRouter.delete("/deleteUser/:id", deleteUser);
+userRouter.delete("/deleteUser", isLoggedIn, deleteUser);
 userRouter.put("/updateUser/:id", isLoggedIn, updateUser);
 userRouter.get("/auth", isLoggedIn, getLoggedInUser);
 

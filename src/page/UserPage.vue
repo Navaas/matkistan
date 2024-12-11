@@ -48,6 +48,35 @@ const logout = async () => {
     messageType.value = "error";
   }
 };
+
+const deleteUser = async () => {
+  try {
+    const response = await fetch("http://localhost:3000/deleteUser", {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      console.log("Användaren har tagits bort");
+      // Rensa localStorage och visa meddelande
+      message.value = "Ditt konto har tagits bort.";
+      messageType.value = "success";
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("user");
+      router.push("/"); // Navigera till startsidan eller annan sida
+    } else {
+      const errorData = await response.json();
+      message.value = errorData.error || "Problem med borttagning av konto";
+      messageType.value = "error";
+    }
+  } catch (error) {
+    console.error("Ett fel inträffade:", error);
+    message.value = "Ett tekniskt fel inträffade vid borttagning av konto";
+    messageType.value = "error";
+  }
+};
 </script>
 
 <template>
@@ -79,6 +108,12 @@ const logout = async () => {
           class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
         >
           Uppdatera
+        </button>
+        <button
+          @click="deleteUser"
+          class="bg-red-500 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+        >
+          Radera konto
         </button>
       </div>
       <div v-if="isOpen" class="flex">
