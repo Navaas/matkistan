@@ -2,20 +2,19 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
-import SearchRecipes from "../components/SearchRecipes.vue";
+import SearchBar from "../components/SearchBar.vue";
+import SearchMenu from "../components/SearchMenu.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
-import { checkLoginStatus } from "../utils/checkLoginHandler"; // Importera funktionerna
+import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
 
-// Reaktiv variabel för att hålla koll på om användaren är inloggad
 const isLoggedIn = ref(false);
-const router = useRouter(); // För att navigera vid utloggning
+const router = useRouter();
 
-// Funktion för att kontrollera inloggningsstatus
 const checkLogin = () => {
-  isLoggedIn.value = checkLoginStatus(); // Använd funktion från auth.js
+  isLoggedIn.value = checkLoginStatus();
 };
 
 const toggleDiv = () => {
@@ -53,11 +52,6 @@ onMounted(checkLogin);
         >
           Logga in
         </router-link>
-        <!-- <button
-            class="bg-black px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-slate-500"
-          >
-            Logga in
-          </button> -->
       </div>
     </div>
     <div class="w-full max-h-80">
@@ -73,7 +67,8 @@ onMounted(checkLogin);
       <UserForm />
     </div>
   </div>
-  <SearchRecipes />
+  <SearchBar />
+  <SearchMenu />
   <Welcome />
 </template>
 
