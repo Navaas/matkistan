@@ -1,19 +1,23 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { checkLoginStatus } from "../utils/checkLoginHandler";
 import LikeButton from "./LikeButton.vue";
 
 const recipes = ref([]);
 const loading = ref(true);
 const error = ref(null);
+const isLoggedIn = ref(false);
 
-// Hämta recept från backend
+const checkLogin = () => {
+  isLoggedIn.value = checkLoginStatus();
+};
 
 const fetchRecipes = async () => {
   try {
     const response = await fetch("http://localhost:3000/getAllRecipes");
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     const data = await response.json();
-    // recipes.value = data;
+
     recipes.value = data.reverse();
     console.log(data);
   } catch (error) {
@@ -26,6 +30,7 @@ const fetchRecipes = async () => {
 
 onMounted(() => {
   fetchRecipes();
+  checkLogin();
 });
 </script>
 
@@ -45,7 +50,10 @@ onMounted(() => {
           :key="recipe._id"
           class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
-          <LikeButton />
+          <template v-if="isLoggedIn">
+            <LikeButton :recipeId="recipe._id" />
+          </template>
+
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"

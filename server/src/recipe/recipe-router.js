@@ -5,6 +5,7 @@ import {
   deleteRecipe,
   getAllRecipes,
   getLikedRecipes,
+  getLikeStatus,
   getSingelRecipe,
   getUserRecipes,
   likeRecipe,
@@ -21,5 +22,6 @@ recipeRouter.get("/my-recipes", isLoggedIn, getUserRecipes);
 recipeRouter.post("/like", isLoggedIn, likeRecipe);
 recipeRouter.get("/my-favourite", isLoggedIn, getLikedRecipes);
 recipeRouter.get("/getSingelRecipe/:id", getSingelRecipe);
+recipeRouter.post("/like/status", isLoggedIn, getLikeStatus);
 
 export default recipeRouter;

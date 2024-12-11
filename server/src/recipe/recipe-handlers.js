@@ -1,8 +1,10 @@
 import express from "express";
+import mongoose from "mongoose";
 import { z } from "zod";
 import { CategoryModel } from "../category/category-model.js";
 import UserModel from "../user/user-model.js";
 import { RecipeModel, recipeZodSchema } from "./recipe-model.js";
+
 const recipeRouter = express.Router();
 
 /* Get all recipes */
@@ -61,87 +63,6 @@ export const createNewRecipe = async (recipeData, userId) => {
     throw new Error("Kunde inte skapa receptet");
   }
 };
-
-// export const createRecipesWithImage = async (req, res) => {
-//   try {
-//     // Kontrollera om användaren är inloggad genom sessionen
-//     if (!req.session || !req.session.userId) {
-//       return res
-//         .status(401)
-//         .json({ message: "Du måste vara inloggad för att skapa ett recept" });
-//     }
-
-//     // Hämta användarens ID från sessionen
-//     const userId = req.session.userId;
-
-//     // Hämta receptdata från requestens body
-//     const {
-//       title,
-//       ingredients,
-//       steps,
-//       difficulty,
-//       cookingTime,
-//       imageUrl,
-//       categories,
-//     } = req.body;
-
-//     console.log("Inkommande data:", req.body);
-
-//     // Validera receptdata med Zod
-//     try {
-//       recipeZodSchema.parse({
-//         title,
-//         ingredients,
-//         steps,
-//         difficulty,
-//         cookingTime,
-//         imageUrl,
-//       });
-//     } catch (error) {
-//       if (error instanceof z.ZodError) {
-//         console.error("Valideringsfel:", error.errors);
-//         return res.status(400).json({
-//           message:
-//             "Valideringsfel: Kontrollera att alla fält är korrekt ifyllda",
-//           errors: error.errors,
-//         });
-//       }
-
-//       throw error; // Om det är ett annat typ av fel
-//     }
-
-//     if (categories && categories.length > 0) {
-//       const existingCategories = await CategoryModel.find({
-//         name: { $in: categories },
-//       });
-
-//       if (existingCategories.length !== categories.length) {
-//         return res.status(400).json({
-//           message: "En eller flera kategorier är ogiltiga eller saknas",
-//         });
-//       }
-//     }
-//     // Skapa ett nytt recept och koppla det till användaren
-//     const newRecipe = await createNewRecipe(
-//       { title, ingredients, steps, difficulty, cookingTime, imageUrl },
-//       userId
-//     );
-
-//     newRecipe.categories = existingCategories.map((category) => category._id);
-
-//     await newRecipe.save();
-
-//     // Lägg till receptet i användarens `recipesCreated`-array
-//     await UserModel.findByIdAndUpdate(userId, {
-//       $push: { recipesCreated: newRecipe._id },
-//     });
-//     // Skicka tillbaka det skapade receptet som svar
-//     res.status(201).json(newRecipe);
-//   } catch (error) {
-//     console.error("Fel vid skapande av recept:", error);
-//     res.status(500).json({ message: "Kunde inte skapa receptet" });
-//   }
-// };
 
 export const createRecipesWithImage = async (req, res) => {
   try {
@@ -326,53 +247,51 @@ export const getUserRecipes = async (req, res) => {
 
 export const likeRecipe = async (req, res) => {
   try {
-    // Hämta användarens ID från sessionen
     const userId = req.session.userId;
+    const { recipeId } = req.body;
 
-    // Hämta receptet som användaren vill "like"
-    const { recipeId } = req.body; // Förutsatt att receptets ID skickas i body
+    console.log("Mottaget recipeId från frontend:", recipeId);
 
-    // Hitta användaren och receptet
+    if (!recipeId || typeof recipeId !== "string") {
+      return res.status(400).json({ message: "Invalid recipe ID" });
+    }
+
+    // Kontrollera om recipeId är en giltig ObjectId
+    if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+      console.log("Ogiltigt recipeId format");
+      return res.status(400).json({ message: "Invalid recipe ID format" });
+    }
+
     const user = await UserModel.findById(userId);
     const recipe = await RecipeModel.findById(recipeId);
 
     if (!user || !recipe) {
-      return res
-        .status(404)
-        .json({ message: "Användare eller recept inte hittat" });
+      return res.status(404).json({ message: "User or recipe not found" });
     }
 
-    // Om användaren redan har gillat receptet, ta bort like
     if (user.likedRecipes.includes(recipeId)) {
-      // Ta bort från användarens likedRecipes
       user.likedRecipes = user.likedRecipes.filter(
         (id) => id.toString() !== recipeId
       );
 
-      // Ta bort användaren från receptets likedBy
       recipe.likedBy = recipe.likedBy.filter(
         (id) => id.toString() !== userId.toString()
       );
 
       await user.save();
       await recipe.save();
-
       return res.status(200).json({ message: "Like removed" });
     } else {
-      // Lägg till receptet i användarens likedRecipes
       user.likedRecipes.push(recipeId);
-
-      // Lägg till användaren i receptets likedBy
       recipe.likedBy.push(userId);
 
       await user.save();
       await recipe.save();
-
       return res.status(200).json({ message: "Recipe liked" });
     }
   } catch (error) {
     console.error("Fel vid hantering av like:", error);
-    res.status(500).json({ message: "Något gick fel" });
+    return res.status(500).json({ message: "Något gick fel" });
   }
 };
 
@@ -396,27 +315,55 @@ export const getLikedRecipes = async (req, res) => {
 };
 
 export const getSingelRecipe = async (req, res) => {
-  const { id } = req.params; // Hämta receptets ID från URL-parameterna
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid recipe ID" });
+  }
 
   try {
-    // Försök att hitta receptet med det angivna ID:t
-
     const recipe = await RecipeModel.findById(id).populate(
       "categories",
       "name"
     );
 
     if (!recipe) {
-      // Om inget recept hittades med detta ID, returnera ett 404-svar
       return res.status(404).json({ message: "Recipe not found" });
     }
 
-    // Om receptet hittades, skicka tillbaka det som svar
     res.status(200).json(recipe);
   } catch (error) {
     console.error("Error fetching recipe by ID:", error);
-    // Om det sker ett fel vid hämtning, returnera ett 500-svar
+
     res.status(500).json({ message: "Failed to fetch recipe" });
+  }
+};
+
+export const getLikeStatus = async (req, res) => {
+  const { recipeId } = req.body;
+  const userId = req.session?.userId;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isLiked = user.likedRecipes.includes(recipeId);
+    console.log(
+      `Like-status för userId: ${userId}, recipeId: ${recipeId}:`,
+      isLiked
+    );
+
+    res.status(200).json({ isLiked });
+  } catch (error) {
+    console.error("Error checking like status:", error);
+    res.status(500).json({ message: "Failed to check like status" });
   }
 };
 

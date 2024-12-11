@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
+import LikeButton from "../components/LikeButton.vue";
 import { fetchUserData, user } from "../utils/checkLoginHandler";
 
 const createdRecipes = ref([]);
@@ -43,6 +44,7 @@ onMounted(() => {
           :key="recipe._id"
           class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
+          <LikeButton :recipeId="recipe._id" />
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
