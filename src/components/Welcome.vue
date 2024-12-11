@@ -1,11 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import {
-  checkLoginStatus,
-  fetchUserData,
-  user,
-} from "../utils/checkLoginHandler";
-import DeleteButton from "./DeleteButton.vue";
+import { checkLoginStatus } from "../utils/checkLoginHandler";
 import LikeButton from "./LikeButton.vue";
 
 const recipes = ref([]);
@@ -34,19 +29,17 @@ const fetchRecipes = async () => {
   }
 };
 
-const removeRecipeFromList = (recipeId) => {
-  recipes.value = recipes.value.filter((recipe) => recipe._id !== recipeId);
-};
-
 onMounted(() => {
-  fetchUserData().then(() => {
-    if (user.value) {
-      userId.value = user.value.id;
-      console.log("User ID:", userId.value);
-      checkLogin();
-      fetchRecipes();
-    }
-  });
+  fetchRecipes();
+  checkLogin();
+  // fetchUserData().then(() => {
+  //   if (user.value) {
+  //     userId.value = user.value.id;
+  //     console.log("User ID:", userId.value);
+  //     checkLogin();
+  //     fetchRecipes();
+  //   }
+  // });
 });
 </script>
 
@@ -94,11 +87,6 @@ onMounted(() => {
           <template v-if="isLoggedIn">
             <div class="flex justify-between pt-4">
               <LikeButton :recipeId="recipe._id" />
-              <DeleteButton
-                v-if="recipe.createdBy === userId"
-                :recipeId="recipe._id"
-                @recipeDeleted="removeRecipeFromList"
-              />
             </div>
           </template>
         </div>

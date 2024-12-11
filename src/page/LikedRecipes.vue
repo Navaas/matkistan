@@ -9,7 +9,7 @@ const loading = ref(true);
 
 const fetchLikedRecipes = () => {
   if (user.value && user.value.likedRecipes) {
-    likedRecipes.value = user.value.likedRecipes;
+    likedRecipes.value = user.value.likedRecipes.reverse();
   } else {
     likedRecipes.value = [];
   }

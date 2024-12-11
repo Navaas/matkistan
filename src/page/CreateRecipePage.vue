@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 
 const isLoggedIn = ref(false);
-const successMessage = ref("Receptet skapades framgångsrikt!");
+// const successMessage = ref("Receptet skapades framgångsrikt!");
 const router = useRouter();
 
 const getLoggedInUser = async () => {
@@ -148,7 +148,7 @@ const submitRecipe = async () => {
 
     const data = await response.json();
     console.log("Recept skapat:", data);
-    successMessage.value = "Receptet skapades framgångsrikt!";
+    // successMessage.value = "Receptet skapades framgångsrikt!";
     resetForm();
   } catch (error) {
     console.error("Fel vid skapande av recept:", error.message);
@@ -157,9 +157,9 @@ const submitRecipe = async () => {
 </script>
 
 <template>
-  <div v-if="successMessage" class="mt-4 text-green-500">
+  <!-- <div v-if="successMessage" class="mt-4 text-green-500">
     <p>{{ successMessage }}</p>
-  </div>
+  </div> -->
   <Header />
   <div class="flex justify-center p-4 pb-16 md:py-24">
     <form
