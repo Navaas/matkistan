@@ -1,15 +1,16 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import DeleteButton from "../components/DeleteButton.vue";
 import Header from "../components/Header.vue";
 import LikeButton from "../components/LikeButton.vue";
 import { fetchUserData, user } from "../utils/checkLoginHandler";
 
 const createdRecipes = ref([]);
 const loading = ref(true);
+const userId = ref(null);
 
 const fetchCreatedRecipes = () => {
   if (user.value && user.value.recipesCreated) {
-    // createdRecipes.value = user.value.recipesCreated;
     createdRecipes.value = [...user.value.recipesCreated].reverse();
   } else {
     createdRecipes.value = [];
@@ -17,9 +18,19 @@ const fetchCreatedRecipes = () => {
   loading.value = false;
 };
 
+const removeRecipeFromList = (recipeId) => {
+  createdRecipes.value = createdRecipes.value.filter(
+    (recipe) => recipe._id !== recipeId
+  );
+};
+
 onMounted(() => {
   fetchUserData().then(() => {
-    fetchCreatedRecipes();
+    if (user.value) {
+      userId.value = user.value.id;
+      console.log("User ID:", userId.value);
+      fetchCreatedRecipes();
+    }
   });
 });
 </script>
@@ -42,9 +53,8 @@ onMounted(() => {
         <div
           v-for="recipe in createdRecipes"
           :key="recipe._id"
-          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
+          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full px-4 pt-4 pb-2 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
-          <LikeButton :recipeId="recipe._id" />
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
@@ -70,6 +80,14 @@ onMounted(() => {
               <span> {{ recipe.cookingTime }}</span>
             </div>
           </router-link>
+          <div class="flex justify-between pt-4">
+            <LikeButton :recipeId="recipe._id" />
+            <DeleteButton
+              v-if="recipe.createdBy === userId"
+              :recipeId="recipe._id"
+              @recipeDeleted="removeRecipeFromList"
+            />
+          </div>
         </div>
       </div>
     </div>

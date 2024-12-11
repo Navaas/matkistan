@@ -41,12 +41,11 @@ export const createNewRecipe = async (recipeData, userId) => {
       difficulty,
       cookingTime,
       imageUrl,
+      createdBy: userId,
     });
 
-    // Spara receptet i databasen
     await newRecipe.save();
 
-    // Lägg till receptet i användarens 'recipesCreated'-array
     await UserModel.findByIdAndUpdate(userId, {
       $push: { recipesCreated: newRecipe._id },
     });
@@ -66,17 +65,14 @@ export const createNewRecipe = async (recipeData, userId) => {
 
 export const createRecipesWithImage = async (req, res) => {
   try {
-    // Kontrollera om användaren är inloggad genom sessionen
     if (!req.session || !req.session.userId) {
       return res
         .status(401)
         .json({ message: "Du måste vara inloggad för att skapa ett recept" });
     }
 
-    // Hämta användarens ID från sessionen
     const userId = req.session.userId;
 
-    // Hämta receptdata från requestens body
     const {
       title,
       ingredients,
@@ -206,16 +202,59 @@ export const updateRecipe = async (req, res) => {
   }
 };
 
-/* Delete recipe with ID */
+// /* Delete recipe with ID */
+// export const deleteRecipe = async (req, res) => {
+//   const userId = req.session.userId;
+//   const { recipeId } = req.body;
+//   const { id } = req.params;
+
+//   try {
+//     const recipe = await RecipeModel.findByIdAndDelete(id);
+
+//     if (!recipe) {
+//       return res.status(404).json({ message: "Recipe not found" });
+//     }
+
+//     res.status(200).json({ message: "Recipe deleted successfully", recipe });
+//   } catch (error) {
+//     console.error("Error deleting recipe:", error);
+//     res.status(500).json({ message: "Failed to delete recipe" });
+//   }
+// };
+
 export const deleteRecipe = async (req, res) => {
-  const { id } = req.params;
+  // Kontrollera om användaren är inloggad
+  const userId = req.session?.userId;
+  const { id } = req.params; // Hämta recept-ID från URL-parametrarna
+
+  if (!userId) {
+    return res.status(401).json({ message: "Unauthorized: Please log in." });
+  }
 
   try {
-    const recipe = await RecipeModel.findByIdAndDelete(id);
+    // Hämta receptet för att verifiera ägarskap
+    const recipe = await RecipeModel.findById(id);
 
     if (!recipe) {
       return res.status(404).json({ message: "Recipe not found" });
     }
+
+    // Kontrollera att `createdBy` finns och att det går att läsa
+    if (!recipe.createdBy) {
+      return res.status(400).json({
+        message: "Invalid recipe data: `createdBy` is missing.",
+      });
+    }
+
+    // Kontrollera om användaren äger receptet
+    if (recipe.createdBy.toString() !== userId) {
+      return res.status(403).json({
+        message: "Forbidden: You don't have permission to delete this recipe.",
+      });
+    }
+
+    // Ta bort receptet om ägarskap är bekräftat
+    await RecipeModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: "Recipe deleted successfully", recipe });
   } catch (error) {

@@ -1,12 +1,18 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { checkLoginStatus } from "../utils/checkLoginHandler";
+import {
+  checkLoginStatus,
+  fetchUserData,
+  user,
+} from "../utils/checkLoginHandler";
+import DeleteButton from "./DeleteButton.vue";
 import LikeButton from "./LikeButton.vue";
 
 const recipes = ref([]);
 const loading = ref(true);
 const error = ref(null);
 const isLoggedIn = ref(false);
+const userId = ref(null);
 
 const checkLogin = () => {
   isLoggedIn.value = checkLoginStatus();
@@ -28,9 +34,19 @@ const fetchRecipes = async () => {
   }
 };
 
+const removeRecipeFromList = (recipeId) => {
+  recipes.value = recipes.value.filter((recipe) => recipe._id !== recipeId);
+};
+
 onMounted(() => {
-  fetchRecipes();
-  checkLogin();
+  fetchUserData().then(() => {
+    if (user.value) {
+      userId.value = user.value.id;
+      console.log("User ID:", userId.value);
+      checkLogin();
+      fetchRecipes();
+    }
+  });
 });
 </script>
 
@@ -50,10 +66,6 @@ onMounted(() => {
           :key="recipe._id"
           class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
-          <template v-if="isLoggedIn">
-            <LikeButton :recipeId="recipe._id" />
-          </template>
-
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
@@ -79,6 +91,16 @@ onMounted(() => {
               <span> {{ recipe.cookingTime }}</span>
             </div>
           </router-link>
+          <template v-if="isLoggedIn">
+            <div class="flex justify-between pt-4">
+              <LikeButton :recipeId="recipe._id" />
+              <DeleteButton
+                v-if="recipe.createdBy === userId"
+                :recipeId="recipe._id"
+                @recipeDeleted="removeRecipeFromList"
+              />
+            </div>
+          </template>
         </div>
       </div>
     </div>
