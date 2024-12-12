@@ -37,7 +37,7 @@ const deleteRecipe = async () => {
 
 <template>
   <button @click="deleteRecipe" :disabled="isDeleting">
-    <span class="material-icons text-black cursor-pointer text-3xl">
+    <span class="material-icons text-slate-800 cursor-pointer text-3xl">
       delete
     </span>
   </button>

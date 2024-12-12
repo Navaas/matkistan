@@ -58,7 +58,7 @@ onMounted(() => {
   >
     <span
       class="material-icons text-3xl"
-      :class="isLiked ? 'text-red-500' : 'text-gray-400'"
+      :class="isLiked ? 'text-red-600' : 'text-gray-500'"
     >
       favorite
     </span>
