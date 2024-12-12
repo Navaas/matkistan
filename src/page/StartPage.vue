@@ -2,8 +2,7 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
-import SearchBar from "../components/SearchBar.vue";
-import SearchMenu from "../components/SearchMenu.vue";
+import Search from "../components/Search.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
 import { checkLoginStatus } from "../utils/checkLoginHandler";
@@ -26,7 +25,7 @@ onMounted(checkLogin);
 
 <template>
   <Header />
-  <div class="flex flex-col-reverse md:flex-row px-2 pt-2 pt-14">
+  <div class="flex flex-col-reverse md:flex-row px-2 pt-14">
     <div
       class="flex flex-col px-2 pt-2 pb-4 justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6 bg-green-100"
     >
@@ -67,8 +66,9 @@ onMounted(checkLogin);
       <UserForm />
     </div>
   </div>
-  <SearchBar />
-  <SearchMenu />
+
+  <Search />
+
   <Welcome />
 </template>
 
