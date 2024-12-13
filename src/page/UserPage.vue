@@ -111,7 +111,7 @@ const deleteUser = async () => {
         </button>
         <button
           @click="deleteUser"
-          class="bg-red-500 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+          class="bg-red-600 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
         >
           Radera konto
         </button>

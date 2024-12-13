@@ -144,12 +144,12 @@ onMounted(() => {
           id="password"
           class="border p-2 w-full"
         />
-        <small class="text-gray-500"
+        <small class="text-gray-700"
           >Om du inte vill ändra lösenordet, lämna detta fält tomt.</small
         >
       </div>
 
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+      <button type="submit" class="bg-blue-700 text-white px-4 py-2 rounded">
         Uppdatera
       </button>
     </form>

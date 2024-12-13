@@ -79,7 +79,9 @@ const loginUser = async () => {
     @submit.prevent="loginUser"
   >
     <p>Logga in användare</p>
+    <label for="username" class="sr-only">Användarnamn:</label>
     <input
+      id="username"
       type="text"
       placeholder="Användarnamn"
       v-model="username"
@@ -90,7 +92,9 @@ const loginUser = async () => {
       {{ validationErrors.username }}
     </p>
 
+    <label for="password" class="sr-only">Lösenord:</label>
     <input
+      id="password"
       type="password"
       placeholder="Lösenord"
       v-model="password"

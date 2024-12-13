@@ -105,7 +105,9 @@ onMounted(fetchCategories);
 <template>
   <div class="flex justify-center items-center bg-gray-50 space-x-4 p-4">
     <div class="w-full max-w-md flex">
-      <!-- <label for="search" class="visually-hidden">Sök recept:</label> -->
+      <label id="search-label" for="search" class="visually-hidden"
+        >Sök recept:</label
+      >
       <input
         type="text"
         v-model="searchQuery"

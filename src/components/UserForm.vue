@@ -18,7 +18,6 @@ const messageType = ref("");
 const validationErrors = ref({});
 
 const registerNewUser = async () => {
-  // Rensa gamla fel från föregående inlämning
   validationErrors.value = {};
 
   const userData = {
@@ -29,9 +28,8 @@ const registerNewUser = async () => {
   };
 
   try {
-    // Försök att validera användardata
     userZodSchema.parse(userData);
-    message.value = ""; // Återställ meddelandet om valideringen lyckas
+    message.value = "";
   } catch (err) {
     if (err instanceof z.ZodError) {
       err.errors.forEach((error) => {
@@ -44,7 +42,6 @@ const registerNewUser = async () => {
     }
   }
 
-  // Skicka användardata till backend om valideringen är ok
   try {
     const response = await fetch("http://localhost:3000/register", {
       method: "POST",
@@ -84,8 +81,9 @@ const registerNewUser = async () => {
     @submit.prevent="registerNewUser"
   >
     <p>Registrera användare</p>
-
+    <label for="firstname" class="sr-only">Förnamn:</label>
     <input
+      id="firstname"
       type="text"
       placeholder="Förnamn"
       v-model="firstName"
@@ -95,8 +93,9 @@ const registerNewUser = async () => {
     <p v-if="validationErrors.firstname" class="text-red-500 text-sm">
       {{ validationErrors.firstname }}
     </p>
-
+    <label for="username" class="sr-only">Användarnamn:</label>
     <input
+      id="username"
       type="text"
       placeholder="Användarnamn"
       v-model="userName"
@@ -106,8 +105,9 @@ const registerNewUser = async () => {
     <p v-if="validationErrors.username" class="text-red-500 text-sm">
       {{ validationErrors.username }}
     </p>
-
+    <label for="email" class="sr-only">Email:</label>
     <input
+      id="email"
       type="email"
       placeholder="E-post"
       v-model="email"
@@ -117,8 +117,9 @@ const registerNewUser = async () => {
     <p v-if="validationErrors.email" class="text-red-500 text-sm">
       {{ validationErrors.email }}
     </p>
-
+    <label for="password" class="sr-only">Lösenord:</label>
     <input
+      id="password"
       type="password"
       placeholder="Lösenord"
       v-model="password"
@@ -146,3 +147,5 @@ const registerNewUser = async () => {
 </template>
 
 <style scoped></style>
+
+<!-- Klassen sr-only används för att dölja ett element visuellt från användare men ändå göra det tillgängligt för skärmläsare. Detta är användbart för att inkludera information som behövs för tillgänglighet men som inte ska vara synlig för användare som inte använder skärmläsare. -->

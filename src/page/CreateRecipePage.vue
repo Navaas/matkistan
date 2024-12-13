@@ -223,11 +223,12 @@ const submitRecipe = async () => {
         </select>
       </div>
       <div class="flex flex-col gap-2 pb-4">
-        <label class="font-bold">Ingredienser</label>
+        <label for="ingredient" class="font-bold">Ingredienser</label>
         <div v-for="(ingredient, index) in recipeForm.ingredients" :key="index">
           <input
+            id="ingredient"
             v-model="recipeForm.ingredients[index]"
-            placeholder="Ingrediens 1"
+            placeholder="Ingrediens"
             class="border border-solid border-gray-300 rounded-md p-1"
           />
         </div>
@@ -243,9 +244,10 @@ const submitRecipe = async () => {
       </div>
 
       <div class="flex gap-2 flex-col pb-4">
-        <label class="font-bold">Steg</label>
+        <label for="step" class="font-bold">Steg</label>
         <div v-for="(step, index) in recipeForm.steps" :key="index">
           <input
+            id="step"
             v-model="recipeForm.steps[index]"
             placeholder="Steg 1"
             class="border border-solid border-gray-300 rounded-md p-1"
