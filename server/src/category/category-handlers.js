@@ -3,7 +3,15 @@ import { RecipeModel } from "../recipe/recipe-model.js";
 import { CategoryModel } from "./category-model.js";
 
 const categoryRouter = express.Router();
-const categories = ["Pasta", "Bakning", "Vegetariskt", "Kött", "Soppor"];
+const categories = [
+  "Pasta",
+  "Bakning",
+  "Vegetariskt",
+  "Kött",
+  "Soppor",
+  "Fisk",
+  "Asiatiskt",
+];
 
 export const createCategories = async () => {
   for (const name of categories) {
