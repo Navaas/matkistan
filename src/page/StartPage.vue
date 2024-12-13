@@ -25,13 +25,15 @@ onMounted(checkLogin);
 
 <template>
   <Header />
-  <main class="bg-[#D4E9D4]">
-    <div class="flex flex-col-reverse md:flex-row px-4 pb-4 pt-14 bg-[#D4E9D4]">
+  <main class="bg-[#fafafa]">
+    <div class="flex flex-col-reverse md:flex-row px-4 pb-4 pt-14 bg-[#fafafa]">
       <div
-        class="flex flex-col bg-[#FAFAFA] px-2 pt-2 pb-4 rounded-md justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6"
+        class="flex flex-col bg-[#d8ddef] px-2 pt-2 pb-4 rounded-md justify-center items-center text-center w-full md:max-h-80 gap-4 md:gap-6"
       >
-        <h1 class="font-inter text-2xl md:text-3xl">Din digitala receptbok</h1>
-        <p>
+        <h1 class="font-inter text-2xl text-black md:text-3xl">
+          Din digitala receptbok
+        </h1>
+        <p class="text-black">
           Upptäck matglädje och inspiration med Matkistan! Här kan du skapa ett
           konto för att samla och spara dina favoritrecept på ett enkelt och
           smidigt sätt. Oavsett om du letar efter nya idéer till vardagsmiddagen
@@ -41,16 +43,17 @@ onMounted(checkLogin);
         </p>
         <div v-if="!isLoggedIn" class="flex gap-4">
           <button
-            class="bg-[#6A9C74] px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-[#558B60]"
+            class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
             @click="toggleDiv"
           >
             Skapa konto
           </button>
-          <router-link
-            to="/login"
-            class="bg-[#6A9C74] px-4 py-2 md:px-6 md:py-4 rounded-xl text-white cursor-pointer hover:bg-[#558B60] text-center inline-block"
-          >
-            Logga in
+          <router-link to="/login">
+            <button
+              class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+            >
+              Logga in
+            </button>
           </router-link>
         </div>
       </div>

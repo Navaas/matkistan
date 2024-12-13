@@ -114,7 +114,7 @@ onMounted(fetchCategories);
         @input="searchRecipes"
         @focus="clearAll"
         aria-labelledby="search-label"
-        class="w-full p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        class="w-full p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#385F4E]"
       />
     </div>
 
@@ -139,7 +139,7 @@ onMounted(fetchCategories);
           v-for="category in categories"
           :key="category._id"
           @click="selectCategory(category)"
-          class="px-4 py-2 hover:bg-pink-500 hover:text-white cursor-pointer"
+          class="px-4 py-2 hover:bg-[#385F4E] hover:text-white cursor-pointer"
         >
           {{ category.name }}
         </li>
