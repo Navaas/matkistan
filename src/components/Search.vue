@@ -105,9 +105,7 @@ onMounted(fetchCategories);
 <template>
   <div class="flex justify-center items-center bg-gray-50 space-x-4 p-4">
     <div class="w-full max-w-md flex">
-      <label id="search-label" for="search" class="visually-hidden"
-        >Sök recept:</label
-      >
+      <label id="search-label" for="search" class="sr-only">Sök recept:</label>
       <input
         type="text"
         v-model="searchQuery"
@@ -116,7 +114,7 @@ onMounted(fetchCategories);
         @input="searchRecipes"
         @focus="clearAll"
         aria-labelledby="search-label"
-        class="w-full p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
+        class="w-full p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-500"
       />
     </div>
 
