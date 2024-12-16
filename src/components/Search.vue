@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const recipes = ref([]);
 const visibleRecipes = ref([]);
@@ -11,6 +12,11 @@ const categories = ref([]);
 const selectedCategory = ref("");
 const isDropdownOpen = ref(false);
 const selectedCategoryName = ref("");
+const isLoggedIn = ref(false);
+
+const checkLogin = () => {
+  isLoggedIn.value = checkLoginStatus();
+};
 
 const searchRecipes = async () => {
   if (!searchQuery.value) {
@@ -100,10 +106,43 @@ const selectCategory = (category) => {
 };
 
 onMounted(fetchCategories);
+onMounted(checkLogin);
 </script>
 
 <template>
-  <div class="flex justify-center items-center bg-gray-50 space-x-4 p-4">
+  <div
+    v-if="isLoggedIn"
+    class="flex flex-col items-center justify-center text-white"
+  >
+    <h1 class="text-6xl uppercase">Mat & Bak</h1>
+    <h2 class="text-xl">Hitta nya favoritrecept för alla tillfällen!</h2>
+  </div>
+  <div v-else class="flex flex-col">
+    <h1
+      class="font-inter text-center text-2xl text-white uppercase md:text-3xl"
+    >
+      Din digitala receptbok
+    </h1>
+    <h1 class="font-inter text-center text-white">
+      Logga in och börja din resa mot en värld av smakupplevelser redan idag
+    </h1>
+  </div>
+  <div v-if="!isLoggedIn" class="flex gap-4 justify-center py-6">
+    <button
+      class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+      @click="toggleDiv"
+    >
+      Skapa konto
+    </button>
+    <!-- <router-link to="/login">
+      <button
+        class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+      >
+        Logga in
+      </button>
+    </router-link> -->
+  </div>
+  <div class="flex justify-center items-center space-x-4 p-4">
     <div class="w-full max-w-md flex">
       <label id="search-label" for="search" class="sr-only">Sök recept:</label>
       <input
@@ -146,56 +185,56 @@ onMounted(fetchCategories);
       </ul>
     </div>
   </div>
-
-  <div v-if="recipes.length" class="w-full bg-gray-50 px-4">
-    <h2 class="text-xl text-center pb-6">
-      Din sökning gav {{ recipes.length }} träffar
-    </h2>
-    <div
-      class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6"
-    >
+  <div class="flex justify-center items-center pt-4">
+    <div v-if="recipes.length" class="flex flex-col w-4/5 bg-gray-50 px-4">
+      <h2 class="text-xl text-center pb-6 pt-2">
+        Din sökning gav {{ recipes.length }} träffar
+      </h2>
       <div
-        v-for="recipe in visibleRecipes"
-        :key="recipe._id"
-        class="bg-white hover:bg-slate-50 hover:scale-105 transition-transform duration-200 p-4 rounded-md border border-solid border-gray-200 shadow-md"
+        class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6"
       >
-        <router-link
-          :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
-          class="block"
+        <div
+          v-for="recipe in visibleRecipes"
+          :key="recipe._id"
+          class="bg-white hover:bg-slate-50 hover:scale-105 transition-transform duration-200 p-4 rounded-md border border-solid border-gray-200 shadow-md"
         >
-          <div v-for="image in recipe.imageUrl" class="pb-4">
-            <img
-              :src="image"
-              :alt="`Bild på ${recipe.title}`"
-              class="w-full h-auto rounded-md"
-            />
-          </div>
-          <p
-            class="text-sm font-semibold text-gray-700 truncate overflow-hidden"
+          <router-link
+            :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
+            class="block"
           >
-            {{ recipe.title }}
-          </p>
-        </router-link>
+            <div v-for="image in recipe.imageUrl" class="pb-4">
+              <img
+                :src="image"
+                :alt="`Bild på ${recipe.title}`"
+                class="w-full h-auto rounded-md"
+              />
+            </div>
+            <p
+              class="text-sm font-semibold text-gray-700 truncate overflow-hidden"
+            >
+              {{ recipe.title }}
+            </p>
+          </router-link>
+        </div>
+      </div>
+      <div class="flex justify-center pb-4">
+        <button
+          v-if="
+            recipes.length > recipesPerPage &&
+            visibleRecipes.length < recipes.length
+          "
+          @click="loadMoreRecipes"
+          class="mt-8 px-6 py-3 bg-pink-500 text-white rounded-lg shadow-lg hover:bg-pink-600 focus:outline-none"
+        >
+          Ladda fler
+        </button>
       </div>
     </div>
-    <div class="flex justify-center pb-4">
-      <button
-        v-if="
-          recipes.length > recipesPerPage &&
-          visibleRecipes.length < recipes.length
-        "
-        @click="loadMoreRecipes"
-        class="mt-8 px-6 py-3 bg-pink-500 text-white rounded-lg shadow-lg hover:bg-pink-600 focus:outline-none"
-      >
-        Ladda fler
-      </button>
+    <div v-else-if="loading" class="text-center text-lg text-gray-500">
+      Söker...
     </div>
-  </div>
-
-  <div v-else-if="loading" class="text-center text-lg text-gray-500">
-    Söker...
-  </div>
-  <div v-else-if="error" class="text-center text-lg text-red-500">
-    {{ error }}
+    <div v-else-if="error" class="text-center text-lg text-red-500">
+      {{ error }}
+    </div>
   </div>
 </template>
