@@ -8,6 +8,10 @@ import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
 
+const toggleDiv = () => {
+  isOpen.value = !isOpen.value;
+  console.log(isOpen.value);
+};
 const isLoggedIn = ref(false);
 
 const checkLogin = () => {
@@ -41,6 +45,22 @@ onMounted(checkLogin);
       <div class="absolute inset-0 bg-black/50 z-0"></div>
       <div class="relative z-10">
         <Search />
+        <div v-if="!isLoggedIn" class="flex gap-4 justify-center py-6">
+          <button
+            class="bg-black px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+            @click="toggleDiv"
+          >
+            Skapa konto
+          </button>
+
+          <router-link to="/login">
+            <button
+              class="bg-black px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+            >
+              Logga in
+            </button>
+          </router-link>
+        </div>
       </div>
     </div>
 

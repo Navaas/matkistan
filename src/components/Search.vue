@@ -127,21 +127,7 @@ onMounted(checkLogin);
       Logga in och börja din resa mot en värld av smakupplevelser redan idag
     </h1>
   </div>
-  <div v-if="!isLoggedIn" class="flex gap-4 justify-center py-6">
-    <button
-      class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
-      @click="toggleDiv"
-    >
-      Skapa konto
-    </button>
-    <!-- <router-link to="/login">
-      <button
-        class="bg-[#385F4E] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
-      >
-        Logga in
-      </button>
-    </router-link> -->
-  </div>
+
   <div class="flex justify-center items-center space-x-4 p-4">
     <div class="w-full max-w-md flex">
       <label id="search-label" for="search" class="sr-only">Sök recept:</label>
@@ -185,6 +171,7 @@ onMounted(checkLogin);
       </ul>
     </div>
   </div>
+
   <div class="flex justify-center items-center pt-4">
     <div v-if="recipes.length" class="flex flex-col w-4/5 bg-gray-50 px-4">
       <h2 class="text-xl text-center pb-6 pt-2">
