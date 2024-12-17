@@ -43,7 +43,7 @@ const registerNewUser = async () => {
   }
 
   try {
-    const response = await fetch(`${process.env.FETCH_URL}/register`, {
+    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

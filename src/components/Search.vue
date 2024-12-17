@@ -28,9 +28,9 @@ const searchRecipes = async () => {
   try {
     loading.value = true;
     const response = await fetch(
-      `${process.env.FETCH_URL}/categories/search?title=${encodeURIComponent(
-        searchQuery.value
-      )}`
+      `${
+        import.meta.env.VITE_FETCH_URL
+      }/categories/search?title=${encodeURIComponent(searchQuery.value)}`
     );
     if (!response.ok) throw new Error("Kunde inte söka recept");
 
@@ -62,7 +62,9 @@ const clearAll = () => {
 const fetchCategories = async () => {
   try {
     loading.value = true;
-    const response = await fetch(`${process.env.FETCH_URL}/categories`);
+    const response = await fetch(
+      `${import.meta.env.VITE_FETCH_URL}/categories`
+    );
     if (!response.ok) throw new Error("Kunde inte hämta kategorier");
     categories.value = await response.json();
   } catch (err) {
@@ -78,7 +80,9 @@ const fetchRecipes = async () => {
   try {
     loading.value = true;
     const response = await fetch(
-      `${process.env.FETCH_URL}/categories/${selectedCategory.value}/recipes`
+      `${import.meta.env.VITE_FETCH_URL}/categories/${
+        selectedCategory.value
+      }/recipes`
     );
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     recipes.value = await response.json();

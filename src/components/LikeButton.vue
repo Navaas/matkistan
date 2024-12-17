@@ -9,12 +9,15 @@ const isLiked = ref(false);
 
 const fetchLikeStatus = async () => {
   try {
-    const response = await fetch(`${process.env.FETCH_URL}/like/status`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ recipeId: props.recipeId }),
-      credentials: "include",
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_FETCH_URL}/like/status`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recipeId: props.recipeId }),
+        credentials: "include",
+      }
+    );
 
     const data = await response.json();
 
@@ -26,7 +29,7 @@ const fetchLikeStatus = async () => {
 
 const toggleLike = async () => {
   try {
-    const response = await fetch(`${process.env.FETCH_URL}/like`, {
+    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/like`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ recipeId: props.recipeId }),

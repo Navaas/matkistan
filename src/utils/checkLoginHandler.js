@@ -4,7 +4,7 @@ export const getLoggedInUser = async () => {
   let isLoggedIn = false;
 
   try {
-    const response = await fetch(`${process.env.FETCH_URL}/auth`, {
+    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
       method: "GET",
       credentials: "include",
     });
@@ -38,7 +38,7 @@ export const fetchUserData = async () => {
   try {
     const isLoggedIn = await getLoggedInUser();
     if (isLoggedIn) {
-      const response = await fetch(`${process.env.FETCH_URL}/auth`, {
+      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
         method: "GET",
         credentials: "include",
       });

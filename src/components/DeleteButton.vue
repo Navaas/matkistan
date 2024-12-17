@@ -13,7 +13,7 @@ const deleteRecipe = async () => {
 
   try {
     const response = await fetch(
-      `${process.env.FETCH_URL}/recipes/${props.recipeId}`,
+      `${import.meta.env.VITE_FETCH_URL}/recipes/${props.recipeId}`,
       {
         method: "DELETE",
         credentials: "include",

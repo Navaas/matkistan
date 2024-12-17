@@ -51,13 +51,16 @@ const logout = async () => {
 
 const deleteUser = async () => {
   try {
-    const response = await fetch(`${process.env.FETCH_URL}/deleteUser`, {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_FETCH_URL}/deleteUser`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     if (response.ok) {
       console.log("Användaren har tagits bort");
       // Rensa localStorage och visa meddelande
