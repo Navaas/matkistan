@@ -9,7 +9,7 @@ const router = useRouter();
 
 const getLoggedInUser = async () => {
   try {
-    const response = await fetch("http://localhost:3000/auth", {
+    const response = await fetch(`${process.env.FETCH_URL}/auth`, {
       method: "GET",
       credentials: "include",
     });
@@ -58,7 +58,7 @@ const resetForm = () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await fetch("http://localhost:3000/categories");
+    const response = await fetch(`${process.env.FETCH_URL}/categories`);
     if (response.ok) {
       categories.value = await response.json();
     } else {
@@ -111,7 +111,7 @@ const submitRecipe = async () => {
     try {
       const formData = new FormData();
       formData.append("image", recipeForm.value.imageFile);
-      const res = await fetch("http://localhost:3000/images", {
+      const res = await fetch(`${process.env.FETCH_URL}/images`, {
         method: "post",
         body: formData,
       });
@@ -131,7 +131,7 @@ const submitRecipe = async () => {
     imageUrl: [pictureURL.url],
   };
   try {
-    const response = await fetch("http://localhost:3000/createRecipe", {
+    const response = await fetch(`${process.env.FETCH_URL}/createRecipe`, {
       method: "POST",
       body: JSON.stringify(formData),
       credentials: "include",

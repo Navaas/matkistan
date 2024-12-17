@@ -19,7 +19,7 @@ const fetchUserData = async () => {
   try {
     const isLoggedIn = await getLoggedInUser();
     if (isLoggedIn) {
-      const response = await fetch("http://localhost:3000/auth", {
+      const response = await fetch(`${process.env.FETCH_URL}/auth`, {
         method: "GET",
         credentials: "include", // För att skicka med sessionen
       });
@@ -72,7 +72,7 @@ const updateUserInfo = async () => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/updateUser/${user.value.id}`,
+      `${process.env.FETCH_URL}/updateUser/${user.value.id}`,
       {
         method: "PUT",
         headers: {

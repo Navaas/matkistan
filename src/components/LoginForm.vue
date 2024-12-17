@@ -21,23 +21,21 @@ const loginUser = async () => {
 
   const loginData = { username: username.value, password: password.value };
   try {
-    loginZodSchema.parse(loginData); // Validering
+    loginZodSchema.parse(loginData);
   } catch (err) {
     if (err instanceof z.ZodError) {
-      // Mappa fel från Zod till `validationErrors`
       err.errors.forEach((error) => {
         const field = error.path[0];
         validationErrors.value[field] = error.message;
       });
       message.value = "Inloggningen misslyckades!";
       messageType.value = "error";
-      return; // Avbryt om valideringen misslyckades
+      return;
     }
   }
 
   try {
-    // Skicka inloggningsdata till backend
-    const response = await fetch("http://localhost:3000/login", {
+    const response = await fetch("https://matkistan.onrender.com/login", {
       method: "POST",
       credentials: "include",
       headers: {

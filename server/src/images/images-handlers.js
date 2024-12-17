@@ -36,7 +36,7 @@ const uploadImage = (req, res) => {
     uploadStream.on("finish", () => {
       res
         .status(201)
-        .json({ url: `http://localhost:3000/images/${uploadStream.id}` });
+        .json({ url: `${process.env.FETCH_URL}/images/${uploadStream.id}` });
     });
 
     uploadStream.on("error", (error) => {

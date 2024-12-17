@@ -22,7 +22,7 @@ onMounted(() => {
 
 const logout = async () => {
   try {
-    const response = await fetch("http://localhost:3000/logout", {
+    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/logout`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -51,7 +51,7 @@ const logout = async () => {
 
 const deleteUser = async () => {
   try {
-    const response = await fetch("http://localhost:3000/deleteUser", {
+    const response = await fetch(`${process.env.FETCH_URL}/deleteUser`, {
       method: "DELETE",
       credentials: "include",
       headers: {

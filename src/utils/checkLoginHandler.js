@@ -4,7 +4,7 @@ export const getLoggedInUser = async () => {
   let isLoggedIn = false;
 
   try {
-    const response = await fetch("http://localhost:3000/auth", {
+    const response = await fetch("https://matkistan.onrender.com/auth", {
       method: "GET",
       credentials: "include",
     });
@@ -38,7 +38,7 @@ export const fetchUserData = async () => {
   try {
     const isLoggedIn = await getLoggedInUser();
     if (isLoggedIn) {
-      const response = await fetch("http://localhost:3000/auth", {
+      const response = await fetch("https://matkistan.onrender.com/auth", {
         method: "GET",
         credentials: "include",
       });

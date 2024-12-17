@@ -13,7 +13,7 @@ const deleteRecipe = async () => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/recipes/${props.recipeId}`,
+      `${process.env.FETCH_URL}/recipes/${props.recipeId}`,
       {
         method: "DELETE",
         credentials: "include",

@@ -28,7 +28,7 @@ const searchRecipes = async () => {
   try {
     loading.value = true;
     const response = await fetch(
-      `http://localhost:3000/categories/search?title=${encodeURIComponent(
+      `${process.env.FETCH_URL}/categories/search?title=${encodeURIComponent(
         searchQuery.value
       )}`
     );
@@ -62,7 +62,7 @@ const clearAll = () => {
 const fetchCategories = async () => {
   try {
     loading.value = true;
-    const response = await fetch("http://localhost:3000/categories");
+    const response = await fetch(`${process.env.FETCH_URL}/categories`);
     if (!response.ok) throw new Error("Kunde inte hämta kategorier");
     categories.value = await response.json();
   } catch (err) {
@@ -78,7 +78,7 @@ const fetchRecipes = async () => {
   try {
     loading.value = true;
     const response = await fetch(
-      `http://localhost:3000/categories/${selectedCategory.value}/recipes`
+      `${process.env.FETCH_URL}/categories/${selectedCategory.value}/recipes`
     );
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     recipes.value = await response.json();

@@ -13,7 +13,7 @@ const error = ref(null);
 const fetchRecipe = async () => {
   try {
     const response = await fetch(
-      `http://localhost:3000/getSingelRecipe/${props.id}`
+      `${process.env.FETCH_URL}/getSingelRecipe/${props.id}`
     );
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     const data = await response.json();
