@@ -32,4 +32,9 @@ app.use("/", recipeRouter);
 app.use("/images", imagesRouter);
 app.use("/categories", categoryRouter);
 
+app.use("/test"),
+  (req, res) => {
+    res.send("Hello from test!");
+  };
+
 export default app;
