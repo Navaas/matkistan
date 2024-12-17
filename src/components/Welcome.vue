@@ -15,7 +15,9 @@ const checkLogin = () => {
 
 const fetchRecipes = async () => {
   try {
-    const response = await fetch("http://localhost:3000/getAllRecipes");
+    const response = await fetch(
+      "https://matkistan.onrender.com/getAllRecipes"
+    );
     if (!response.ok) throw new Error("Kunde inte hämta recept");
     const data = await response.json();
 
