@@ -3,21 +3,28 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 
-const isLoggedIn = ref(false);
-// const successMessage = ref("Receptet skapades framgångsrikt!");
 const router = useRouter();
 
+const isLoggedIn = ref(false);
 const getLoggedInUser = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
-      method: "GET",
-      credentials: "include",
-    });
+    const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
 
-    if (response.ok) {
-      const data = await response.json();
-      if (data.user) {
-        isLoggedIn.value = true;
+    if (token) {
+      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`, // Skicka med token i headern
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          isLoggedIn.value = true;
+        }
+      } else {
+        isLoggedIn.value = false;
       }
     } else {
       isLoggedIn.value = false;
@@ -58,9 +65,7 @@ const resetForm = () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_FETCH_URL}/categories`
-    );
+    const response = await fetch("http://localhost:3000/categories");
     if (response.ok) {
       categories.value = await response.json();
     } else {
@@ -113,7 +118,7 @@ const submitRecipe = async () => {
     try {
       const formData = new FormData();
       formData.append("image", recipeForm.value.imageFile);
-      const res = await fetch(`${import.meta.env.VITE_FETCH_URL}/images`, {
+      const res = await fetch("http://localhost:3000/images", {
         method: "post",
         body: formData,
       });
@@ -132,19 +137,25 @@ const submitRecipe = async () => {
     categories: recipeForm.value.categories,
     imageUrl: [pictureURL.url],
   };
+
+  const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
+
+  if (!token) {
+    alert("Du måste vara inloggad för att skapa ett recept");
+    return;
+  }
+
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_FETCH_URL}/createRecipe`,
-      {
-        method: "POST",
-        body: JSON.stringify(formData),
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch("http://localhost:3000/createRecipe", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Lägg till JWT-token i Authorization-headern
+      },
+    });
+
     console.log("Response:", formData);
     if (!response.ok) {
       const errorData = await response.json();
