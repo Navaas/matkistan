@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { getLoggedInUser } from "../utils/checkLoginHandler";
+// import { getLoggedInUser } from "../utils/checkLoginHandler";
 import Header from "./Header.vue";
 
 // Reaktiva variabler för användardata

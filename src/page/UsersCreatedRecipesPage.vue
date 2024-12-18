@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import DeleteButton from "../components/DeleteButton.vue";
 import Header from "../components/Header.vue";
 import LikeButton from "../components/LikeButton.vue";
-import { fetchUserData, user } from "../utils/checkLoginHandler";
+// import { fetchUserData, user } from "../utils/checkLoginHandler";
 
 const createdRecipes = ref([]);
 const loading = ref(true);

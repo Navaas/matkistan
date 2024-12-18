@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import Header from "../components/Header.vue";
 import Search from "../components/Search.vue";
 import UserForm from "../components/UserForm.vue";
 import Welcome from "../components/Welcome.vue";
-import { checkLoginStatus } from "../utils/checkLoginHandler";
+// import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
 
@@ -14,9 +14,9 @@ const toggleDiv = () => {
 };
 const isLoggedIn = ref(false);
 
-const checkLogin = () => {
-  isLoggedIn.value = checkLoginStatus();
-};
+// const checkLogin = () => {
+//   isLoggedIn.value = checkLoginStatus();
+// };
 
 const loggedInBackgroundStyle = {
   backgroundImage:
@@ -28,7 +28,7 @@ const loggedOutBackgroundStyle = {
     "url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
 };
 
-onMounted(checkLogin);
+// onMounted(checkLogin);
 </script>
 
 <template>

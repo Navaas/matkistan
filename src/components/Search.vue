@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { checkLoginStatus } from "../utils/checkLoginHandler";
+// import { checkLoginStatus } from "../utils/checkLoginHandler";
 
 const recipes = ref([]);
 const visibleRecipes = ref([]);
@@ -14,9 +14,9 @@ const isDropdownOpen = ref(false);
 const selectedCategoryName = ref("");
 const isLoggedIn = ref(false);
 
-const checkLogin = () => {
-  isLoggedIn.value = checkLoginStatus();
-};
+// const checkLogin = () => {
+//   isLoggedIn.value = checkLoginStatus();
+// };
 
 const searchRecipes = async () => {
   if (!searchQuery.value) {
@@ -110,7 +110,7 @@ const selectCategory = (category) => {
 };
 
 onMounted(fetchCategories);
-onMounted(checkLogin);
+// onMounted(checkLogin);
 </script>
 
 <template>
