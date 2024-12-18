@@ -9,15 +9,24 @@ const isLiked = ref(false);
 
 const fetchLikeStatus = async () => {
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_FETCH_URL}/like/status`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ recipeId: props.recipeId }),
-        credentials: "include",
-      }
-    );
+    const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
+
+    if (!token) {
+      throw new Error("No token found. Please login again.");
+    }
+
+    const response = await fetch("https://matkistan.onrender.com/like/status", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Skicka JWT i Authorization headern
+      },
+      body: JSON.stringify({ recipeId: props.recipeId }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
 
     const data = await response.json();
 

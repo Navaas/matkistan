@@ -1,4 +1,5 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { z } from "zod";
 import { CategoryModel } from "../category/category-model.js";
@@ -378,30 +379,70 @@ export const getSingelRecipe = async (req, res) => {
   }
 };
 
+// export const getLikeStatus = async (req, res) => {
+//   const { recipeId } = req.body;
+//   const userId = req.session?.userId;
+
+//   if (!userId) {
+//     return res.status(401).json({ message: "Unauthorized" });
+//   }
+
+//   try {
+//     const user = await UserModel.findById(userId);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+
+//     const isLiked = user.likedRecipes.includes(recipeId);
+//     console.log(
+//       `Like-status för userId: ${userId}, recipeId: ${recipeId}:`,
+//       isLiked
+//     );
+
+//     res.status(200).json({ isLiked });
+//   } catch (error) {
+//     console.error("Error checking like status:", error);
+//     res.status(500).json({ message: "Failed to check like status" });
+//   }
+// };
 export const getLikeStatus = async (req, res) => {
   const { recipeId } = req.body;
-  const userId = req.session?.userId;
 
-  if (!userId) {
+  // Hämta token från Authorization headern
+  const token = req.header("Authorization")?.split(" ")[1]; // Hämta token från "Bearer <token>"
+
+  // Om token saknas, returnera Unauthorized
+  if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
+    // Verifiera JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Använd din hemliga nyckel här
+    const userId = decoded.id; // Extrahera användarens ID från token
+
+    // Hitta användaren i databasen
     const user = await UserModel.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Kontrollera om användaren har gillat det specifika receptet
     const isLiked = user.likedRecipes.includes(recipeId);
-    console.log(
-      `Like-status för userId: ${userId}, recipeId: ${recipeId}:`,
-      isLiked
-    );
 
+    // Skicka tillbaka isLiked-statusen
     res.status(200).json({ isLiked });
   } catch (error) {
     console.error("Error checking like status:", error);
+
+    // Hantera JWT-relaterade fel
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid or expired token" });
+    }
+
+    // Om något annat går fel
     res.status(500).json({ message: "Failed to check like status" });
   }
 };

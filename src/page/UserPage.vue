@@ -15,6 +15,8 @@ const message = ref("");
 const messageType = ref("");
 const router = useRouter();
 
+const errorMessage = ref("");
+
 const toggleDiv = () => {
   isOpen.value = !isOpen.value;
   console.log(isOpen.value);
@@ -24,33 +26,50 @@ onMounted(() => {
   checkUserAuth();
 });
 
-const logout = async () => {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/logout`, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) {
-      console.log("Utloggning lyckades");
-      // Om utloggningen lyckades, visa meddelande och omdirigera användaren
-      message.value = "Du är nu utloggad!";
-      messageType.value = "success";
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("user");
-      router.push("/"); // Navigera till startsidan eller annan sida
-    } else {
-      const errorData = await response.json();
-      message.value = errorData.error || "Problem med utloggning";
-      messageType.value = "error";
-    }
-  } catch (error) {
-    console.error("Ett fel inträffade:", error);
-    message.value = "Ett tekniskt fel inträffade vid utloggning";
-    messageType.value = "error";
-  }
+// const logout = async () => {
+//   try {
+//     const response = await fetch("http://localhost:3000/logout", {
+//       method: "POST",
+//       credentials: "include",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+//     if (response.ok) {
+//       console.log("Utloggning lyckades");
+//       // Om utloggningen lyckades, visa meddelande och omdirigera användaren
+//       message.value = "Du är nu utloggad!";
+//       messageType.value = "success";
+//       localStorage.removeItem("isLoggedIn");
+//       localStorage.removeItem("user");
+//       router.push("/"); // Navigera till startsidan eller annan sida
+//     } else {
+//       const errorData = await response.json();
+//       message.value = errorData.error || "Problem med utloggning";
+//       messageType.value = "error";
+//     }
+//   } catch (error) {
+//     console.error("Ett fel inträffade:", error);
+//     message.value = "Ett tekniskt fel inträffade vid utloggning";
+//     messageType.value = "error";
+//   }
+// };
+
+const logout = () => {
+  // Ta bort token från localStorage eller sessionStorage
+  localStorage.removeItem("authToken");
+  sessionStorage.removeItem("authToken");
+
+  // Ta bort användardata om du har sparat det
+  localStorage.removeItem("user");
+  sessionStorage.removeItem("user");
+
+  // Uppdatera applikationens tillstånd
+  isLoggedIn.value = false;
+  user.value = null;
+
+  // Navigera till login-sidan eller någon offentlig sida
+  router.push("/login");
 };
 
 const deleteUser = async () => {

@@ -87,16 +87,15 @@ const checkUserAuth = async () => {
     const response = await fetch("https://matkistan.onrender.com/auth", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     });
 
     if (response.ok) {
       const data = await response.json();
       isLoggedIn.value = true;
-      user.value = data.user; // Spara användardata
+      user.value = data.user;
     } else {
-      // Ogiltig token eller session har gått ut
       isLoggedIn.value = false;
       user.value = null;
       localStorage.removeItem("authToken");
@@ -127,7 +126,7 @@ export const fetchUserData = async () => {
     const response = await fetch("https://matkistan.onrender.com/auth", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
     });
 

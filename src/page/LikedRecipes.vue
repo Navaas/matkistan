@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 import LikeButton from "../components/LikeButton.vue";
-// import { fetchUserData, user } from "../utils/checkLoginHandler";
+import { fetchUserData, user } from "../utils/checkLoginHandler";
 
 const likedRecipes = ref(null);
 const loading = ref(true);

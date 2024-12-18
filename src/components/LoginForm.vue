@@ -92,7 +92,6 @@ const loginUser = async () => {
   try {
     const response = await fetch("https://matkistan.onrender.com/login", {
       method: "POST",
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -101,16 +100,22 @@ const loginUser = async () => {
 
     if (response.ok) {
       const responseData = await response.json();
+      console.log("Token från server:", responseData.token);
+
       localStorage.setItem("authToken", responseData.token);
       localStorage.setItem("user", JSON.stringify(responseData.user));
+      sessionStorage.setItem("authToken", responseData.token);
+      console.log(
+        "Token sparad i sessionStorage:",
+        sessionStorage.getItem("authToken")
+      );
+      console.log("Token sparad:", localStorage.getItem("authToken"));
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
       localStorage.setItem("isLoggedIn", "true");
 
-      console.log("Token sparad:", localStorage.getItem("authToken"));
-
-      localStorage.setItem("user", JSON.stringify(responseData.user));
+      console.log("Navigating to /profil...");
       router.push("/profil", { state: { user: responseData.user } });
 
       console.log("User:", responseData.user);
