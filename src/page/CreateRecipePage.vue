@@ -65,7 +65,7 @@ const resetForm = () => {
 
 const fetchCategories = async () => {
   try {
-    const response = await fetch("http://localhost:3000/categories");
+    const response = await fetch("https://matkistan.onrender.com/categories");
     if (response.ok) {
       categories.value = await response.json();
     } else {
@@ -118,7 +118,7 @@ const submitRecipe = async () => {
     try {
       const formData = new FormData();
       formData.append("image", recipeForm.value.imageFile);
-      const res = await fetch("http://localhost:3000/images", {
+      const res = await fetch("https://matkistan.onrender.com/images", {
         method: "post",
         body: formData,
       });
@@ -146,15 +146,18 @@ const submitRecipe = async () => {
   }
 
   try {
-    const response = await fetch("http://localhost:3000/createRecipe", {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Lägg till JWT-token i Authorization-headern
-      },
-    });
+    const response = await fetch(
+      "https://matkistan.onrender.com/createRecipe",
+      {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Lägg till JWT-token i Authorization-headern
+        },
+      }
+    );
 
     console.log("Response:", formData);
     if (!response.ok) {
