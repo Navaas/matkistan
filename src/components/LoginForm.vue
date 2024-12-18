@@ -16,6 +16,61 @@ const message = ref("");
 const messageType = ref("");
 const validationErrors = ref({});
 
+// const loginUser = async () => {
+//   validationErrors.value = {};
+
+//   const loginData = { username: username.value, password: password.value };
+//   try {
+//     loginZodSchema.parse(loginData);
+//   } catch (err) {
+//     if (err instanceof z.ZodError) {
+//       err.errors.forEach((error) => {
+//         const field = error.path[0];
+//         validationErrors.value[field] = error.message;
+//       });
+//       message.value = "Inloggningen misslyckades!";
+//       messageType.value = "error";
+//       return;
+//     }
+//   }
+
+//   try {
+//     const response = await fetch("https://matkistan.onrender.com/login", {
+//       method: "POST",
+//       credentials: "include",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(loginData),
+//     });
+
+//     // Hantera svar från backend
+//     if (response.ok) {
+//       const responseData = await response.json();
+//       localStorage.setItem("authToken", responseData.token); // Spara JWT-token
+//       localStorage.setItem("user", JSON.stringify(responseData.user));
+//       console.log("Inloggning lyckades:", responseData);
+//       message.value = "Inloggning lyckades!";
+//       messageType.value = "success";
+//       localStorage.setItem("isLoggedIn", "true");
+
+//       // Om du vill också spara användardata i localStorage (valfritt)
+//       localStorage.setItem("user", JSON.stringify(responseData.user));
+//       router.push("/profil", { state: { user: responseData.user } });
+
+//       console.log("User:", responseData.user);
+//     } else {
+//       const errorText = await response.text();
+//       console.error("Inloggning misslyckades:", errorText);
+//       message.value = "Fel användarnamn eller lösenord";
+//       messageType.value = "error";
+//     }
+//   } catch (error) {
+//     console.error("Ett fel inträffade:", error);
+//     message.value = "Ett tekniskt fel inträffade";
+//     messageType.value = "error";
+//   }
+// };
 const loginUser = async () => {
   validationErrors.value = {};
 
@@ -44,15 +99,17 @@ const loginUser = async () => {
       body: JSON.stringify(loginData),
     });
 
-    // Hantera svar från backend
     if (response.ok) {
       const responseData = await response.json();
+      localStorage.setItem("authToken", responseData.token);
+      localStorage.setItem("user", JSON.stringify(responseData.user));
       console.log("Inloggning lyckades:", responseData);
       message.value = "Inloggning lyckades!";
       messageType.value = "success";
       localStorage.setItem("isLoggedIn", "true");
 
-      // Om du vill också spara användardata i localStorage (valfritt)
+      console.log("Token sparad:", localStorage.getItem("authToken"));
+
       localStorage.setItem("user", JSON.stringify(responseData.user));
       router.push("/profil", { state: { user: responseData.user } });
 

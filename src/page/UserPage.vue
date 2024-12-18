@@ -3,7 +3,12 @@ import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 import UpdateUser from "../components/UpdateUser.vue";
-import { fetchUserData, user } from "../utils/checkLoginHandler";
+import {
+  checkUserAuth,
+  fetchUserData,
+  isLoggedIn,
+  user,
+} from "../utils/checkLoginHandler";
 
 const isOpen = ref(false);
 const message = ref("");
@@ -14,10 +19,9 @@ const toggleDiv = () => {
   isOpen.value = !isOpen.value;
   console.log(isOpen.value);
 };
-
-fetchUserData();
 onMounted(() => {
   fetchUserData();
+  checkUserAuth();
 });
 
 const logout = async () => {
@@ -84,7 +88,7 @@ const deleteUser = async () => {
 
 <template>
   <Header />
-  <div v-if="user" class="p-4 md:pt-14 bg-green-100 w-full">
+  <div v-if="isLoggedIn" class="p-4 md:pt-14 bg-green-100 w-full">
     <div class="flex flex-col">
       <span class="text-3xl pb-6">Välkommen, {{ user.username }}!</span>
       <div class="flex gap-1">

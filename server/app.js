@@ -1,7 +1,7 @@
-import cookieSession from "cookie-session";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import jwt from "jsonwebtoken";
 import { createCategories } from "./src/category/category-handlers.js";
 import categoryRouter from "./src/category/category-router.js";
 import imagesRouter from "./src/images/images-router.js";
@@ -20,16 +20,37 @@ app.use(
 
 app.use(express.json());
 dotenv.config();
-app.use(
-  cookieSession({
-    name: "login",
-    secret: process.env.COOKIE_SECRET,
-    maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-  })
-);
+
+const authenticateToken = (req, res, next) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Token saknas" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Ogiltig token" });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+app.get("/protected", authenticateToken, (req, res) => {
+  res.json({ message: "Välkommen till den skyddade resursen", user: req.user });
+});
+
+// app.use(
+//   cookieSession({
+//     name: "login",
+//     secret: process.env.COOKIE_SECRET,
+//     maxAge: 1000 * 60 * 60 * 24 * 7,
+//     httpOnly: true,
+//     secure: false,
+//     sameSite: "lax",
+//   })
+// );
 
 app.use("/", userRouter);
 app.use("/", recipeRouter);

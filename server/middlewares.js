@@ -1,6 +1,17 @@
-export const isLoggedIn = (req, res, next) => {
-  if (!req.session?.userId) {
-    return res.status(401).json("Du är inte inloggad");
+import jwt from "jsonwebtoken";
+
+export const authenticateToken = (req, res, next) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Token saknas" });
   }
-  next();
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Ogiltig token" });
+    }
+    req.user = user;
+    next();
+  });
 };

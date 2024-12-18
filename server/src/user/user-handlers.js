@@ -1,4 +1,5 @@
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { UserModel, userZodSchema } from "./user-model.js";
 
@@ -91,20 +92,21 @@ export const loginUser = async (req, res) => {
       return res.status(401).json("Fel användarnamn eller lösenord");
     }
 
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    console.log("Generated Token:", token);
+
     console.log("User logged in:", {
       id: user._id,
       username: user.username,
     });
 
-    req.session = {
-      userId: user._id,
-      username: user.username,
-    };
-
-    console.log("Session skapad:", req.session);
-
     return res.status(200).json({
       message: "Inloggning lyckades",
+      token, // Skickar tillbaka token till klienten
       user: {
         id: user._id,
         username: user.username,
@@ -115,6 +117,53 @@ export const loginUser = async (req, res) => {
     return res.status(500).json({ error: "Kunde inte logga in" });
   }
 };
+
+// export const loginUser = async (req, res) => {
+//   const { username, password } = req.body;
+
+//   if (!username || !password) {
+//     return res.status(400).json("Användarnamn och lösenord krävs");
+//   }
+
+//   try {
+//     const user = await UserModel.findOne({ username: username }).select(
+//       "+password"
+//     );
+
+//     if (!user) {
+//       return res.status(401).json("Fel användarnamn eller lösenord");
+//     }
+
+//     const isPasswordValid = await argon2.verify(user.password, password);
+
+//     if (!isPasswordValid) {
+//       return res.status(401).json("Fel användarnamn eller lösenord");
+//     }
+
+//     console.log("User logged in:", {
+//       id: user._id,
+//       username: user.username,
+//     });
+
+//     req.session = {
+//       userId: user._id,
+//       username: user.username,
+//     };
+
+//     console.log("Session skapad:", req.session);
+
+//     return res.status(200).json({
+//       message: "Inloggning lyckades",
+//       user: {
+//         id: user._id,
+//         username: user.username,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Fel vid inloggning:", error);
+//     return res.status(500).json({ error: "Kunde inte logga in" });
+//   }
+// };
 
 export const logoutUser = async (req, res) => {
   try {
@@ -225,36 +274,67 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export async function getLoggedInUser(req, res) {
-  console.log("Session vid auth:", req.session);
+// export async function getLoggedInUser(req, res) {
+//   console.log("Session vid auth:", req.session);
 
-  if (!req.session?.userId) {
-    return res.status(401).json("Du är inte inloggad");
-  }
+//   if (!req.session?.userId) {
+//     return res.status(401).json("Du är inte inloggad");
+//   }
 
-  try {
-    const user = await UserModel.findById(req.session.userId)
-      .populate("recipesCreated")
-      .populate("likedRecipes")
-      .exec();
+//   try {
+//     const user = await UserModel.findById(req.session.userId)
+//       .populate("recipesCreated")
+//       .populate("likedRecipes")
+//       .exec();
 
-    if (!user) {
-      return res.status(404).json("Användaren finns inte");
-    }
+//     if (!user) {
+//       return res.status(404).json("Användaren finns inte");
+//     }
 
-    return res.status(200).json({
-      message: "Du är inloggad",
-      user: {
-        id: user._id,
-        firstname: user.firstname,
-        username: user.username,
-        email: user.email,
-        recipesCreated: user.recipesCreated,
-        likedRecipes: user.likedRecipes,
-      },
-    });
-  } catch (error) {
-    console.error("Fel vid hämtning av användardata:", error);
-    return res.status(500).json("Kunde inte hämta användardata");
-  }
-}
+//     return res.status(200).json({
+//       message: "Du är inloggad",
+//       user: {
+//         id: user._id,
+//         firstname: user.firstname,
+//         username: user.username,
+//         email: user.email,
+//         recipesCreated: user.recipesCreated,
+//         likedRecipes: user.likedRecipes,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Fel vid hämtning av användardata:", error);
+//     return res.status(500).json("Kunde inte hämta användardata");
+//   }
+// }
+
+// export async function getLoggedInUser(req, res) {
+//   console.log("Användardata från JWT:", req.user);
+
+//   try {
+//     // Hämta användaren med ID från JWT-tokenen
+//     const user = await UserModel.findById(req.user.id)
+//       .populate("recipesCreated")
+//       .populate("likedRecipes")
+//       .exec();
+
+//     if (!user) {
+//       return res.status(404).json("Användaren finns inte");
+//     }
+
+//     return res.status(200).json({
+//       message: "Du är inloggad",
+//       user: {
+//         id: user._id,
+//         firstname: user.firstname,
+//         username: user.username,
+//         email: user.email,
+//         recipesCreated: user.recipesCreated,
+//         likedRecipes: user.likedRecipes,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Fel vid hämtning av användardata:", error);
+//     return res.status(500).json("Kunde inte hämta användardata");
+//   }
+// }
