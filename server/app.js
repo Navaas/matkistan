@@ -1,7 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import jwt from "jsonwebtoken";
+import { authenticateToken } from "./middlewares.js";
 import { createCategories } from "./src/category/category-handlers.js";
 import categoryRouter from "./src/category/category-router.js";
 import imagesRouter from "./src/images/images-router.js";
@@ -21,26 +21,6 @@ app.use(
 app.use(express.json());
 dotenv.config();
 
-const authenticateToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ message: "Token saknas" });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: "Ogiltig token" });
-    }
-    req.user = user;
-    next();
-  });
-};
-
-app.get("/protected", authenticateToken, (req, res) => {
-  res.json({ message: "Välkommen till den skyddade resursen", user: req.user });
-});
-
 // app.use(
 //   cookieSession({
 //     name: "login",
@@ -57,4 +37,7 @@ app.use("/", recipeRouter);
 app.use("/images", imagesRouter);
 app.use("/categories", categoryRouter);
 
+app.use("/protected-endpoint", authenticateToken, (req, res) => {
+  res.json({ message: "Skyddad data!", user: req.user });
+});
 export default app;

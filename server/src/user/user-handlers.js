@@ -114,7 +114,9 @@ export const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.error("Fel vid inloggning:", error);
-    return res.status(500).json({ error: "Kunde inte logga in" });
+    return res
+      .status(500)
+      .json({ error: "Kunde inte logga in", details: error.message });
   }
 };
 

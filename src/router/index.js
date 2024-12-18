@@ -11,7 +11,21 @@ import UsersCreatedRecipes from "../page/UsersCreatedRecipesPage.vue";
 // Lägg till fler sidor här som ska kunna navigeras till
 const routes = [
   { path: "/", name: "start", component: StartPage },
-  { path: "/login", name: "login", component: LoginPage },
+  // { path: "/login", name: "login", component: LoginPage },
+  { path: "/login", component: LoginPage },
+  {
+    path: "/protected",
+    component: UserPage,
+    beforeEnter: (to, from, next) => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Du måste vara inloggad för att komma åt denna sida!");
+        next("/login");
+      } else {
+        next();
+      }
+    },
+  },
   { path: "/profil", name: "profil", component: UserPage },
   { path: "/createRecipe", name: "createRecipe", component: CreateRecipe },
   { path: "/likedRecipes", name: "likedRecipes", component: LikedRecipes },

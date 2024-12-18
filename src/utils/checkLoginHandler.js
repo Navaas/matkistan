@@ -87,7 +87,7 @@ const checkUserAuth = async () => {
     const response = await fetch("https://matkistan.onrender.com/auth", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`, // Skicka token som Authorization-header
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
 
@@ -127,7 +127,7 @@ export const fetchUserData = async () => {
     const response = await fetch("https://matkistan.onrender.com/auth", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`, // Skicka token som header
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
 
