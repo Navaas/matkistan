@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { isLoggedIn } from "../utils/checkLoginHandler";
 
 const props = defineProps({
   recipeId: String,
@@ -9,26 +10,31 @@ const emit = defineEmits(["recipeDeleted"]);
 const isDeleting = ref(false);
 
 const deleteRecipe = async () => {
-  isDeleting.value = true;
+  if (!isLoggedIn.value) {
+    console.error("Användaren måste vara inloggad för att ta bort ett recept");
+    return;
+  }
 
+  isDeleting.value = true;
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_FETCH_URL}/recipes/${props.recipeId}`,
+      `http://localhost:3000/recipes/${props.recipeId}`,
       {
         method: "DELETE",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
       }
     );
 
     const result = await response.json();
-
     if (response.ok) {
       emit("recipeDeleted", props.recipeId);
     } else {
-      console.error("Error deleting recipe:", result.message);
+      console.error("Fel vid borttagning av recept:", result.message);
     }
   } catch (error) {
-    console.error("An error occurred while deleting the recipe:", error);
+    console.error("Fel vid borttagning av recept:", error);
   } finally {
     isDeleting.value = false;
   }
@@ -36,7 +42,7 @@ const deleteRecipe = async () => {
 </script>
 
 <template>
-  <button @click="deleteRecipe" :disabled="isDeleting">
+  <button v-if="isLoggedIn" @click="deleteRecipe" :disabled="isDeleting">
     <span class="material-icons text-slate-800 cursor-pointer text-3xl">
       delete
     </span>

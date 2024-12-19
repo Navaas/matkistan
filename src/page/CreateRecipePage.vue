@@ -4,38 +4,8 @@ import { useRouter } from "vue-router";
 import Header from "../components/Header.vue";
 
 const router = useRouter();
-
 const isLoggedIn = ref(false);
-const getLoggedInUser = async () => {
-  try {
-    const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
-
-    if (token) {
-      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`, // Skicka med token i headern
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.user) {
-          isLoggedIn.value = true;
-        }
-      } else {
-        isLoggedIn.value = false;
-      }
-    } else {
-      isLoggedIn.value = false;
-    }
-  } catch (error) {
-    console.error("Fel vid hämtning av användardata:", error);
-    isLoggedIn.value = false;
-  }
-};
-
-onMounted(getLoggedInUser);
+const userId = ref(null);
 
 const recipeForm = ref({
   title: "",
@@ -62,6 +32,38 @@ const resetForm = () => {
 
   router.push("/userCreatedRecipes");
 };
+
+const getLoggedInUser = async () => {
+  try {
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/auth`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          isLoggedIn.value = true;
+          userId.value = data.user.id;
+        }
+      } else {
+        isLoggedIn.value = false;
+      }
+    } else {
+      isLoggedIn.value = false;
+    }
+  } catch (error) {
+    console.error("Fel vid hämtning av användardata:", error);
+    isLoggedIn.value = false;
+  }
+};
+
+onMounted(getLoggedInUser);
 
 const fetchCategories = async () => {
   try {
@@ -128,6 +130,7 @@ const submitRecipe = async () => {
     }
   }
   console.log("PictureURL:", pictureURL);
+
   const formData = {
     title: recipeForm.value.title,
     ingredients: recipeForm.value.ingredients,
@@ -136,9 +139,10 @@ const submitRecipe = async () => {
     cookingTime: recipeForm.value.cookingTime,
     categories: recipeForm.value.categories,
     imageUrl: [pictureURL.url],
+    createdBy: userId.value,
   };
 
-  const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
+  const token = localStorage.getItem("authToken");
 
   if (!token) {
     alert("Du måste vara inloggad för att skapa ett recept");
@@ -154,7 +158,7 @@ const submitRecipe = async () => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Lägg till JWT-token i Authorization-headern
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -167,7 +171,7 @@ const submitRecipe = async () => {
 
     const data = await response.json();
     console.log("Recept skapat:", data);
-    // successMessage.value = "Receptet skapades framgångsrikt!";
+
     resetForm();
   } catch (error) {
     console.error("Fel vid skapande av recept:", error.message);
@@ -176,9 +180,6 @@ const submitRecipe = async () => {
 </script>
 
 <template>
-  <!-- <div v-if="successMessage" class="mt-4 text-green-500">
-    <p>{{ successMessage }}</p>
-  </div> -->
   <Header />
   <div class="flex justify-center p-4 pb-16 md:py-24">
     <form

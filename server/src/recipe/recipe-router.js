@@ -1,5 +1,6 @@
 import express from "express";
 // import { isLoggedIn } from "../../middlewares.js";
+import { authenticateToken } from "../../middlewares.js";
 import {
   createRecipesWithImage,
   deleteRecipe,
@@ -15,13 +16,13 @@ import {
 const recipeRouter = express.Router();
 
 recipeRouter.get("/getAllRecipes", getAllRecipes);
-recipeRouter.post("/createRecipe", createRecipesWithImage);
+recipeRouter.post("/createRecipe", authenticateToken, createRecipesWithImage);
 recipeRouter.put("/updateRecipe/:id", updateRecipe);
-recipeRouter.delete("/recipes/:id", deleteRecipe);
-recipeRouter.get("/my-recipes", getUserRecipes);
-recipeRouter.post("/like", likeRecipe);
-recipeRouter.get("/my-favourite", getLikedRecipes);
+recipeRouter.delete("/recipes/:id", authenticateToken, deleteRecipe);
+recipeRouter.get("/my-recipes", authenticateToken, getUserRecipes);
+recipeRouter.post("/like", authenticateToken, likeRecipe);
+recipeRouter.get("/my-favourite", authenticateToken, getLikedRecipes);
 recipeRouter.get("/getSingelRecipe/:id", getSingelRecipe);
-recipeRouter.post("/like/status", getLikeStatus);
+recipeRouter.post("/like/status", authenticateToken, getLikeStatus);
 
 export default recipeRouter;
