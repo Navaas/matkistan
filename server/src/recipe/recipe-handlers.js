@@ -273,62 +273,37 @@ export const updateRecipe = async (req, res) => {
 // };
 
 export const deleteRecipe = async (req, res) => {
-  const { id } = req.params; // Extract recipe ID from URL parameters
-  const userId = req.user.id; // Access the user ID from the authenticated token
+  const { id } = req.params;
+  const userId = req.user.id;
 
   try {
-    // Find the recipe in the database
     const recipe = await RecipeModel.findById(id);
 
     if (!recipe) {
-      return res.status(404).json({ message: "Recipe not found" }); // If recipe is not found
+      return res.status(404).json({ message: "Recipe not found" });
     }
 
-    // Ensure the recipe has a `createdBy` field
     if (!recipe.createdBy) {
       return res.status(400).json({
         message: "Invalid recipe data: `createdBy` is missing.",
       });
     }
 
-    // Check if the authenticated user is the creator of the recipe
     if (recipe.createdBy.toString() !== userId) {
       return res.status(403).json({
         message: "Forbidden: You don't have permission to delete this recipe.",
       });
     }
 
-    // Delete the recipe from the database
     await RecipeModel.findByIdAndDelete(id);
 
-    // Respond with success message
     res.status(200).json({ message: "Recipe deleted successfully", recipe });
   } catch (error) {
     console.error("Error deleting recipe:", error);
-    res.status(500).json({ message: "Failed to delete recipe" }); // Generic error response
+    res.status(500).json({ message: "Failed to delete recipe" });
   }
 };
 
-// Hämta användarens skapade recept
-// export const getUserRecipes = async (req, res) => {
-//   try {
-//     // Hämta användarens ID från sessionen
-//     const userId = req.session.userId;
-
-//     // Hitta användaren i databasen och populera "recipesCreated"-fältet
-//     const user = await UserModel.findById(userId).populate("recipesCreated");
-
-//     if (!user) {
-//       return res.status(404).json({ message: "Användaren kunde inte hittas" });
-//     }
-
-//     // Skicka tillbaka användarens skapade recept
-//     res.status(200).json(user.recipesCreated);
-//   } catch (error) {
-//     console.error("Fel vid hämtning av recept:", error);
-//     res.status(500).json({ message: "Något gick fel" });
-//   }
-// };
 export const getUserRecipes = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -357,9 +332,23 @@ export const getUserRecipes = async (req, res) => {
     res.status(500).json({ message: "Något gick fel" });
   }
 };
+
 export const likeRecipe = async (req, res) => {
   try {
-    const userId = req.session.userId;
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ message: "Authorization token saknas" });
+    }
+
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      userId = decoded.id;
+    } catch (error) {
+      console.error("Ogiltig eller utgången token:", error);
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     const { recipeId } = req.body;
 
     console.log("Mottaget recipeId från frontend:", recipeId);
@@ -368,7 +357,6 @@ export const likeRecipe = async (req, res) => {
       return res.status(400).json({ message: "Invalid recipe ID" });
     }
 
-    // Kontrollera om recipeId är en giltig ObjectId
     if (!mongoose.Types.ObjectId.isValid(recipeId)) {
       console.log("Ogiltigt recipeId format");
       return res.status(400).json({ message: "Invalid recipe ID format" });
@@ -406,25 +394,6 @@ export const likeRecipe = async (req, res) => {
     return res.status(500).json({ message: "Något gick fel" });
   }
 };
-
-// export const getLikedRecipes = async (req, res) => {
-//   try {
-//     const userId = req.session.userId; // Hämta användarens ID från sessionen
-
-//     // Hitta användaren med deras likedRecipes
-//     const user = await UserModel.findById(userId).populate("likedRecipes");
-
-//     if (!user) {
-//       return res.status(404).json({ message: "Användaren kunde inte hittas" });
-//     }
-
-//     // Skicka tillbaka alla gillade recept
-//     res.status(200).json(user.likedRecipes);
-//   } catch (error) {
-//     console.error("Fel vid hämtning av gillade recept:", error);
-//     res.status(500).json({ message: "Något gick fel" });
-//   }
-// };
 export const getLikedRecipes = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -479,70 +448,35 @@ export const getSingelRecipe = async (req, res) => {
   }
 };
 
-// export const getLikeStatus = async (req, res) => {
-//   const { recipeId } = req.body;
-//   const userId = req.session?.userId;
-
-//   if (!userId) {
-//     return res.status(401).json({ message: "Unauthorized" });
-//   }
-
-//   try {
-//     const user = await UserModel.findById(userId);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     const isLiked = user.likedRecipes.includes(recipeId);
-//     console.log(
-//       `Like-status för userId: ${userId}, recipeId: ${recipeId}:`,
-//       isLiked
-//     );
-
-//     res.status(200).json({ isLiked });
-//   } catch (error) {
-//     console.error("Error checking like status:", error);
-//     res.status(500).json({ message: "Failed to check like status" });
-//   }
-// };
 export const getLikeStatus = async (req, res) => {
   const { recipeId } = req.body;
 
-  // Hämta token från Authorization headern
-  const token = req.header("Authorization")?.split(" ")[1]; // Hämta token från "Bearer <token>"
+  const token = req.header("Authorization")?.split(" ")[1];
 
-  // Om token saknas, returnera Unauthorized
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
-    // Verifiera JWT
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Använd din hemliga nyckel här
-    const userId = decoded.id; // Extrahera användarens ID från token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decoded.id;
 
-    // Hitta användaren i databasen
     const user = await UserModel.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Kontrollera om användaren har gillat det specifika receptet
     const isLiked = user.likedRecipes.includes(recipeId);
 
-    // Skicka tillbaka isLiked-statusen
     res.status(200).json({ isLiked });
   } catch (error) {
     console.error("Error checking like status:", error);
 
-    // Hantera JWT-relaterade fel
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
 
-    // Om något annat går fel
     res.status(500).json({ message: "Failed to check like status" });
   }
 };

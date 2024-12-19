@@ -9,17 +9,17 @@ const isLiked = ref(false);
 
 const fetchLikeStatus = async () => {
   try {
-    const token = localStorage.getItem("authToken"); // Hämta token från localStorage eller sessionStorage
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
       throw new Error("No token found. Please login again.");
     }
 
-    const response = await fetch("https://matkistan.onrender.com/like/status", {
+    const response = await fetch("http://localhost:3000/like/status", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Skicka JWT i Authorization headern
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ recipeId: props.recipeId }),
     });
@@ -38,15 +38,24 @@ const fetchLikeStatus = async () => {
 
 const toggleLike = async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_FETCH_URL}/like`, {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      console.error("No token found. Please log in.");
+      return;
+    }
+
+    const response = await fetch("https://matkistan.onrender.com/like", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ recipeId: props.recipeId }),
-      credentials: "include",
     });
 
     const result = await response.json();
-    console.log("Respons från server vid toggleLike:", result);
+    console.log("Response from server during toggleLike:", result);
 
     if (result.message === "Recipe liked") {
       isLiked.value = true;
