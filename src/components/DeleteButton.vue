@@ -18,7 +18,7 @@ const deleteRecipe = async () => {
   isDeleting.value = true;
   try {
     const response = await fetch(
-      `http://localhost:3000/recipes/${props.recipeId}`,
+      `https://matkistan.onrender/recipes/${props.recipeId}`,
       {
         method: "DELETE",
         headers: {

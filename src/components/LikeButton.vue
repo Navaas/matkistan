@@ -15,7 +15,7 @@ const fetchLikeStatus = async () => {
       throw new Error("No token found. Please login again.");
     }
 
-    const response = await fetch("http://localhost:3000/like/status", {
+    const response = await fetch("https://matkistan.onrender/like/status", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

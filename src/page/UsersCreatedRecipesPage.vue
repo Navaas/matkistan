@@ -31,7 +31,7 @@ const fetchUserRecipes = async () => {
     }
 
     // Skicka en GET-begäran till backend för att hämta användarens skapade recept
-    const response = await fetch("http://localhost:3000/my-recipes", {
+    const response = await fetch("https://matkistan.onrender/my-recipes", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
