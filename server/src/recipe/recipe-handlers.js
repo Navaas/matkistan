@@ -135,7 +135,9 @@ export const createRecipesWithImage = async (req, res) => {
       newRecipe.categories = existingCategories.map((category) => category._id);
 
       await newRecipe.save();
-      const recipe = await RecipeModel.findById(recipeId).populate("createdBy");
+      const recipe = await RecipeModel.findById(newRecipe._id).populate(
+        "createdBy"
+      );
       console.log(recipe.createdBy);
       await UserModel.findByIdAndUpdate(userId, {
         $addToSet: { recipesCreated: newRecipe._id },
