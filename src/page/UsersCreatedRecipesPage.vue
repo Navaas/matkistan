@@ -3,7 +3,7 @@ import { onMounted, ref } from "vue";
 import DeleteButton from "../components/DeleteButton.vue";
 import Header from "../components/Header.vue";
 import LikeButton from "../components/LikeButton.vue";
-import { fetchUserData, user } from "../utils/checkLoginHandler";
+import { fetchUserData, isLoggedIn, user } from "../utils/checkLoginHandler";
 
 const createdRecipes = ref([]);
 const loading = ref(true);
@@ -19,15 +19,21 @@ const fetchCreatedRecipes = () => {
 };
 
 const removeRecipeFromList = (recipeId) => {
+  if (!isLoggedIn.value) {
+    alert("Du måste vara inloggad för att ta bort recept.");
+    return;
+  }
   createdRecipes.value = createdRecipes.value.filter(
     (recipe) => recipe._id !== recipeId
   );
+  console.log("Recipe createdBy:", recipeId.createdBy);
+  console.log("User ID:", userId.value);
 };
 
 onMounted(() => {
   fetchUserData().then(() => {
     if (user.value) {
-      userId.value = user.value.id;
+      userId.value = user.value._id;
       console.log("User ID:", userId.value);
       fetchCreatedRecipes();
     }
@@ -37,6 +43,7 @@ onMounted(() => {
 
 <template>
   <Header />
+
   <div class="p-4 pb-16 md:pt-24">
     <div class="flex justify-center py-4 md:pb-12">
       <h1 class="text-3xl mb-2">Dina recept</h1>
@@ -80,8 +87,11 @@ onMounted(() => {
               <span> {{ recipe.cookingTime }}</span>
             </div>
           </router-link>
+          <span>{{ userId }}</span>
+          <span>{{ recipe.createdBy }}</span>
           <div class="flex justify-between pt-4">
             <LikeButton :recipeId="recipe._id" />
+
             <DeleteButton
               v-if="recipe.createdBy === userId"
               :recipeId="recipe._id"
@@ -91,6 +101,7 @@ onMounted(() => {
         </div>
       </div>
     </div>
+
     <p v-else="!createdRecipes" class="flex justify-center">
       Du har inte skapat några recept ännu.
     </p>

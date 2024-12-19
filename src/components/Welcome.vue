@@ -1,17 +1,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
-// import { checkLoginStatus } from "../utils/checkLoginHandler";
+import { checkUserAuth, isLoggedIn } from "../utils/checkLoginHandler";
 import LikeButton from "./LikeButton.vue";
 
 const recipes = ref([]);
 const loading = ref(true);
-const error = ref(null);
-const isLoggedIn = ref(false);
-const userId = ref(null);
-
-// const checkLogin = () => {
-//   isLoggedIn.value = checkLoginStatus();
-// };
 
 const fetchRecipes = async () => {
   try {
@@ -33,15 +26,7 @@ const fetchRecipes = async () => {
 
 onMounted(() => {
   fetchRecipes();
-  // checkLogin();
-  // fetchUserData().then(() => {
-  //   if (user.value) {
-  //     userId.value = user.value.id;
-  //     console.log("User ID:", userId.value);
-  //     checkLogin();
-  //     fetchRecipes();
-  //   }
-  // });
+  checkUserAuth();
 });
 </script>
 
