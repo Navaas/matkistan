@@ -72,56 +72,71 @@ const deleteUser = async () => {
 
 <template>
   <Header />
-  <div v-if="isLoggedIn" class="p-4 md:pt-14 bg-green-100 w-full">
-    <div class="flex flex-col">
-      <span class="text-3xl pb-6">Välkommen, {{ user.username }}!</span>
-      <div class="flex gap-1">
-        <p class="font-bold">Förnamn:</p>
-        <span>{{ user.firstname }}</span>
+  <main class="pt-14 px-2">
+    <div class="bg-black py-24 relative">
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/50 z-10"></div>
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <h1 class="text-3xl text-white">Lägg till nytt recept</h1>
       </div>
-      <div class="flex gap-1">
-        <p class="font-bold">Användarnamn:</p>
-        <span>{{ user.username }}</span>
-      </div>
-      <div class="flex gap-1">
-        <p class="font-bold">Email:</p>
-        <span>{{ user.email }}</span>
-      </div>
-      <div class="flex gap-2 mt-4">
-        <button
-          @click="logout"
-          class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
-        >
-          Logga ut
-        </button>
-        <button
-          @click="toggleDiv"
-          class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
-        >
-          Uppdatera
-        </button>
-        <button
-          @click="deleteUser"
-          class="bg-red-600 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
-        >
-          Radera konto
-        </button>
-      </div>
-      <div v-if="isOpen" class="flex">
-        <div class="flex max-w-[700px] w-full py-2">
-          <span>Uppdatera här</span>
-          <UpdateUser />
+      <!-- Bild -->
+      <img
+        src="https://images.unsplash.com/photo-1432457990754-c8b5f21448de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Bild på färgglad mat på en tallrik"
+        class="absolute inset-0 w-full h-full object-cover z-0"
+      />
+    </div>
+    <div v-if="isLoggedIn" class="p-4 md:pt-14 bg-green-100 w-full">
+      <div class="flex flex-col">
+        <span class="text-3xl pb-6">Välkommen, {{ user.username }}!</span>
+        <div class="flex gap-1">
+          <p class="font-bold">Förnamn:</p>
+          <span>{{ user.firstname }}</span>
+        </div>
+        <div class="flex gap-1">
+          <p class="font-bold">Användarnamn:</p>
+          <span>{{ user.username }}</span>
+        </div>
+        <div class="flex gap-1">
+          <p class="font-bold">Email:</p>
+          <span>{{ user.email }}</span>
+        </div>
+        <div class="flex gap-2 mt-4">
+          <button
+            @click="logout"
+            class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+          >
+            Logga ut
+          </button>
+          <button
+            @click="toggleDiv"
+            class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+          >
+            Uppdatera
+          </button>
+          <button
+            @click="deleteUser"
+            class="bg-red-600 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+          >
+            Radera konto
+          </button>
+        </div>
+        <div v-if="isOpen" class="flex">
+          <div class="flex max-w-[700px] w-full py-2">
+            <span>Uppdatera här</span>
+            <UpdateUser />
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <span
-    v-if="message"
-    :class="messageType === 'Success' ? 'text-green-500' : 'text-red-500'"
-  >
-    {{ message }}
-  </span>
+    <span
+      v-if="message"
+      :class="messageType === 'Success' ? 'text-green-500' : 'text-red-500'"
+    >
+      {{ message }}
+    </span>
+  </main>
 </template>
 
 <style></style>

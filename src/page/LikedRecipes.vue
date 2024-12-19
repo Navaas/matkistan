@@ -48,9 +48,20 @@ onMounted(() => {
 
 <template>
   <Header />
-  <div class="p-4 md:pt-24">
-    <div class="flex justify-center py-4 md:pb-12">
-      <h1 class="text-3xl mb-2">Dina recept</h1>
+
+  <div class="p-2 md:pt-14">
+    <div class="bg-black py-24 relative">
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/50 z-10"></div>
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <h1 class="text-3xl text-white">Dina favoriter</h1>
+      </div>
+      <!-- Bild -->
+      <img
+        src="https://images.unsplash.com/photo-1432457990754-c8b5f21448de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Bild på färgglad mat på en tallrik"
+        class="absolute inset-0 w-full h-full object-cover z-0"
+      />
     </div>
     <div v-if="loading" class="flex justify-center h-64">
       <div
@@ -59,7 +70,7 @@ onMounted(() => {
     </div>
     <div v-else-if="likedRecipes.length > 0">
       <div
-        class="flex flex-col gap-4 w-full md:flex-row md:items-center md:justify-center md:flex-wrap"
+        class="flex flex-col gap-4 py-12 w-full md:flex-row md:items-center md:justify-center md:flex-wrap"
       >
         <div
           v-for="recipe in likedRecipes"

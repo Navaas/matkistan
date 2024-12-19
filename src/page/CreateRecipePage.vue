@@ -181,120 +181,138 @@ const submitRecipe = async () => {
 
 <template>
   <Header />
-  <div class="flex justify-center p-4 pb-16 md:py-24">
-    <form
-      v-if="isLoggedIn"
-      @submit.prevent="submitRecipe"
-      enctype="multipart/form-data"
-      class="p-4 px-4 w-full bg-white shadow-lg border border-solid border-gray-300 rounded-md text-black xl:w-4/5"
-    >
-      <div class="flex flex-col pb-4">
-        <label for="title" class="font-bold">Titel</label>
-        <input
-          id="title"
-          v-model="recipeForm.title"
-          required
-          placeholder="Titel på recept"
-          class="border border-solid border-gray-300 rounded-md p-1"
-        />
+  <main class="pt-14 px-2">
+    <div class="bg-black py-24 relative">
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-black/50 z-10"></div>
+      <div class="absolute inset-0 z-20 flex items-center justify-center">
+        <h1 class="text-3xl text-white">Lägg till nytt recept</h1>
       </div>
-
-      <div class="flex flex-col pb-4">
-        <label for="difficulty" class="font-bold">Svårighetsgrad</label>
-        <select
-          id="difficulty"
-          v-model="recipeForm.difficulty"
-          required
-          class="border border-solid border-gray-300 rounded-md p-1"
-        >
-          <option value="Lätt">Lätt</option>
-          <option value="Medel">Medel</option>
-          <option value="Svår">Svår</option>
-        </select>
-      </div>
-
-      <div class="flex flex-col pb-4">
-        <label for="cookingTime" class="font-bold">Tillagningstid</label>
-        <input
-          id="cookingTime"
-          v-model="recipeForm.cookingTime"
-          required
-          placeholder="Fyll i en tid"
-          class="border border-solid border-gray-300 rounded-md p-1"
-        />
-      </div>
-
-      <div class="flex flex-col pb-4">
-        <label for="categories" class="font-bold">Kategorier</label>
-        <select
-          id="categories"
-          v-model="recipeForm.categories"
-          multiple
-          required
-          class="border border-solid border-gray-300"
-        >
-          <option
-            v-for="category in categories"
-            :key="category._id"
-            :value="category.name"
-          >
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-      <div class="flex flex-col gap-2 pb-4">
-        <label for="ingredient" class="font-bold">Ingredienser</label>
-        <div v-for="(ingredient, index) in recipeForm.ingredients" :key="index">
-          <input
-            id="ingredient"
-            v-model="recipeForm.ingredients[index]"
-            placeholder="Ingrediens"
-            class="border border-solid border-gray-300 rounded-md p-1"
-          />
-        </div>
-        <div>
-          <button
-            type="button"
-            @click="addIngredient"
-            class="py-1 px-4 rounded-md bg-black text-white"
-          >
-            Lägg till
-          </button>
-        </div>
-      </div>
-
-      <div class="flex gap-2 flex-col pb-4">
-        <label for="step" class="font-bold">Steg</label>
-        <div v-for="(step, index) in recipeForm.steps" :key="index">
-          <input
-            id="step"
-            v-model="recipeForm.steps[index]"
-            placeholder="Steg 1"
-            class="border border-solid border-gray-300 rounded-md p-1"
-          />
-        </div>
-        <div>
-          <button
-            type="button"
-            @click="addStep"
-            class="py-1 px-4 rounded-md bg-black text-white"
-          >
-            Lägg till
-          </button>
-        </div>
-      </div>
-
-      <div class="flex flex-col pb-12">
-        <label for="image" class="font-bold">Lägg till bild</label>
-        <input type="file" id="image" @change="onFileChange" />
-      </div>
-
-      <button type="submit" class="py-2 px-4 rounded-md bg-black text-white">
-        Skapa recept
-      </button>
-    </form>
-    <div v-else>
-      <p>Du måste vara inloggad för att skapa ett recept.</p>
+      <!-- Bild -->
+      <img
+        src="https://images.unsplash.com/photo-1432457990754-c8b5f21448de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Bild på färgglad mat på en tallrik"
+        class="absolute inset-0 w-full h-full object-cover z-0"
+      />
     </div>
-  </div>
+    <div class="flex justify-center p-4 pb-16 md:py-14">
+      <form
+        v-if="isLoggedIn"
+        @submit.prevent="submitRecipe"
+        enctype="multipart/form-data"
+        class="p-4 px-4 w-full bg-white shadow-lg border border-solid border-gray-300 rounded-md text-black xl:w-4/5"
+      >
+        <div class="flex flex-col pb-4">
+          <label for="title" class="font-bold">Titel</label>
+          <input
+            id="title"
+            v-model="recipeForm.title"
+            required
+            placeholder="Titel på recept"
+            class="border border-solid border-gray-300 rounded-md p-1"
+          />
+        </div>
+
+        <div class="flex flex-col pb-4">
+          <label for="difficulty" class="font-bold">Svårighetsgrad</label>
+          <select
+            id="difficulty"
+            v-model="recipeForm.difficulty"
+            required
+            class="border border-solid border-gray-300 rounded-md p-1"
+          >
+            <option value="Lätt">Lätt</option>
+            <option value="Medel">Medel</option>
+            <option value="Svår">Svår</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col pb-4">
+          <label for="cookingTime" class="font-bold">Tillagningstid</label>
+          <input
+            id="cookingTime"
+            v-model="recipeForm.cookingTime"
+            required
+            placeholder="Fyll i en tid"
+            class="border border-solid border-gray-300 rounded-md p-1"
+          />
+        </div>
+
+        <div class="flex flex-col pb-4">
+          <label for="categories" class="font-bold">Kategorier</label>
+          <select
+            id="categories"
+            v-model="recipeForm.categories"
+            multiple
+            required
+            class="border border-solid border-gray-300"
+          >
+            <option
+              v-for="category in categories"
+              :key="category._id"
+              :value="category.name"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-2 pb-4">
+          <label for="ingredient" class="font-bold">Ingredienser</label>
+          <div
+            v-for="(ingredient, index) in recipeForm.ingredients"
+            :key="index"
+          >
+            <input
+              id="ingredient"
+              v-model="recipeForm.ingredients[index]"
+              placeholder="Ingrediens"
+              class="border border-solid border-gray-300 rounded-md p-1"
+            />
+          </div>
+          <div>
+            <button
+              type="button"
+              @click="addIngredient"
+              class="py-1 px-4 rounded-md bg-black text-white"
+            >
+              Lägg till
+            </button>
+          </div>
+        </div>
+
+        <div class="flex gap-2 flex-col pb-4">
+          <label for="step" class="font-bold">Steg</label>
+          <div v-for="(step, index) in recipeForm.steps" :key="index">
+            <input
+              id="step"
+              v-model="recipeForm.steps[index]"
+              placeholder="Steg 1"
+              class="border border-solid border-gray-300 rounded-md p-1"
+            />
+          </div>
+          <div>
+            <button
+              type="button"
+              @click="addStep"
+              class="py-1 px-4 rounded-md bg-black text-white"
+            >
+              Lägg till
+            </button>
+          </div>
+        </div>
+
+        <div class="flex flex-col pb-12">
+          <label for="image" class="font-bold">Lägg till bild</label>
+          <input type="file" id="image" @change="onFileChange" />
+        </div>
+
+        <button type="submit" class="py-2 px-4 rounded-md bg-black text-white">
+          Skapa recept
+        </button>
+      </form>
+      <div v-else>
+        <p>Du måste vara inloggad för att skapa ett recept.</p>
+      </div>
+    </div>
+  </main>
 </template>

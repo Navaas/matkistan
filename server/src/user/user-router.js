@@ -25,7 +25,7 @@ userRouter.get("/auth", authenticateToken, async (req, res) => {
 
     const user = await UserModel.findById(userId)
       .select("-password")
-      .populate("recipesCreated", "title ingredients")
+      .populate("recipesCreated", "title ingredients, imageUrl createdBy")
       .populate("likedRecipes", "title ingredients");
 
     if (!user) {

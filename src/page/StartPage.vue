@@ -28,7 +28,7 @@ onMounted(checkUserAuth);
 
 <template>
   <Header />
-  <main class="bg-[#fafafa] pt-12">
+  <main class="bg-[#fafafa] pt-14 px-2">
     <div
       :class="
         isLoggedIn
