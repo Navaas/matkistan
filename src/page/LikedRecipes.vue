@@ -2,24 +2,47 @@
 import { onMounted, ref } from "vue";
 import Header from "../components/Header.vue";
 import LikeButton from "../components/LikeButton.vue";
-import { fetchUserData, user } from "../utils/checkLoginHandler";
 
-const likedRecipes = ref(null);
-const loading = ref(true);
+const likedRecipes = ref([]);
+const loadingLikedRecipes = ref(false);
 
-const fetchLikedRecipes = () => {
-  if (user.value && user.value.likedRecipes) {
-    likedRecipes.value = user.value.likedRecipes.reverse();
-  } else {
-    likedRecipes.value = [];
+const fetchLikedRecipes = async () => {
+  try {
+    loadingLikedRecipes.value = true;
+
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      console.error("Ingen token hittades. Användaren är inte inloggad.");
+      likedRecipes.value = [];
+      return;
+    }
+
+    const response = await fetch(
+      "https://matkistan.onrender.com/my-favourite",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Fel vid hämtning av recept: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    likedRecipes.value = data.reverse();
+  } catch (error) {
+    console.error("Ett fel inträffade vid hämtning av gillade recept:", error);
+  } finally {
+    loadingLikedRecipes.value = false;
   }
-  loading.value = false;
 };
 
 onMounted(() => {
-  fetchUserData().then(() => {
-    fetchLikedRecipes();
-  });
+  fetchLikedRecipes();
 });
 </script>
 
@@ -43,7 +66,6 @@ onMounted(() => {
           :key="recipe._id"
           class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
         >
-          <LikeButton :recipeId="recipe._id" />
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
@@ -69,6 +91,7 @@ onMounted(() => {
               <span> {{ recipe.cookingTime }}</span>
             </div>
           </router-link>
+          <LikeButton :recipeId="recipe._id" />
         </div>
       </div>
     </div>
