@@ -1,16 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
-import { checkUserAuth } from "../utils/checkLoginHandler";
+import { onMounted } from "vue";
+import { checkUserAuth, isLoggedIn } from "../utils/checkLoginHandler";
 
-const isLoggedIn = ref(false);
-const router = useRouter();
-
-const checkLogin = () => {
-  isLoggedIn.value = checkUserAuth();
-};
-
-onMounted(checkLogin);
+onMounted(() => {
+  checkUserAuth();
+});
 </script>
 
 <template>
