@@ -266,15 +266,13 @@ const deleteUser = async () => {
         {{ message }}
       </span>
       <div v-if="isOpen" class="flex justify-center pt-6">
-        <div class="flex max-w-[700px] w-full py-2">
+        <div class="flex max-w-[700px] w-full py-2 px-2">
           <UpdateUser />
         </div>
       </div>
     </main>
 
-    <div class="pb-10 md:pb-0">
-      <Footer />
-    </div>
+    <Footer />
   </div>
 </template>
 

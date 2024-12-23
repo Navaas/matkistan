@@ -17,7 +17,7 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/logout", logoutUser);
 userRouter.delete("/deleteUser", deleteUser);
-userRouter.put("/updateUser/:id", updateUser);
+userRouter.put("/updateUser/:id", authenticateToken, updateUser);
 
 userRouter.get("/auth", authenticateToken, async (req, res) => {
   try {
