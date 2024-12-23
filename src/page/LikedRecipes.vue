@@ -70,7 +70,7 @@ onMounted(() => {
     </div>
     <div v-else-if="likedRecipes.length > 0">
       <div
-        class="grid grid-flow-row px-2 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+        class="grid grid-flow-row pt-6 px-2 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
       >
         <div
           v-for="recipe in likedRecipes"

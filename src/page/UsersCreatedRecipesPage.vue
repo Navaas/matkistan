@@ -85,14 +85,14 @@ onMounted(() => {
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div v-if="loading" class="flex justify-center h-64">
+    <div v-if="loading" class="flex justify-center h-full">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
       ></div>
     </div>
     <div v-else-if="userRecipes.length > 0">
       <div
-        class="grid grid-flow-row px-2 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+        class="grid grid-flow-row px-2 pt-6 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
       >
         <div
           v-for="recipe in userRecipes"
