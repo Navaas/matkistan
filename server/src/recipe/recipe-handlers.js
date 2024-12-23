@@ -249,10 +249,10 @@ export const getUserRecipes = async (req, res) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
-    const user = await UserModel.findById(userId).populate(
-      "recipesCreated",
-      "title ingredients, imageUrl createdBy"
-    );
+    const user = await UserModel.findById(userId).populate({
+      path: "recipesCreated",
+      select: "title ingredients imageUrl createdBy cookingTime difficulty",
+    });
 
     if (!user) {
       return res.status(404).json({ message: "Användaren kunde inte hittas" });
