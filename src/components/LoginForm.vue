@@ -138,7 +138,7 @@ const loginUser = async () => {
     class="flex flex-col bg-white px-2 py-4 border border-gray-200 rounded-md shadow-lg gap-2 max-w-[550px] w-full"
     @submit.prevent="loginUser"
   >
-    <p>Logga in användare</p>
+    <p class="text-sm md:text-base text-start">Logga in användare</p>
     <label for="username" class="sr-only">Användarnamn:</label>
     <input
       id="username"

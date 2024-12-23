@@ -114,15 +114,15 @@ onMounted(fetchCategories);
 </script>
 
 <template>
-  <div v-if="isLoggedIn" class="flex flex-col">
+  <div v-if="isLoggedIn" class="flex flex-col p-1">
     <!-- Visas om användaren är inloggad -->
 
     <h1
-      class="font-inter text-center text-4xl text-white uppercase md:text-4xl"
+      class="font-inter text-center text-3xl text-white uppercase md:text-4xl"
     >
       Mat & Bak
     </h1>
-    <h2 class="text-3xl text-center text-white">
+    <h2 class="text-xl text-center md:text-2xl text-white">
       Hitta nya favoritrecept för alla tillfällen!
     </h2>
   </div>

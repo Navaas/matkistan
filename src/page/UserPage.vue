@@ -76,9 +76,9 @@ const deleteUser = async () => {
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
-      <div class="absolute inset-0 z-20 flex items-center justify-center">
+      <div class="absolute inset-0 z-20 px-2 flex items-center justify-center">
         <div v-if="isLoggedIn">
-          <span class="text-3xl md:text-4xl pb-6 text-white"
+          <span class="text-2xl md:text-4xl pb-6 text-white"
             >Välkommen tillbaka, {{ user.username }}!</span
           >
         </div>
