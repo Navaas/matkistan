@@ -39,12 +39,12 @@ onMounted(() => {
     </div>
     <div v-else-if="recipes.length > 0">
       <div
-        class="flex flex-col gap-4 w-full md:flex-row md:items-center md:justify-center md:flex-wrap"
+        class="flex flex-wrap gap-4 w-full md:items-center md:justify-center"
       >
         <div
           v-for="recipe in recipes"
           :key="recipe._id"
-          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
+          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md flex-1 min-w-[48%] max-w-[48%] p-4 hover:scale-105 transition-transform duration-300 ease-in-out lg:min-w-[18%] lg:max-w-[18%]"
         >
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"

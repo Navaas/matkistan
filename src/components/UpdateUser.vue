@@ -105,9 +105,7 @@ onMounted(() => {
 
 <template>
   <Header />
-  <div class="md:pt-14 bg-gray-100 p-4">
-    <h1 class="text-3xl mb-6">Uppdatera dina uppgifter</h1>
-
+  <div class="bg-gray-100 p-4">
     <form @submit.prevent="updateUserInfo" class="space-y-4">
       <div>
         <label for="firstname" class="block font-semibold">Förnamn:</label>

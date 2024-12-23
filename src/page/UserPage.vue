@@ -77,18 +77,27 @@ const deleteUser = async () => {
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <h1 class="text-3xl text-white">Lägg till nytt recept</h1>
+        <div v-if="isLoggedIn">
+          <span class="text-3xl pb-6 text-white"
+            >Välkommen tillbaka, {{ user.username }}!</span
+          >
+        </div>
       </div>
       <!-- Bild -->
       <img
-        src="https://images.unsplash.com/photo-1432457990754-c8b5f21448de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        src="https://images.unsplash.com/photo-1542814784-133212a2e378?q=80&w=1922&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="Bild på färgglad mat på en tallrik"
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div v-if="isLoggedIn" class="p-4 md:pt-14 bg-green-100 w-full">
-      <div class="flex flex-col">
-        <span class="text-3xl pb-6">Välkommen, {{ user.username }}!</span>
+
+    <div
+      class="flex flex-col justify-center items-center gap-4 pt-6 md:flex-row"
+    >
+      <div
+        class="border border-gray-300 rounded-md w-full shadow-xl md:w-1/3 p-2 h-[50vh] max-h-60"
+      >
+        <h1>Dina uppgifter</h1>
         <div class="flex gap-1">
           <p class="font-bold">Förnamn:</p>
           <span>{{ user.firstname }}</span>
@@ -101,13 +110,8 @@ const deleteUser = async () => {
           <p class="font-bold">Email:</p>
           <span>{{ user.email }}</span>
         </div>
+
         <div class="flex gap-2 mt-4">
-          <button
-            @click="logout"
-            class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
-          >
-            Logga ut
-          </button>
           <button
             @click="toggleDiv"
             class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
@@ -118,24 +122,48 @@ const deleteUser = async () => {
             @click="deleteUser"
             class="bg-red-600 px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
           >
-            Radera konto
+            Ta bort
           </button>
         </div>
-        <div v-if="isOpen" class="flex">
-          <div class="flex max-w-[700px] w-full py-2">
-            <span>Uppdatera här</span>
-            <UpdateUser />
+      </div>
+
+      <div class="shadow-xl w-full md:w-1/3">
+        <div
+          class="relative w-full h-[50vh] max-h-60 rounded-md overflow-hidden"
+        >
+          <div class="absolute inset-0 bg-black/50 z-10 rounded-md"></div>
+
+          <img
+            src="https://images.unsplash.com/photo-1501747188-61c00b3d8ba0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Overlay bild"
+            class="w-full h-[50vh] max-h-60 object-cover rounded-md"
+          />
+
+          <div
+            class="absolute inset-0 z-20 flex flex-col items-center justify-center"
+          >
+            <h1 class="text-white text-2xl pb-2">Vill du logga ut?</h1>
+            <button
+              @click="logout"
+              class="bg-black px-2 py-2 rounded-md text-sm text-white cursor-pointer hover:bg-slate-500 w-24"
+            >
+              Logga ut
+            </button>
           </div>
         </div>
       </div>
     </div>
-
     <span
       v-if="message"
       :class="messageType === 'Success' ? 'text-green-500' : 'text-red-500'"
     >
       {{ message }}
     </span>
+    <div v-if="isOpen" class="flex justify-center pt-6">
+      <div class="flex max-w-[700px] w-full py-2">
+        <UpdateUser />
+      </div>
+    </div>
   </main>
 </template>
 

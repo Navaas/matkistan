@@ -92,7 +92,7 @@ onMounted(() => {
       </div>
       <!-- Bild -->
       <img
-        src="https://images.unsplash.com/photo-1432457990754-c8b5f21448de?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        src="https://plus.unsplash.com/premium_photo-1695297515362-b51affc09b40?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="Bild på färgglad mat på en tallrik"
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
@@ -136,8 +136,6 @@ onMounted(() => {
               <span> {{ recipe.cookingTime }}</span>
             </div>
           </router-link>
-          <span>{{ userId }}</span>
-          <span>{{ recipe.createdBy }}</span>
           <div class="flex justify-between pt-4">
             <LikeButton :recipeId="recipe._id" />
 
