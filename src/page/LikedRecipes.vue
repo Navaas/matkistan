@@ -49,12 +49,12 @@ onMounted(() => {
 <template>
   <Header />
 
-  <div class="p-2 md:pt-14">
+  <main class="p-2 pb-24 md:pt-14">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <h1 class="text-3xl text-white">Dina favoriter</h1>
+        <h1 class="text-3xl md:text-4xl text-white">Dina favoriter</h1>
       </div>
       <!-- Bild -->
       <img
@@ -90,16 +90,20 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold">{{ recipe.title }}</p>
+              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold">Svårighetsgrad:</p>
-              <span>{{ recipe.difficulty }}</span>
+              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
+              <span class="text-xs truncate sm:truncate md:text-base">{{
+                recipe.difficulty
+              }}</span>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold">Tillagningstid:</p>
-              <span> {{ recipe.cookingTime }}</span>
+              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
+              <span class="text-xs truncate sm:truncate md:text-base">
+                {{ recipe.cookingTime }}</span
+              >
             </div>
           </router-link>
           <LikeButton :recipeId="recipe._id" />
@@ -109,5 +113,5 @@ onMounted(() => {
     <p v-else="!likedRecipes" class="flex justify-center">
       Du har inte gillat några recept ännu.
     </p>
-  </div>
+  </main>
 </template>

@@ -72,11 +72,11 @@ onMounted(() => {
 <template>
   <Header />
 
-  <div class="p-2 pb-16 md:pt-14">
+  <div class="p-2 pb-24 md:pt-14">
     <div class="bg-black py-24 relative">
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <h1 class="text-3xl text-white">Dina recept</h1>
+        <h1 class="text-3xl md:text-4xl text-white">Dina recept</h1>
       </div>
 
       <img
@@ -85,7 +85,7 @@ onMounted(() => {
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div v-if="loading" class="flex justify-center h-full">
+    <div v-if="loading" class="flex justify-center pt-6 h-full">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
       ></div>
@@ -112,16 +112,20 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold">{{ recipe.title }}</p>
+              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold">Svårighetsgrad:</p>
-              <span>{{ recipe.difficulty }}</span>
+              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
+              <span class="text-xs md:text-base truncate sm:truncate">{{
+                recipe.difficulty
+              }}</span>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold">Tillagningstid:</p>
-              <span> {{ recipe.cookingTime }}</span>
+              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
+              <span class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.cookingTime }}</span
+              >
             </div>
           </router-link>
           <div class="flex justify-between pt-4">

@@ -72,13 +72,13 @@ const deleteUser = async () => {
 
 <template>
   <Header />
-  <main class="pt-2 md:pt-14 px-2">
+  <main class="pt-2 pb-24 md:pt-14 px-2">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
         <div v-if="isLoggedIn">
-          <span class="text-3xl pb-6 text-white"
+          <span class="text-3xl md:text-4xl pb-6 text-white"
             >Välkommen tillbaka, {{ user.username }}!</span
           >
         </div>
@@ -92,10 +92,10 @@ const deleteUser = async () => {
     </div>
 
     <div
-      class="flex flex-col justify-center items-center gap-4 pt-6 md:flex-row"
+      class="flex flex-col justify-center items-center gap-4 pt-4 md:flex-row"
     >
       <div
-        class="border border-gray-300 rounded-md w-full shadow-xl md:w-1/3 p-2 h-[50vh] max-h-60"
+        class="border border-gray-300 rounded-md w-full shadow-xl md:w-1/3 p-4 h-[50vh] max-h-60"
       >
         <h1 class="pb-4 font-bold">Dina uppgifter</h1>
         <div class="flex gap-1">

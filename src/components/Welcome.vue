@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="pt-4 pb-16 md:pt-12">
+  <main class="pt-4 pb-24 md:pt-12">
     <div v-if="loading" class="flex justify-center h-64">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
@@ -59,16 +59,20 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold">{{ recipe.title }}</p>
+              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold">Svårighetsgrad:</p>
-              <span>{{ recipe.difficulty }}</span>
+              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
+              <span class="text-xs md:text-base truncate sm:truncate">{{
+                recipe.difficulty
+              }}</span>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold">Tillagningstid:</p>
-              <span> {{ recipe.cookingTime }}</span>
+              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
+              <span class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.cookingTime }}</span
+              >
             </div>
           </router-link>
           <template v-if="isLoggedIn">
@@ -82,7 +86,7 @@ onMounted(() => {
     <p v-else="!recipes" class="flex justify-center">
       Det finns inga recept än.
     </p>
-  </div>
+  </main>
 </template>
 
 <style scoped></style>

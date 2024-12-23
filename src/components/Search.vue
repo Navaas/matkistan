@@ -14,9 +14,9 @@ const isDropdownOpen = ref(false);
 const selectedCategoryName = ref("");
 const isLoggedIn = ref(false);
 
-// const checkLogin = () => {
-//   isLoggedIn.value = checkLoginStatus();
-// };
+onMounted(() => {
+  isLoggedIn.value = localStorage.getItem("authToken") !== null;
+});
 
 const searchRecipes = async () => {
   if (!searchQuery.value) {
@@ -114,20 +114,27 @@ onMounted(fetchCategories);
 </script>
 
 <template>
-  <div
-    v-if="isLoggedIn"
-    class="flex flex-col items-center justify-center text-white"
-  >
-    <h1 class="text-6xl uppercase">Mat & Bak</h1>
-    <h2 class="text-xl">Hitta nya favoritrecept för alla tillfällen!</h2>
-  </div>
-  <div v-else class="flex flex-col">
+  <div v-if="isLoggedIn" class="flex flex-col">
+    <!-- Visas om användaren är inloggad -->
+
     <h1
-      class="font-inter text-center text-2xl text-white uppercase md:text-3xl"
+      class="font-inter text-center text-4xl text-white uppercase md:text-4xl"
+    >
+      Mat & Bak
+    </h1>
+    <h2 class="text-3xl text-center text-white">
+      Hitta nya favoritrecept för alla tillfällen!
+    </h2>
+  </div>
+
+  <div v-else class="flex flex-col items-center justify-center text-white">
+    <!-- Visas om användaren inte är inloggad -->
+    <h1
+      class="font-inter text-center text-2xl text-white uppercase md:text-4xl"
     >
       Din digitala receptbok
     </h1>
-    <h1 class="font-inter text-center text-white">
+    <h1 class="font-inter text-base md:text-2xl text-center text-white">
       Logga in och börja din resa mot en värld av smakupplevelser redan idag
     </h1>
   </div>

@@ -186,7 +186,7 @@ const submitRecipe = async () => {
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
-        <h1 class="text-3xl text-white">Lägg till nytt recept</h1>
+        <h1 class="text-3xl md:text-4xl text-white">Skapa recept</h1>
       </div>
       <!-- Bild -->
       <img
@@ -203,7 +203,9 @@ const submitRecipe = async () => {
         class="p-4 px-4 w-full bg-white shadow-lg border border-solid border-gray-300 rounded-md text-black xl:w-4/5"
       >
         <div class="flex flex-col pb-4">
-          <label for="title" class="font-bold">Titel</label>
+          <label for="title" class="font-bold text-sm md:text-base"
+            >Titel</label
+          >
           <input
             id="title"
             v-model="recipeForm.title"
@@ -214,7 +216,9 @@ const submitRecipe = async () => {
         </div>
 
         <div class="flex flex-col pb-4">
-          <label for="difficulty" class="font-bold">Svårighetsgrad</label>
+          <label for="difficulty" class="font-bold text-sm md:text-base"
+            >Svårighetsgrad</label
+          >
           <select
             id="difficulty"
             v-model="recipeForm.difficulty"
@@ -228,7 +232,9 @@ const submitRecipe = async () => {
         </div>
 
         <div class="flex flex-col pb-4">
-          <label for="cookingTime" class="font-bold">Tillagningstid</label>
+          <label for="cookingTime" class="font-bold text-sm md:text-base"
+            >Tillagningstid</label
+          >
           <input
             id="cookingTime"
             v-model="recipeForm.cookingTime"
@@ -239,7 +245,9 @@ const submitRecipe = async () => {
         </div>
 
         <div class="flex flex-col pb-4">
-          <label for="categories" class="font-bold">Kategorier</label>
+          <label for="categories" class="font-bold text-sm md:text-base"
+            >Kategorier</label
+          >
           <select
             id="categories"
             v-model="recipeForm.categories"
@@ -257,7 +265,9 @@ const submitRecipe = async () => {
           </select>
         </div>
         <div class="flex flex-col gap-2 pb-4">
-          <label for="ingredient" class="font-bold">Ingredienser</label>
+          <label for="ingredient" class="font-bold text-sm md:text-base"
+            >Ingredienser</label
+          >
           <div
             v-for="(ingredient, index) in recipeForm.ingredients"
             :key="index"
@@ -281,12 +291,12 @@ const submitRecipe = async () => {
         </div>
 
         <div class="flex gap-2 flex-col pb-4">
-          <label for="step" class="font-bold">Steg</label>
+          <label for="step" class="font-bold text-sm md:text-base">Steg</label>
           <div v-for="(step, index) in recipeForm.steps" :key="index">
             <input
               id="step"
               v-model="recipeForm.steps[index]"
-              placeholder="Steg 1"
+              placeholder="Steg"
               class="border border-solid border-gray-300 rounded-md p-1"
             />
           </div>
@@ -302,7 +312,9 @@ const submitRecipe = async () => {
         </div>
 
         <div class="flex flex-col pb-12">
-          <label for="image" class="font-bold">Lägg till bild</label>
+          <label for="image" class="font-bold text-sm md:text-base"
+            >Lägg till bild</label
+          >
           <input type="file" id="image" @change="onFileChange" />
         </div>
 

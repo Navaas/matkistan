@@ -78,7 +78,7 @@ onMounted(() => {
     class="cursor-pointer inline-block transition-transform transform hover:scale-110"
   >
     <span
-      class="material-icons text-3xl"
+      class="material-icons text-2xl md:text-3xl"
       :class="isLiked ? 'text-red-600' : 'text-gray-500'"
     >
       favorite
