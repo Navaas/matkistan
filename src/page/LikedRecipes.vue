@@ -49,7 +49,7 @@ onMounted(() => {
 <template>
   <Header />
 
-  <main class="p-2 pb-24 md:pt-14">
+  <main class="pb-24 md:pt-14">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>

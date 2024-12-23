@@ -174,7 +174,7 @@ const loginUser = async () => {
 
     <button
       type="submit"
-      class="max-w-52 bg-black text-white py-2 px-4 rounded-md hover:bg-slate-500"
+      class="max-w-52 bg-[#fa7e61] text-white py-2 px-4 rounded-md hover:bg-[#a4b8c4] hover:text-black uppercase text-sm"
     >
       Logga in
     </button>

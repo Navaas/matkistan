@@ -11,7 +11,7 @@ onMounted(() => {
   <header>
     <div
       v-if="isLoggedIn"
-      class="flex px-2 py-2 bg-[#4c6663] text-white cursor-pointer fixed bottom-0 left-0 w-full md:top-0 md:bottom-auto z-50"
+      class="flex px-2 py-2 bg-[#a4b8c4] text-[#16282E] cursor-pointer fixed bottom-0 left-0 w-full md:top-0 md:bottom-auto z-50"
     >
       <span class="hidden md:block">Icon</span>
 
@@ -35,7 +35,7 @@ onMounted(() => {
     </div>
     <div
       v-else
-      class="flex justify-between px-2 py-2 bg-[#4c6663] text-white cursor-pointer fixed w-full md:top-0 md:bottom-auto z-50"
+      class="flex justify-between px-2 py-2 bg-[#a4b8c4] text-black cursor-pointer fixed w-full md:top-0 md:bottom-auto z-50"
     >
       <div><span>icon</span></div>
       <div>

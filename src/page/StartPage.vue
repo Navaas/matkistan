@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import Search from "../components/Search.vue";
 import UserForm from "../components/UserForm.vue";
@@ -28,7 +29,7 @@ onMounted(checkUserAuth);
 
 <template>
   <Header />
-  <main class="bg-[#fafafa] pt-2 md:pt-14 px-2">
+  <main class="bg-[#fafafa] md:pt-14">
     <div
       :class="
         isLoggedIn
@@ -42,7 +43,7 @@ onMounted(checkUserAuth);
         <Search />
         <div v-if="!isLoggedIn" class="flex gap-4 justify-center py-6">
           <button
-            class="bg-black px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+            class="bg-[#fa7e61] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#a4b8c4] uppercase text-sm hover:text-black"
             @click="toggleDiv"
           >
             Skapa konto
@@ -50,7 +51,7 @@ onMounted(checkUserAuth);
 
           <router-link to="/login">
             <button
-              class="bg-black px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#2F4B3D] uppercase text-sm"
+              class="bg-[#fa7e61] px-4 py-2 rounded-full md:py-3 md:px-8 text-white cursor-pointer hover:bg-[#a4b8c4] hover:text-black uppercase text-sm"
             >
               Logga in
             </button>
@@ -67,6 +68,9 @@ onMounted(checkUserAuth);
 
     <Welcome />
   </main>
+  <div class="pb-10 md:pb-0">
+    <Footer />
+  </div>
 </template>
 
 <style scoped></style>

@@ -181,7 +181,7 @@ const submitRecipe = async () => {
 
 <template>
   <Header />
-  <main class="p-2 md:pt-14">
+  <main class="md:pt-14">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
@@ -195,7 +195,7 @@ const submitRecipe = async () => {
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div class="flex justify-center pt-4 pb-16 md:py-14">
+    <div class="flex justify-center pt-4 px-2 pb-16 md:py-14">
       <form
         v-if="isLoggedIn"
         @submit.prevent="submitRecipe"
@@ -283,7 +283,7 @@ const submitRecipe = async () => {
             <button
               type="button"
               @click="addIngredient"
-              class="py-1 px-4 rounded-md bg-black text-white"
+              class="py-1 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
             >
               Lägg till
             </button>
@@ -304,7 +304,7 @@ const submitRecipe = async () => {
             <button
               type="button"
               @click="addStep"
-              class="py-1 px-4 rounded-md bg-black text-white"
+              class="py-1 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
             >
               Lägg till
             </button>
@@ -318,7 +318,10 @@ const submitRecipe = async () => {
           <input type="file" id="image" @change="onFileChange" />
         </div>
 
-        <button type="submit" class="py-2 px-4 rounded-md bg-black text-white">
+        <button
+          type="submit"
+          class="py-2 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
+        >
           Skapa recept
         </button>
       </form>

@@ -72,7 +72,7 @@ onMounted(() => {
 <template>
   <Header />
 
-  <div class="p-2 pb-24 md:pt-14">
+  <div class="pb-24 md:pt-14">
     <div class="bg-black py-24 relative">
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">

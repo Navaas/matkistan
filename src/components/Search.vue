@@ -222,7 +222,7 @@ onMounted(fetchCategories);
             visibleRecipes.length < recipes.length
           "
           @click="loadMoreRecipes"
-          class="mt-8 px-6 py-3 bg-pink-500 text-white rounded-lg shadow-lg hover:bg-pink-600 focus:outline-none"
+          class="mt-8 px-12 py-2 bg-[#fa7e61] text-white rounded-lg shadow-lg hover:bg-[#a4b8c4] hover:text-black focus:outline-none"
         >
           Ladda fler
         </button>
