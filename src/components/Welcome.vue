@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-4 pb-16 md:pt-24">
+  <div class="pt-4 pb-16 md:pt-12">
     <div v-if="loading" class="flex justify-center h-64">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
@@ -39,12 +39,12 @@ onMounted(() => {
     </div>
     <div v-else-if="recipes.length > 0">
       <div
-        class="flex flex-wrap gap-4 w-full md:items-center md:justify-center"
+        class="grid grid-flow-row px-2 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
       >
         <div
           v-for="recipe in recipes"
           :key="recipe._id"
-          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md flex-1 min-w-[48%] max-w-[48%] p-4 hover:scale-105 transition-transform duration-300 ease-in-out lg:min-w-[18%] lg:max-w-[18%]"
+          class="bg-white hover:bg-slate-50 hover:scale-105 transition-transform duration-200 p-4 rounded-md border border-solid border-gray-200 shadow-md"
         >
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"

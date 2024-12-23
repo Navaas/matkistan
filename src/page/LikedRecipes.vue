@@ -70,12 +70,12 @@ onMounted(() => {
     </div>
     <div v-else-if="likedRecipes.length > 0">
       <div
-        class="flex flex-col gap-4 py-12 w-full md:flex-row md:items-center md:justify-center md:flex-wrap"
+        class="grid grid-flow-row px-2 md:px-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
       >
         <div
           v-for="recipe in likedRecipes"
           :key="recipe._id"
-          class="bg-white hover:bg-stone-100 border border-solid border-gray-300 rounded-md w-full p-4 hover:scale-105 transition-transform duration-300 ease-in-out md:w-80"
+          class="bg-white hover:bg-slate-50 hover:scale-105 transition-transform duration-200 p-4 rounded-md border border-solid border-gray-200 shadow-md"
         >
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"

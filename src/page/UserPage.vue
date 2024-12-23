@@ -72,7 +72,7 @@ const deleteUser = async () => {
 
 <template>
   <Header />
-  <main class="pt-14 px-2">
+  <main class="pt-2 md:pt-14 px-2">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
@@ -97,7 +97,7 @@ const deleteUser = async () => {
       <div
         class="border border-gray-300 rounded-md w-full shadow-xl md:w-1/3 p-2 h-[50vh] max-h-60"
       >
-        <h1>Dina uppgifter</h1>
+        <h1 class="pb-4 font-bold">Dina uppgifter</h1>
         <div class="flex gap-1">
           <p class="font-bold">Förnamn:</p>
           <span>{{ user.firstname }}</span>

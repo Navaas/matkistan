@@ -181,7 +181,7 @@ const submitRecipe = async () => {
 
 <template>
   <Header />
-  <main class="pt-14 px-2">
+  <main class="p-2 md:pt-14">
     <div class="bg-black py-24 relative">
       <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
@@ -195,7 +195,7 @@ const submitRecipe = async () => {
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div class="flex justify-center p-4 pb-16 md:py-14">
+    <div class="flex justify-center pt-4 pb-16 md:py-14">
       <form
         v-if="isLoggedIn"
         @submit.prevent="submitRecipe"
