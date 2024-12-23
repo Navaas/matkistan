@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="pt-4 pb-24 md:pt-12">
+  <main class="pt-4 pb-14 md:pt-12">
     <div v-if="loading" class="flex justify-center h-64">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
