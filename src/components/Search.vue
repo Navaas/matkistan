@@ -110,31 +110,28 @@ const selectCategory = (category) => {
 };
 
 onMounted(fetchCategories);
-// onMounted(checkLogin);
 </script>
 
 <template>
   <div v-if="isLoggedIn" class="flex flex-col p-1">
-    <!-- Visas om användaren är inloggad -->
-
     <h1
-      class="font-inter text-center text-3xl text-white uppercase md:text-4xl"
+      class="font-inter text-center text-3xl text-black uppercase md:text-4xl"
     >
       Mat & Bak
     </h1>
-    <h2 class="text-xl text-center md:text-2xl text-white">
+    <h2 class="text-xl text-center md:text-2xl text-black">
       Hitta nya favoritrecept för alla tillfällen!
     </h2>
   </div>
 
-  <div v-else class="flex flex-col items-center justify-center text-white">
+  <div v-else class="flex flex-col items-center justify-center text-black">
     <!-- Visas om användaren inte är inloggad -->
     <h1
-      class="font-inter text-center text-2xl text-white uppercase md:text-4xl"
+      class="font-inter text-center text-2xl text-black uppercase md:text-4xl"
     >
       Din digitala receptbok
     </h1>
-    <h1 class="font-inter text-base md:text-2xl text-center text-white">
+    <h1 class="font-inter text-base md:text-2xl text-center text-black">
       Logga in och börja din resa mot en värld av smakupplevelser redan idag
     </h1>
   </div>

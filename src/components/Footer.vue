@@ -2,7 +2,7 @@
 
 <template>
   <footer
-    class="flex flex-col md:flex-row gap-6 w-full text-white pt-4 pb-16 md:pb-4 bg-[#69626d] p-4"
+    class="flex flex-col md:flex-row gap-6 w-full text-black pt-4 pb-16 md:pb-4 bg-[#b6c4a2] p-4"
   >
     <section class="flex flex-col text-center w-full text-sm md:text-base">
       <p class="font-bold">Information</p>

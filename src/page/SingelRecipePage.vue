@@ -64,7 +64,7 @@ onMounted(fetchRecipe);
       </div>
 
       <div class="pt-4">
-        <h3 class="font-bold">Ingredienser</h3>
+        <h2 class="font-bold">Ingredienser</h2>
         <li v-for="ingredient in recipe.ingredients" :key="ingredient">
           {{ ingredient }}
         </li>

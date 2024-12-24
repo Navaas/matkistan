@@ -139,7 +139,7 @@ onMounted(async () => {
 
       <button
         type="submit"
-        class="bg-[#fa7e61] text-white px-4 py-2 rounded text-sm cursor-pointer hover:bg-[#a4b8c4] hover:text-black"
+        class="bg-[#fa7e61] text-black px-4 py-2 rounded text-sm cursor-pointer hover:bg-[#a4b8c4] hover:text-black"
       >
         Uppdatera
       </button>

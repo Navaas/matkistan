@@ -138,7 +138,6 @@ const loginUser = async () => {
     class="flex flex-col bg-white px-2 py-4 border border-gray-200 rounded-md shadow-lg gap-2 max-w-[550px] w-full"
     @submit.prevent="loginUser"
   >
-    <p class="text-sm md:text-base text-start">Logga in användare</p>
     <label for="username" class="sr-only">Användarnamn:</label>
     <input
       id="username"
@@ -174,7 +173,7 @@ const loginUser = async () => {
 
     <button
       type="submit"
-      class="max-w-52 bg-[#fa7e61] text-white py-2 px-4 rounded-md hover:bg-[#a4b8c4] hover:text-black uppercase text-sm"
+      class="max-w-52 bg-[#fa7e61] text-black py-2 px-4 rounded-md hover:bg-[#a4b8c4] hover:text-black uppercase text-sm"
     >
       Logga in
     </button>

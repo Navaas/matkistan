@@ -283,7 +283,7 @@ const submitRecipe = async () => {
             <button
               type="button"
               @click="addIngredient"
-              class="py-1 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
+              class="py-1 px-4 rounded-md bg-[#fa7e61] text-black hover:bg-[#a4b8c4] hover:text-black text-sm"
             >
               Lägg till
             </button>
@@ -304,7 +304,7 @@ const submitRecipe = async () => {
             <button
               type="button"
               @click="addStep"
-              class="py-1 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
+              class="py-1 px-4 rounded-md bg-[#fa7e61] text-black hover:bg-[#a4b8c4] hover:text-black text-sm"
             >
               Lägg till
             </button>
@@ -320,7 +320,7 @@ const submitRecipe = async () => {
 
         <button
           type="submit"
-          class="py-2 px-4 rounded-md bg-[#fa7e61] text-white hover:bg-[#a4b8c4] hover:text-black text-sm"
+          class="py-2 px-4 rounded-md bg-[#fa7e61] text-black hover:bg-[#a4b8c4] hover:text-black text-sm"
         >
           Skapa recept
         </button>
