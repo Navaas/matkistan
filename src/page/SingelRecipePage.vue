@@ -48,23 +48,23 @@ onMounted(fetchRecipe);
       <h1 class="flex justify-center pt-12 text-3xl">{{ recipe.title }}</h1>
       <div class="pt-12">
         <div class="flex gap-1">
-          <p class="font-bold">Svårighetsgrad:</p>
+          <h3 class="font-bold">Svårighetsgrad:</h3>
           <span>{{ recipe.difficulty }}</span>
         </div>
         <div class="flex gap-1">
-          <p class="font-bold">Tillagningstid:</p>
+          <h3 class="font-bold">Tillagningstid:</h3>
           <span>{{ recipe.cookingTime }}</span>
         </div>
         <div class="flex gap-1">
-          <p class="font-bold">Kategori:</p>
-          <p v-for="category in recipe.categories" :key="category">
+          <h3 class="font-bold">Kategori:</h3>
+          <h3 v-for="category in recipe.categories" :key="category">
             {{ category.name }}
-          </p>
+          </h3>
         </div>
       </div>
 
       <div class="pt-4">
-        <h2 class="font-bold">Ingredienser</h2>
+        <h3 class="font-bold">Ingredienser</h3>
         <li v-for="ingredient in recipe.ingredients" :key="ingredient">
           {{ ingredient }}
         </li>
@@ -80,7 +80,7 @@ onMounted(fetchRecipe);
         </div>
       </div>
     </div>
-    <div v-else-if="error">
+    <div v-else-if="error" aria-live="assertive">
       <p>Error: {{ error }}</p>
     </div>
   </div>

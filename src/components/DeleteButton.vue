@@ -42,11 +42,16 @@ const deleteRecipe = async () => {
 </script>
 
 <template>
-  <button v-if="isLoggedIn" @click="deleteRecipe" :disabled="isDeleting">
-    <span
+  <button
+    v-if="isLoggedIn"
+    @click="deleteRecipe"
+    :disabled="isDeleting"
+    aria-label="Ta bort ett recept"
+  >
+    <p
       class="material-icons text-[#16282E] cursor-pointer text-2xl md:text-3xl"
     >
       delete
-    </span>
+    </p>
   </button>
 </template>

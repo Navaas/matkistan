@@ -5,7 +5,7 @@
     class="flex flex-col md:flex-row gap-6 w-full text-black pt-4 pb-16 md:pb-4 bg-[#b6c4a2] p-4"
   >
     <section class="flex flex-col text-center w-full text-sm md:text-base">
-      <p class="font-bold">Information</p>
+      <h2 class="font-bold">Information</h2>
       <p class="cursor-pointer hover:text-[#394A4F]">Om oss</p>
       <p class="cursor-pointer hover:text-[#394A4F]">Kontakt</p>
       <p class="cursor-pointer hover:text-[#394A4F]">Nyhetsbrev</p>
@@ -17,6 +17,7 @@
     </section>
     <section class="flex justify-center items-center gap-4 w-full">
       <svg
+        aria-label="Gå till Facebook"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         viewBox="0 0 24 24"
@@ -28,6 +29,7 @@
       </svg>
 
       <svg
+        aria-label="Gå till Instagram"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         viewBox="0 0 24 24"
@@ -38,6 +40,7 @@
         />
       </svg>
       <svg
+        aria-label="Gå till Youtube"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         viewBox="0 0 24 24"

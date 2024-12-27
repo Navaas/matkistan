@@ -154,6 +154,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-/* Eventuellt CSS för att styla formuläret */
-</style>
+<style scoped></style>

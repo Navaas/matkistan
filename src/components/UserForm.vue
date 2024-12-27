@@ -80,7 +80,7 @@ const registerNewUser = async () => {
     class="flex flex-col bg-white px-2 py-4 border border-gray-200 rounded-md shadow-lg gap-2 max-w-[550px] w-full"
     @submit.prevent="registerNewUser"
   >
-    <p class="text-sm md:text-base">Registrera användare</p>
+    <h2 class="text-sm md:text-base">Registrera användare</h2>
     <label for="firstname" class="sr-only">Förnamn:</label>
     <input
       id="firstname"

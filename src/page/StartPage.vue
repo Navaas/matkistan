@@ -39,6 +39,7 @@ onMounted(checkUserAuth);
             : 'relative bg-cover py-24'
         "
         :style="isLoggedIn ? loggedInBackgroundStyle : loggedOutBackgroundStyle"
+        aria-label="Detta är en headerbild med grå bakgrund och små blåbär omkring."
       >
         <div class="absolute inset-0 bg-black/30 z-0"></div>
         <div class="relative z-10">
@@ -71,4 +72,8 @@ onMounted(checkUserAuth);
     <Footer />
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+button:focus {
+  outline: 3px solid #000;
+}
+</style>

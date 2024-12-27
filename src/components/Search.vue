@@ -13,6 +13,7 @@ const selectedCategory = ref("");
 const isDropdownOpen = ref(false);
 const selectedCategoryName = ref("");
 const isLoggedIn = ref(false);
+const focusedIndex = ref(null);
 
 onMounted(() => {
   isLoggedIn.value = localStorage.getItem("authToken") !== null;
@@ -97,6 +98,7 @@ const fetchRecipes = async () => {
 const handleDropdownClick = () => {
   isDropdownOpen.value = !isDropdownOpen.value;
   if (isDropdownOpen.value) {
+    focusedIndex.value = 0;
     recipes.value = [];
     visibleRecipes.value = [];
   }
@@ -108,7 +110,23 @@ const selectCategory = (category) => {
   isDropdownOpen.value = false;
   fetchRecipes();
 };
+const moveFocusDown = () => {
+  if (focusedIndex.value < categories.value.length - 1) {
+    focusedIndex.value++;
+  }
+};
 
+const moveFocusUp = () => {
+  if (focusedIndex.value > 0) {
+    focusedIndex.value--;
+  }
+};
+const selectFocusedCategory = () => {
+  const category = categories.value[focusedIndex.value];
+  if (category) {
+    selectCategory(category); // Välj den fokuserade kategorin
+  }
+};
 onMounted(fetchCategories);
 </script>
 
@@ -125,7 +143,6 @@ onMounted(fetchCategories);
   </div>
 
   <div v-else class="flex flex-col items-center justify-center text-black">
-    <!-- Visas om användaren inte är inloggad -->
     <h1
       class="font-inter text-center text-2xl text-black uppercase md:text-4xl"
     >
@@ -155,24 +172,34 @@ onMounted(fetchCategories);
       <button
         @click="handleDropdownClick"
         class="flex justify-between bg-white border border-gray-300 text-black w-full md:w-1/2 rounded-lg px-4 py-2 text-left"
+        :aria-expanded="isDropdownOpen.toString()"
+        aria-controls="dropdown-menu"
       >
         {{ selectedCategoryName || "Välj kategori" }}
-        <span
+        <p
           class="material-icons transform transition-transform"
           :class="{ 'rotate-180': isDropdownOpen }"
         >
           expand_more
-        </span>
+        </p>
       </button>
       <ul
         v-if="isDropdownOpen"
+        id="dropdown-menu"
         class="absolute bg-white border border-gray-300 rounded-lg w-full md:w-1/2 mt-2 shadow-lg z-10"
+        role="listbox"
+        @keydown.down="moveFocusDown"
+        @keydown.up="moveFocusUp"
+        @keydown.enter="selectFocusedCategory"
       >
         <li
           v-for="category in categories"
           :key="category._id"
           @click="selectCategory(category)"
           class="px-4 py-2 hover:bg-[#385F4E] hover:text-white cursor-pointer"
+          tabindex="0"
+          :aria-selected="focusedIndex === index ? 'true' : 'false'"
+          :ref="'category-' + category._id"
         >
           {{ category.name }}
         </li>
@@ -225,11 +252,11 @@ onMounted(fetchCategories);
         </button>
       </div>
     </div>
-    <div v-else-if="loading" class="text-center text-lg text-gray-500">
+    <p v-else-if="loading" class="text-center text-lg text-gray-500">
       Söker...
-    </div>
-    <div v-else-if="error" class="text-center text-lg text-red-500">
+    </p>
+    <p v-else-if="error" class="text-center text-lg text-red-500">
       {{ error }}
-    </div>
+    </p>
   </div>
 </template>

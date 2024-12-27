@@ -81,7 +81,7 @@ onMounted(() => {
 
       <img
         src="https://plus.unsplash.com/premium_photo-1695297515362-b51affc09b40?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Bild på färgglad mat på en tallrik"
+        alt="Detta är en bild med en tapas tallrik och en skål med dip."
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
@@ -112,28 +112,32 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
+              <h2 class="font-bold text-xs md:text-base">{{ recipe.title }}</h2>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
-              <span class="text-xs md:text-base truncate sm:truncate">{{
-                recipe.difficulty
-              }}</span>
+              <h3 class="font-bold text-xs md:text-base">Svårighetsgrad:</h3>
+              <p class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.difficulty }}
+              </p>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
-              <span class="text-xs md:text-base truncate sm:truncate">
-                {{ recipe.cookingTime }}</span
-              >
+              <h3 class="font-bold text-xs md:text-base">Tillagningstid:</h3>
+              <p class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.cookingTime }}
+              </p>
             </div>
           </router-link>
           <div class="flex justify-between pt-4">
-            <LikeButton :recipeId="recipe._id" />
+            <LikeButton
+              :recipeId="recipe._id"
+              :aria-label="'Gilla recept: ' + recipe.title"
+            />
 
             <DeleteButton
               :canDelete="recipe.createdBy === userId"
               :recipeId="recipe._id"
+              :aria-label="'Ta bort recept: ' + recipe.title"
               @recipeDeleted="removeRecipeFromList"
             />
           </div>

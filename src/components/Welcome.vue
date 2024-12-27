@@ -59,20 +59,20 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
+              <h3 class="font-bold text-xs md:text-base">{{ recipe.title }}</h3>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
-              <span class="text-xs md:text-base truncate sm:truncate">{{
-                recipe.difficulty
-              }}</span>
+              <h3 class="font-bold text-xs md:text-base">Svårighetsgrad:</h3>
+              <p class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.difficulty }}
+              </p>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
-              <span class="text-xs md:text-base truncate sm:truncate">
-                {{ recipe.cookingTime }}</span
-              >
+              <h3 class="font-bold text-xs md:text-base">Tillagningstid:</h3>
+              <p class="text-xs md:text-base truncate sm:truncate">
+                {{ recipe.cookingTime }}
+              </p>
             </div>
           </router-link>
           <template v-if="isLoggedIn">

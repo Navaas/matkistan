@@ -183,15 +183,14 @@ const submitRecipe = async () => {
   <Header />
   <main class="md:pt-14">
     <div class="bg-black py-24 relative">
-      <!-- Overlay -->
       <div class="absolute inset-0 bg-black/50 z-10"></div>
       <div class="absolute inset-0 z-20 flex items-center justify-center">
         <h1 class="text-3xl md:text-4xl text-white">Skapa recept</h1>
       </div>
-      <!-- Bild -->
+
       <img
         src="https://images.unsplash.com/photo-1555243896-c709bfa0b564?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Bild på färgglad mat på en tallrik"
+        alt="Detta är en bild på en sushi-rätt till vänster och till höger en grå bakgrund."
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
@@ -319,6 +318,7 @@ const submitRecipe = async () => {
         </div>
 
         <button
+          aria-label="Skapa nytt recept"
           type="submit"
           class="py-2 px-4 rounded-md bg-[#fa7e61] text-black hover:bg-[#a4b8c4] hover:text-black text-sm"
         >

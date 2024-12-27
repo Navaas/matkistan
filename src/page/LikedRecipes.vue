@@ -59,7 +59,7 @@ onMounted(() => {
       <!-- Bild -->
       <img
         src="https://images.unsplash.com/photo-1501747188-61c00b3d8ba0?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Bild på färgglad mat på en tallrik"
+        alt="Detta är en bild på färgglada macarons på en rosa prickig tallrik och en rösa blomma till höger."
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
@@ -80,6 +80,7 @@ onMounted(() => {
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
+            aria-label="Läs mer om receptet: {{ recipe.title }}"
           >
             <div v-for="image in recipe.imageUrl" class="pb-4">
               <img
@@ -90,28 +91,32 @@ onMounted(() => {
             </div>
 
             <div>
-              <p class="font-bold text-xs md:text-base">{{ recipe.title }}</p>
+              <h3 class="font-bold text-xs md:text-base">{{ recipe.title }}</h3>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Svårighetsgrad:</p>
+              <h3 class="font-bold text-xs md:text-base">Svårighetsgrad:</h3>
               <span class="text-xs truncate sm:truncate md:text-base">{{
                 recipe.difficulty
               }}</span>
             </div>
             <div class="flex gap-1">
-              <p class="font-bold text-xs md:text-base">Tillagningstid:</p>
+              <h3 class="font-bold text-xs md:text-base">Tillagningstid:</h3>
               <span class="text-xs truncate sm:truncate md:text-base">
                 {{ recipe.cookingTime }}</span
               >
             </div>
           </router-link>
-          <LikeButton :recipeId="recipe._id" />
+          <LikeButton
+            :recipeId="recipe._id"
+            aria-label="Gilla receptet {{ recipe.title }}"
+          />
         </div>
       </div>
     </div>
     <p v-else="!likedRecipes" class="flex justify-center">
-      Du har inte gillat några recept ännu.
+      Det gick inte att hämta dina gillade recept. Kontrollera din inloggning
+      eller försök igen senare.
     </p>
   </main>
 </template>

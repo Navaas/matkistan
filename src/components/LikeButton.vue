@@ -73,15 +73,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
+  <button
+    aria-label="Gilla/gilla inte ett recept"
     @click="toggleLike"
     class="cursor-pointer inline-block transition-transform transform hover:scale-110"
   >
-    <span
+    <p
       class="material-icons text-2xl md:text-3xl"
       :class="isLiked ? 'text-red-600' : 'text-gray-500'"
     >
       favorite
-    </span>
-  </div>
+    </p>
+  </button>
 </template>
