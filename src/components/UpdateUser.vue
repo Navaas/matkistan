@@ -103,7 +103,7 @@ onMounted(async () => {
           v-model="updatedFirstname"
           type="text"
           id="firstname"
-          class="border p-2 w-full"
+          class="border p-2 w-full focus:ring-2 focus:ring-[#385F4E]"
         />
       </div>
       <div>
@@ -112,7 +112,7 @@ onMounted(async () => {
           v-model="updatedUsername"
           type="text"
           id="username"
-          class="border p-2 w-full"
+          class="border p-2 w-full focus:ring-2 focus:ring-[#385F4E]"
         />
       </div>
       <div>
@@ -121,7 +121,7 @@ onMounted(async () => {
           v-model="updatedEmail"
           type="email"
           id="email"
-          class="border p-2 w-full"
+          class="border p-2 w-full focus:ring-2 focus:ring-[#385F4E]"
         />
       </div>
       <div>
@@ -130,7 +130,8 @@ onMounted(async () => {
           v-model="updatedPassword"
           type="password"
           id="password"
-          class="border p-2 w-full"
+          aria-describedby="password-help"
+          class="border p-2 w-full focus:ring-2 focus:ring-[#385F4E]"
         />
         <small class="text-gray-700"
           >Om du inte vill ändra lösenordet, lämna detta fält tomt.</small
@@ -148,6 +149,7 @@ onMounted(async () => {
     <div
       v-if="message"
       :class="messageType === 'success' ? 'text-green-500' : 'text-red-500'"
+      aria-live="assertive"
     >
       {{ message }}
     </div>

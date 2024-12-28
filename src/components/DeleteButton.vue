@@ -15,6 +15,10 @@ const deleteRecipe = async () => {
     return;
   }
 
+  if (!confirm("Är du säker på att du vill ta bort detta recept?")) {
+    return;
+  }
+
   isDeleting.value = true;
   try {
     const response = await fetch(
@@ -55,3 +59,10 @@ const deleteRecipe = async () => {
     </p>
   </button>
 </template>
+
+<style scoped>
+button:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+</style>

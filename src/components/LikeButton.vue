@@ -74,9 +74,10 @@ onMounted(() => {
 
 <template>
   <button
-    aria-label="Gilla/gilla inte ett recept"
+    aria-live="polite"
+    :aria-label="isLiked ? 'Ta bort gillning från recept' : 'Gilla recept'"
     @click="toggleLike"
-    class="cursor-pointer inline-block transition-transform transform hover:scale-110"
+    class="cursor-pointer inline-block transition-transform transform hover:scale-110 focus:outline-none focus:ring focus:ring-black"
   >
     <p
       class="material-icons text-2xl md:text-3xl"

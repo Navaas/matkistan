@@ -90,7 +90,11 @@ const registerNewUser = async () => {
       class="w-full px-2 py-2 border border-gray-300 rounded-md"
       required
     />
-    <p v-if="validationErrors.firstname" class="text-red-500 text-sm">
+    <p
+      v-if="validationErrors.firstname"
+      class="text-red-500 text-sm"
+      aria-live="assertive"
+    >
       {{ validationErrors.firstname }}
     </p>
     <label for="username" class="sr-only">Användarnamn:</label>
@@ -122,6 +126,7 @@ const registerNewUser = async () => {
       id="password"
       type="password"
       placeholder="Lösenord"
+      aria-describedby="password-help"
       v-model="password"
       class="w-full px-2 py-2 border border-gray-300 rounded-md"
       required
@@ -133,12 +138,14 @@ const registerNewUser = async () => {
     <p
       v-if="message"
       :class="messageType === 'success' ? 'text-green-500' : 'text-red-500'"
+      aria-live="assertive"
     >
       {{ message }}
     </p>
 
     <button
       type="submit"
+      aria-label="Skicka formulär"
       class="max-w-52 bg-[#fa7e61] text-black py-2 px-4 rounded-md hover:bg-[#a4b8c4] hover:text-black"
     >
       Skicka
@@ -146,6 +153,9 @@ const registerNewUser = async () => {
   </form>
 </template>
 
-<style scoped></style>
-
-<!-- Klassen sr-only används för att dölja ett element visuellt från användare men ändå göra det tillgängligt för skärmläsare. Detta är användbart för att inkludera information som behövs för tillgänglighet men som inte ska vara synlig för användare som inte använder skärmläsare. -->
+<style scoped>
+input:focus,
+button:focus {
+  outline: 2px solid #000;
+}
+</style>

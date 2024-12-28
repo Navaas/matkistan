@@ -124,7 +124,7 @@ const moveFocusUp = () => {
 const selectFocusedCategory = () => {
   const category = categories.value[focusedIndex.value];
   if (category) {
-    selectCategory(category); // Välj den fokuserade kategorin
+    selectCategory(category);
   }
 };
 onMounted(fetchCategories);
@@ -172,8 +172,10 @@ onMounted(fetchCategories);
       <button
         @click="handleDropdownClick"
         class="flex justify-between bg-white border border-gray-300 text-black w-full md:w-1/2 rounded-lg px-4 py-2 text-left"
+        aria-labelledby="dropdown-menu"
         :aria-expanded="isDropdownOpen.toString()"
         aria-controls="dropdown-menu"
+        aria-label="Öppna eller stäng dropdown-menyn"
       >
         {{ selectedCategoryName || "Välj kategori" }}
         <p
@@ -186,11 +188,12 @@ onMounted(fetchCategories);
       <ul
         v-if="isDropdownOpen"
         id="dropdown-menu"
-        class="absolute bg-white border border-gray-300 rounded-lg w-full md:w-1/2 mt-2 shadow-lg z-10"
         role="listbox"
+        class="absolute bg-white border border-gray-300 rounded-lg w-full md:w-1/2 mt-2 shadow-lg z-10"
         @keydown.down="moveFocusDown"
         @keydown.up="moveFocusUp"
         @keydown.enter="selectFocusedCategory"
+        tabindex="-1"
       >
         <li
           v-for="category in categories"
@@ -198,6 +201,7 @@ onMounted(fetchCategories);
           @click="selectCategory(category)"
           class="px-4 py-2 hover:bg-[#385F4E] hover:text-white cursor-pointer"
           tabindex="0"
+          role="option"
           :aria-selected="focusedIndex === index ? 'true' : 'false'"
           :ref="'category-' + category._id"
         >
@@ -232,7 +236,7 @@ onMounted(fetchCategories);
               />
             </div>
             <p
-              class="text-sm font-semibold text-gray-700 truncate overflow-hidden"
+              class="text-sm font-semibold text-black truncate overflow-hidden"
             >
               {{ recipe.title }}
             </p>
@@ -260,3 +264,11 @@ onMounted(fetchCategories);
     </p>
   </div>
 </template>
+
+<style scoped>
+@media (prefers-reduced-motion: reduce) {
+  .hover\:scale-105 {
+    transform: none;
+  }
+}
+</style>

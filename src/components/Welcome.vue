@@ -49,6 +49,7 @@ onMounted(() => {
           <router-link
             :to="{ name: 'singelRecipe', params: { id: recipe._id } }"
             class="block"
+            aria-label="Gå till recept: {{ recipe.title }}"
           >
             <div v-for="image in recipe.imageUrl" class="pb-4">
               <img
@@ -77,16 +78,21 @@ onMounted(() => {
           </router-link>
           <template v-if="isLoggedIn">
             <div class="flex justify-between pt-4">
-              <LikeButton :recipeId="recipe._id" />
+              <LikeButton :recipeId="recipe._id" aria-label="Gilla recept" />
             </div>
           </template>
         </div>
       </div>
     </div>
-    <p v-else="!recipes" class="flex justify-center">
+    <p v-else="!recipes" class="flex justify-center" aria-live="polite">
       Det finns inga recept än.
     </p>
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+a:focus,
+button:focus {
+  outline: 2px solid #000;
+}
+</style>
