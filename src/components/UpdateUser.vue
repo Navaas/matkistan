@@ -53,12 +53,12 @@ const updateUserInfo = async () => {
 
   try {
     const response = await fetch(
-      `http://localhost:3000/updateUser/${user.value.id}`,
+      `https://matkistan.onrender.com/updateUser/${user.value.id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Lägg till JWT i headern
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
         credentials: "include",
@@ -80,9 +80,8 @@ const updateUserInfo = async () => {
 };
 
 onMounted(async () => {
-  await checkUserAuth(); // Kontrollera om användaren är inloggad
+  await checkUserAuth();
   if (isLoggedIn.value) {
-    // Om användaren är inloggad, hämta användardata
     updatedFirstname.value = user.value.firstname;
     updatedUsername.value = user.value.username;
     updatedEmail.value = user.value.email;
