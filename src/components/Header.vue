@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
+import logo from "../../src/image/logo.png";
 import { checkUserAuth, isLoggedIn } from "../utils/checkLoginHandler";
 
 onMounted(() => {
@@ -14,12 +15,19 @@ onMounted(() => {
       v-if="isLoggedIn"
       class="flex px-2 py-2 bg-[#385F4E] text-white cursor-pointer fixed bottom-0 left-0 w-full md:top-0 md:bottom-auto z-50"
     >
-      <span
-        tabindex="0"
+      <div
         class="focus:outline-none focus:ring focus:ring-black hidden md:block"
-        aria-label="Gå till startsidan"
-        >Icon</span
       >
+        <router-link to="/">
+          <img
+            :src="logo"
+            alt="Logotyp matkistan"
+            aria-label="Gå till startsidan"
+            tabindex="0"
+            class="w-1/3"
+          />
+        </router-link>
+      </div>
 
       <nav class="flex w-full justify-around md:justify-end gap-4 md:gap-6">
         <router-link
@@ -68,14 +76,18 @@ onMounted(() => {
       v-else
       class="flex justify-between px-2 py-2 bg-[#385F4E] text-white cursor-pointer fixed w-full md:top-0 md:bottom-auto z-50"
     >
-      <div>
-        <p
-          aria-label="Gå till startsidan"
-          tabindex="0"
-          class="focus:outline-none focus:ring focus:ring-black"
-        >
-          icon
-        </p>
+      <div
+        class="focus:outline-none focus:ring focus:ring-black hidden md:block"
+      >
+        <router-link to="/">
+          <img
+            :src="logo"
+            alt="Logotyp matkistan"
+            aria-label="Gå till startsidan"
+            tabindex="0"
+            class="w-1/3"
+          />
+        </router-link>
       </div>
       <div>
         <router-link
