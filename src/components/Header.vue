@@ -93,8 +93,8 @@ onMounted(() => {
         <router-link
           to="/login"
           aria-label="Gå till logga in"
-          class="focus:outline-none focus:ring focus:ring-black"
-          ><button>Logga in</button></router-link
+          class="focus:outline-none focus:ring focus:ring-black bg-[#fa7e61] px-4 py-1 rounded-xl text-black hover:bg-[#a4b8c4]"
+          ><button class="uppercase text-sm">Logga in</button></router-link
         >
       </div>
     </div>
