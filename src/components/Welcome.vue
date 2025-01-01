@@ -60,7 +60,7 @@ onMounted(() => {
             </div>
 
             <div>
-              <h3 class="font-bold text-xs md:text-base">{{ recipe.title }}</h3>
+              <h2 class="font-bold text-xs md:text-base">{{ recipe.title }}</h2>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">

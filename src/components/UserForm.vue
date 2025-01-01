@@ -125,14 +125,14 @@ const registerNewUser = async () => {
     <input
       id="password"
       type="password"
-      placeholder="Lösenord"
       aria-describedby="password-help"
+      placeholder="Lösenord"
       v-model="password"
       class="w-full px-2 py-2 border border-gray-300 rounded-md"
       required
     />
-    <p v-if="validationErrors.password" class="text-red-500 text-sm">
-      {{ validationErrors.password }}
+    <p id="password-help" class="text-sm text-gray-500">
+      Ange ett säkert lösenord med minst 8 tecken.
     </p>
 
     <p

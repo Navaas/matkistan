@@ -16,12 +16,12 @@ const toggleDiv = () => {
 
 const loggedInBackgroundStyle = {
   backgroundImage:
-    "url('https://images.unsplash.com/photo-1528873981-36c6afde7b9d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    "url('https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
 };
 
 const loggedOutBackgroundStyle = {
   backgroundImage:
-    "url('https://images.unsplash.com/photo-1555243896-c709bfa0b564?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    "url('https://images.unsplash.com/photo-1517698229033-a12757632842?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
 };
 
 onMounted(checkUserAuth);
@@ -39,7 +39,7 @@ onMounted(checkUserAuth);
             : 'relative bg-cover py-24'
         "
         :style="isLoggedIn ? loggedInBackgroundStyle : loggedOutBackgroundStyle"
-        aria-label="Detta är en headerbild med grå bakgrund och små blåbär omkring."
+        aria-label="Detta är en headerbild med grå bakgrund och citroner"
       >
         <div class="absolute inset-0 bg-black/30 z-0"></div>
         <div class="relative z-10">

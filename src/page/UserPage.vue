@@ -145,7 +145,7 @@ const deleteUser = async () => {
             <div
               class="absolute inset-0 z-20 flex flex-col items-center justify-center"
             >
-              <h1 class="text-white font-bold text-2xl pb-2">
+              <h1 class="text-black font-bold text-2xl pb-2">
                 Vill du logga ut?
               </h1>
               <button

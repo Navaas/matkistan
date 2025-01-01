@@ -172,18 +172,17 @@ onMounted(fetchCategories);
       <button
         @click="handleDropdownClick"
         class="flex justify-between bg-white border border-gray-300 text-black w-full md:w-1/2 rounded-lg px-4 py-2 text-left"
-        aria-labelledby="dropdown-menu"
         :aria-expanded="isDropdownOpen.toString()"
         aria-controls="dropdown-menu"
         aria-label="Öppna eller stäng dropdown-menyn"
       >
         {{ selectedCategoryName || "Välj kategori" }}
-        <p
+        <h1
           class="material-icons transform transition-transform"
           :class="{ 'rotate-180': isDropdownOpen }"
         >
           expand_more
-        </p>
+        </h1>
       </button>
       <ul
         v-if="isDropdownOpen"

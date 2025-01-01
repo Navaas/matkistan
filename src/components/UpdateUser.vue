@@ -128,13 +128,16 @@ onMounted(async () => {
         <input
           v-model="updatedPassword"
           type="password"
-          id="password"
           aria-describedby="password-help"
+          id="password"
           class="border p-2 w-full focus:ring-2 focus:ring-[#385F4E]"
         />
-        <small class="text-gray-700"
-          >Om du inte vill ändra lösenordet, lämna detta fält tomt.</small
-        >
+        <p class="text-gray-700">
+          Om du inte vill ändra lösenordet, lämna detta fält tomt.
+        </p>
+        <p id="password-help" class="text-sm text-gray-500">
+          Lösenordet måste innehålla minst 8 tecken.
+        </p>
       </div>
 
       <button

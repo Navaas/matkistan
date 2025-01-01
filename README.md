@@ -1,4 +1,21 @@
-Godkänt (G)
+# Examensarbete
+
+Detta är mitt examensarbete för min front-end utbildning. Det är ett fullstack projekt som innehåller en databas med MongoDB, backend med Express.js, Node.js, frontend med Vue.js samt styling med Tailwind.
+
+Detta är matkistan där en användare kan hitta nya recept och genom att skapa ett konto kan man lägga till nya recept samt gilla sina favoriter.
+
+**Starta projekt:**
+
+- Clona ner repot
+- `npm install`
+- `npm run dev`
+
+**Logga in en test användare:**
+
+Användarnamn: test
+Lösenord: test1234
+
+För godkänt (G)
 
 **Planering och Research:**
 
@@ -8,7 +25,7 @@ Godkänt (G)
 
 **Design och Prototyping:**
 
-- [] Skapa wireframes och prototyp i Figma som följer UX/UI-principer.
+- [ x ] Skapa wireframes och prototyp i Figma som följer UX/UI-principer.
 - [ x ]Se till att designen är responsiv för minst två olika skärmstorlekaroch följer WCAG 2.1-standarder.
 
 **Applikationsutveckling:**

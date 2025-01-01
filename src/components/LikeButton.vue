@@ -79,11 +79,11 @@ onMounted(() => {
     @click="toggleLike"
     class="cursor-pointer inline-block transition-transform transform hover:scale-110 focus:outline-none focus:ring focus:ring-black"
   >
-    <p
+    <h3
       class="material-icons text-2xl md:text-3xl"
       :class="isLiked ? 'text-red-600' : 'text-gray-500'"
     >
       favorite
-    </p>
+    </h3>
   </button>
 </template>

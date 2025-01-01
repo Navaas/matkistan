@@ -63,7 +63,7 @@ onMounted(() => {
         class="absolute inset-0 w-full h-full object-cover z-0"
       />
     </div>
-    <div v-if="loading" class="flex justify-center h-64">
+    <div v-if="loadingLikedRecipes" class="flex pt-6 justify-center h-64">
       <div
         class="animate-spin h-10 w-10 border-4 border-gray-300 border-t-black rounded-full"
       ></div>
@@ -91,7 +91,7 @@ onMounted(() => {
             </div>
 
             <div>
-              <h3 class="font-bold text-xs md:text-base">{{ recipe.title }}</h3>
+              <h2 class="font-bold text-xs md:text-base">{{ recipe.title }}</h2>
             </div>
             <hr class="pb-2 border-t border-gray-300" />
             <div class="flex gap-1">

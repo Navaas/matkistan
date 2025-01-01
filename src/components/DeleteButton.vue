@@ -52,11 +52,11 @@ const deleteRecipe = async () => {
     :disabled="isDeleting"
     aria-label="Ta bort ett recept"
   >
-    <p
+    <h3
       class="material-icons text-[#16282E] cursor-pointer text-2xl md:text-3xl"
     >
       delete
-    </p>
+    </h3>
   </button>
 </template>
 
